@@ -86,12 +86,9 @@ def prowler():
     ans = int(input("Enter which compliance to scan\n"))
 
     compliance_framework = [dict_compliance[ans]]
-    if not args.no_banner:
-        print_banner(args)
-
+    
     # We treat the compliance framework as another output format
     if compliance_framework:
-        print("compliance_framework\n")
         args.output_modes.extend(compliance_framework)
         
 
