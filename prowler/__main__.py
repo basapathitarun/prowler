@@ -5,6 +5,7 @@ import os
 import sys
 
 from colorama import Fore, Style
+# from prowler.config.config import available_compliance_frameworks
 
 from prowler.lib.banner import print_banner
 from prowler.lib.check.check import (
@@ -70,30 +71,52 @@ def prowler():
     checks_file = args.checks_file
     checks_folder = args.checks_folder
     severities = args.severity
-    compliance_framework = args.compliance
+    # compliance_framework = args.compliance
+    # compliance_framework = ['cis_1.4_aws']
     custom_checks_metadata_file = args.custom_checks_metadata_file
 
+    
+    print(f"args :{args}\n")
+
+    compliance = ['aws_audit_manager_control_tower_guardrails_aws', 'aws_foundational_security_best_practices_aws', 'aws_well_architected_framework_reliability_pillar_aws', 'aws_well_architected_framework_security_pillar_aws', 'cisa_aws', 'cis_1.4_aws', 'cis_1.5_aws', 'cis_2.0_aws', 'ens_rd2022_aws', 'fedramp_low_revision_4_aws', 'fedramp_moderate_revision_4_aws', 'ffiec_aws', 'gdpr_aws', 'gxp_21_cfr_part_11_aws', 'gxp_eu_annex_11_aws', 'hipaa_aws', 'iso27001_2013_aws', 'mitre_attack_aws', 'nist_800_171_revision_2_aws', 'nist_800_53_revision_4_aws', 'nist_800_53_revision_5_aws', 'nist_csf_1.1_aws', 'pci_3.2.1_aws', 'rbi_cyber_security_framework_aws', 'soc2_aws', 'cis_2.0_gcp']
+
+    dict_compliance = {}
+    i=1
+    for each in compliance:
+        dict_compliance[i]=each
+        i=i+1
+
+    for key,value in dict_compliance.items():
+        print(f"{key} for {value}")
+
+    ans = int(input("Enter which compliance to scan\n"))
+
+    compliance_framework = [dict_compliance[ans]]
     if not args.no_banner:
         print_banner(args)
 
     # We treat the compliance framework as another output format
+    # print(f"args {args}\n")
+    # print(f"compliance {compliance_framework}")
     if compliance_framework:
+        print("compliance_framework\n")
         args.output_modes.extend(compliance_framework)
+        
 
     # Set Logger configuration
     set_logging_config(args.log_level, args.log_file, args.only_logs)
 
-    if args.list_services:
-        print_services(list_services(provider))
-        sys.exit()
+    # if args.list_services:
+    #     print_services(list_services(provider))
+    #     sys.exit()
 
     # Load checks metadata
     logger.debug("Loading checks metadata from .metadata.json files")
     bulk_checks_metadata = bulk_load_checks_metadata(provider)
 
-    if args.list_categories:
-        print_categories(list_categories(bulk_checks_metadata))
-        sys.exit()
+    # if args.list_categories:
+    #     print_categories(list_categories(bulk_checks_metadata))
+    #     sys.exit()
 
     bulk_compliance_frameworks = {}
     # Load compliance frameworks
@@ -106,22 +129,25 @@ def prowler():
     )
     # Update checks metadata if the --custom-checks-metadata-file is present
     custom_checks_metadata = None
-    if custom_checks_metadata_file:
-        custom_checks_metadata = parse_custom_checks_metadata_file(
-            provider, custom_checks_metadata_file
-        )
-        bulk_checks_metadata = update_checks_metadata(
-            bulk_checks_metadata, custom_checks_metadata
-        )
+    # if custom_checks_metadata_file:
+    #     print('custom_checks_metadata')
+    #     custom_checks_metadata = parse_custom_checks_metadata_file(
+    #         provider, custom_checks_metadata_file
+    #     )
+    #     bulk_checks_metadata = update_checks_metadata(
+    #         bulk_checks_metadata, custom_checks_metadata
+    #     )
 
-    if args.list_compliance:
-        print_compliance_frameworks(bulk_compliance_frameworks)
-        sys.exit()
-    if args.list_compliance_requirements:
-        print_compliance_requirements(
-            bulk_compliance_frameworks, args.list_compliance_requirements
-        )
-        sys.exit()
+    # if args.list_compliance:
+    #     print('args.list_compliance\n')
+    #     print_compliance_frameworks(bulk_compliance_frameworks)
+    #     sys.exit()
+    # if args.list_compliance_requirements:
+    #     print('args.list_compliance_requirements\n')
+    #     print_compliance_requirements(
+    #         bulk_compliance_frameworks, args.list_compliance_requirements
+    #     )
+    #     sys.exit()
 
     # Load checks to execute
     checks_to_execute = load_checks_to_execute(
@@ -136,38 +162,44 @@ def prowler():
         provider,
     )
 
-    # if --list-checks-json, dump a json file and exit
-    if args.list_checks_json:
-        print(list_checks_json(provider, sorted(checks_to_execute)))
-        sys.exit()
+    # # if --list-checks-json, dump a json file and exit
+    # if args.list_checks_json:
+    #     print('args.list_checks_json\n')
+    #     print(list_checks_json(provider, sorted(checks_to_execute)))
+    #     sys.exit()
 
-    # If -l/--list-checks passed as argument, print checks to execute and quit
-    if args.list_checks:
-        print_checks(provider, sorted(checks_to_execute), bulk_checks_metadata)
-        sys.exit()
+    # # If -l/--list-checks passed as argument, print checks to execute and quit
+    # if args.list_checks:
+    #     print('args.list_checks\n')
+    #     print_checks(provider, sorted(checks_to_execute), bulk_checks_metadata)
+    #     sys.exit()
 
     # Set the audit info based on the selected provider
     audit_info = set_provider_audit_info(provider, args.__dict__)
 
     # Import custom checks from folder
-    if checks_folder:
-        parse_checks_from_folder(audit_info, checks_folder, provider)
+    # if checks_folder:
+    #     print('checks_folder\n')
+    #     parse_checks_from_folder(audit_info, checks_folder, provider)
 
     # Exclude checks if -e/--excluded-checks
-    if excluded_checks:
-        checks_to_execute = exclude_checks_to_run(checks_to_execute, excluded_checks)
+    # if excluded_checks:
+    #     print('excluded_checks\n')
+    #     checks_to_execute = exclude_checks_to_run(checks_to_execute, excluded_checks)
 
     # Exclude services if --excluded-services
-    if excluded_services:
-        checks_to_execute = exclude_services_to_run(
-            checks_to_execute, excluded_services, provider
-        )
+    # if excluded_services:
+    #     print('excluded_services\n')
+    #     checks_to_execute = exclude_services_to_run(
+    #         checks_to_execute, excluded_services, provider
+    #     )
 
     # Once the audit_info is set and we have the eventual checks based on the resource identifier,
     # it is time to check what Prowler's checks are going to be executed
-    if audit_info.audit_resources:
-        checks_from_resources = set_provider_execution_parameters(provider, audit_info)
-        checks_to_execute = checks_to_execute.intersection(checks_from_resources)
+    # if audit_info.audit_resources:
+    #     print('audit_info.audit_resources\n')
+    #     checks_from_resources = set_provider_execution_parameters(provider, audit_info)
+    #     checks_to_execute = checks_to_execute.intersection(checks_from_resources)
 
     # Sort final check list
     checks_to_execute = sorted(checks_to_execute)
@@ -181,9 +213,10 @@ def prowler():
     )
 
     # Run the quick inventory for the provider if available
-    if hasattr(args, "quick_inventory") and args.quick_inventory:
-        run_provider_quick_inventory(provider, audit_info, args)
-        sys.exit()
+    # if hasattr(args, "quick_inventory") and args.quick_inventory:
+    #     print('args.quick_inventory\n')
+    #     run_provider_quick_inventory(provider, audit_info, args)
+    #     sys.exit()
 
     # Execute checks
     findings = []
@@ -203,20 +236,20 @@ def prowler():
     # Extract findings stats
     stats = extract_findings_statistics(findings)
 
-    if args.slack:
-        if "SLACK_API_TOKEN" in os.environ and "SLACK_CHANNEL_ID" in os.environ:
-            _ = send_slack_message(
-                os.environ["SLACK_API_TOKEN"],
-                os.environ["SLACK_CHANNEL_ID"],
-                stats,
-                provider,
-                audit_info,
-            )
-        else:
-            logger.critical(
-                "Slack integration needs SLACK_API_TOKEN and SLACK_CHANNEL_ID environment variables (see more in https://docs.prowler.cloud/en/latest/tutorials/integrations/#slack)."
-            )
-            sys.exit(1)
+    # if args.slack:
+    #     if "SLACK_API_TOKEN" in os.environ and "SLACK_CHANNEL_ID" in os.environ:
+    #         _ = send_slack_message(
+    #             os.environ["SLACK_API_TOKEN"],
+    #             os.environ["SLACK_CHANNEL_ID"],
+    #             stats,
+    #             provider,
+    #             audit_info,
+    #         )
+    #     else:
+    #         logger.critical(
+    #             "Slack integration needs SLACK_API_TOKEN and SLACK_CHANNEL_ID environment variables (see more in https://docs.prowler.cloud/en/latest/tutorials/integrations/#slack)."
+    #         )
+    #         sys.exit(1)
 
     if args.output_modes:
         for mode in args.output_modes:
