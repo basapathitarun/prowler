@@ -25,33 +25,33 @@ from prowler.lib.check.check import (
 )
 from prowler.lib.check.checks_loader import load_checks_to_execute
 from prowler.lib.check.compliance import update_checks_metadata_with_compliance
-from prowler.lib.check.custom_checks_metadata import (
-    parse_custom_checks_metadata_file,
-    update_checks_metadata,
-)
+# from prowler.lib.check.custom_checks_metadata import (
+#     parse_custom_checks_metadata_file,
+#     update_checks_metadata,
+# )
 from prowler.lib.cli.parser import ProwlerArgumentParser
 from prowler.lib.logger import logger, set_logging_config
 from prowler.lib.outputs.compliance import display_compliance_table
 from prowler.lib.outputs.html import add_html_footer, fill_html_overview_statistics
 from prowler.lib.outputs.json import close_json
 from prowler.lib.outputs.outputs import extract_findings_statistics
-from prowler.lib.outputs.slack import send_slack_message
+# from prowler.lib.outputs.slack import send_slack_message
 from prowler.lib.outputs.summary_table import display_summary_table
-from prowler.providers.aws.aws_provider import get_available_aws_service_regions
+# from prowler.providers.aws.aws_provider import get_available_aws_service_regions
 from prowler.providers.aws.lib.s3.s3 import send_to_s3_bucket
-from prowler.providers.aws.lib.security_hub.security_hub import (
-    batch_send_to_security_hub,
-    prepare_security_hub_findings,
-    resolve_security_hub_previous_findings,
-    verify_security_hub_integration_enabled_per_region,
-)
+# from prowler.providers.aws.lib.security_hub.security_hub import (
+#     batch_send_to_security_hub,
+#     prepare_security_hub_findings,
+#     resolve_security_hub_previous_findings,
+#     verify_security_hub_integration_enabled_per_region,
+# )
 from prowler.providers.common.allowlist import set_provider_allowlist
 from prowler.providers.common.audit_info import (
     set_provider_audit_info,
-    set_provider_execution_parameters,
+    # set_provider_execution_parameters,
 )
 from prowler.providers.common.outputs import set_provider_output_options
-from prowler.providers.common.quick_inventory import run_provider_quick_inventory
+# from prowler.providers.common.quick_inventory import run_provider_quick_inventory
 
 
 def prowler():
