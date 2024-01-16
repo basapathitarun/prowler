@@ -4,7 +4,7 @@
 import os
 import sys
 
-from colorama import Fore, Style
+
 # from prowler.lib.banner import print_banner
 from prowler.lib.check.check import (
     bulk_load_checks_metadata,
