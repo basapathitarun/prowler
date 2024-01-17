@@ -383,22 +383,3 @@ def set_provider_audit_info(provider: str, arguments: dict):
     else:
         return provider_audit_info
 
-
-def set_provider_execution_parameters(provider: str, audit_info):
-    """
-    set_provider_audit_info configures automatically the audit execution based on the selected provider and returns the checks that are going to be executed.
-    """
-    try:
-        set_provider_execution_parameters_function = (
-            f"set_{provider}_execution_parameters"
-        )
-        checks_to_execute = getattr(
-            Audit_Info(), set_provider_execution_parameters_function
-        )(provider, audit_info)
-    except Exception as error:
-        logger.critical(
-            f"{error.__class__.__name__}[{error.__traceback__.tb_lineno}]: {error}"
-        )
-        sys.exit(1)
-    else:
-        return checks_to_execute
