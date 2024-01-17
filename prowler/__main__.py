@@ -28,7 +28,7 @@ from prowler.providers.common.audit_info import (
 from prowler.providers.common.outputs import set_provider_output_options
 
 
-def prowler(selected_compliance):
+def prowler():
     # Parse Arguments
     parser = ProwlerArgumentParser()
     args = parser.parse()
