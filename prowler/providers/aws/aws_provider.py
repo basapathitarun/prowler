@@ -306,6 +306,23 @@ def get_regions_from_audit_resources(audit_resources: list) -> set:
     return audited_regions
 
 
+def get_available_aws_service_regions(service: str, audit_info: AWS_Audit_Info) -> set:
+    # Get json locally
+    actual_directory = pathlib.Path(os.path.dirname(os.path.realpath(__file__)))
+    with open_file(f"{actual_directory}/{aws_services_json_file}") as f:
+        data = parse_json_file(f)
+    json_regions = set(
+        data["services"][service]["regions"][audit_info.audited_partition]
+    )
+    # Check for input aws audit_info.audited_regions
+    if audit_info.audited_regions:
+        # Get common regions between input and json
+        regions = json_regions.intersection(audit_info.audited_regions)
+    else:  # Get all regions from json of the service and partition
+        regions = json_regions
+    return regions
+
+
 def get_default_region(service: str, audit_info: AWS_Audit_Info) -> str:
     """get_default_region gets the default region based on the profile and audited service regions"""
     service_regions = get_available_aws_service_regions(service, audit_info)
