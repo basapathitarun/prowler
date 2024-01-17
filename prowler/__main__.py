@@ -4,8 +4,6 @@
 import os
 import sys
 
-
-# from prowler.lib.banner import print_banner
 from prowler.lib.check.check import (
     bulk_load_checks_metadata,
     bulk_load_compliance_frameworks,
