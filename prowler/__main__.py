@@ -172,22 +172,22 @@ def prowler():
                     stats, audit_output_options.output_filename, args.output_directory
                 )
             # Send output to S3 if needed (-B / -D)
-            if provider == "aws" and (
-                args.output_bucket or args.output_bucket_no_assume
-            ):
-                output_bucket = args.output_bucket
-                bucket_session = audit_info.audit_session
-                # Check if -D was input
-                if args.output_bucket_no_assume:
-                    output_bucket = args.output_bucket_no_assume
-                    bucket_session = audit_info.original_session
-                send_to_s3_bucket(
-                    audit_output_options.output_filename,
-                    args.output_directory,
-                    mode,
-                    output_bucket,
-                    bucket_session,
-                )
+            # if provider == "aws" and (
+            #     args.output_bucket or args.output_bucket_no_assume
+            # ):
+            #     output_bucket = args.output_bucket
+            #     bucket_session = audit_info.audit_session
+            #     # Check if -D was input
+            #     if args.output_bucket_no_assume:
+            #         output_bucket = args.output_bucket_no_assume
+            #         bucket_session = audit_info.original_session
+            #     send_to_s3_bucket(
+            #         audit_output_options.output_filename,
+            #         args.output_directory,
+            #         mode,
+            #         output_bucket,
+            #         bucket_session,
+            #     )
 
     # Display summary table
     if not args.only_logs:
