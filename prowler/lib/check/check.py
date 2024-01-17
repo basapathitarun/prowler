@@ -2,10 +2,7 @@
 
 import functools
 import importlib
-import json
 import os
-import re
-import shutil
 import sys
 import traceback
 from pkgutil import walk_packages
@@ -15,7 +12,6 @@ from typing import Any
 from alive_progress import alive_bar
 from colorama import Fore, Style
 
-import prowler
 from prowler.config.config import orange_color
 from prowler.lib.check.compliance_models import load_compliance_framework
 from prowler.lib.check.custom_checks_metadata import update_check_metadata
