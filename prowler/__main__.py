@@ -12,10 +12,10 @@ from prowler.lib.check.check import (
 )
 from prowler.lib.check.checks_loader import load_checks_to_execute
 from prowler.lib.check.compliance import update_checks_metadata_with_compliance
-from prowler.lib.check.custom_checks_metadata import (
-    parse_custom_checks_metadata_file,
-    update_checks_metadata,
-)
+# from prowler.lib.check.custom_checks_metadata import (
+#     parse_custom_checks_metadata_file,
+#     update_checks_metadata,
+# )
 from prowler.lib.cli.parser import ProwlerArgumentParser
 from prowler.lib.logger import logger, set_logging_config
 from prowler.lib.outputs.compliance import display_compliance_table
