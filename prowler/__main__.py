@@ -8,25 +8,14 @@ from prowler.lib.check.check import (
     bulk_load_checks_metadata,
     bulk_load_compliance_frameworks,
     execute_checks,
-    # exclude_checks_to_run,
-    # exclude_services_to_run,
-    # list_categories,
-    # list_checks_json,
-    # list_services,
-    # parse_checks_from_folder,
-    # print_categories,
-    # print_checks,
-    # print_compliance_frameworks,
-    # print_compliance_requirements,
-    # print_services,
-    # remove_custom_checks_module,
+
 )
 from prowler.lib.check.checks_loader import load_checks_to_execute
 from prowler.lib.check.compliance import update_checks_metadata_with_compliance
-# from prowler.lib.check.custom_checks_metadata import (
-#     parse_custom_checks_metadata_file,
-#     update_checks_metadata,
-# )
+from prowler.lib.check.custom_checks_metadata import (
+    parse_custom_checks_metadata_file,
+    update_checks_metadata,
+)
 from prowler.lib.cli.parser import ProwlerArgumentParser
 from prowler.lib.logger import logger, set_logging_config
 from prowler.lib.outputs.compliance import display_compliance_table
