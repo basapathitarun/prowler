@@ -176,7 +176,7 @@ def perform_prowler_scan(selected_compliance):
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()
 
 
 
