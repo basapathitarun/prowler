@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compliance Scanner</title>
+</head>
+<body>
+    <h1>Compliance Scanner</h1>
+
+    <ul>
+        {% for key, value in dict_compliance.items() %}
+            <li>{{ key}} for {{ value }}</li>
+        {% endfor %}
+    </ul>
+
+    <form action="{{url_for('scan_compliance')}}" method="post">
+        <label for='compliance'>Enter which compliance to scan:</label>
+        <input type="number" name="compliance" required>
+        <button type="submit">Scan</button>
+    </form>
+
+</body>
+</html>
