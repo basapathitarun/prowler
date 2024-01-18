@@ -13,14 +13,8 @@ if __name__ == "__main__":
 #
 # app = Flask(__name__)
 #
-# compliance = ['aws_audit_manager_control_tower_guardrails_aws', 'aws_foundational_security_best_practices_aws', 'aws_well_architected_framework_reliability_pillar_aws', 'aws_well_architected_framework_security_pillar_aws', 'cisa_aws', 'cis_1.4_aws', 'cis_1.5_aws', 'cis_2.0_aws', 'ens_rd2022_aws', 'fedramp_low_revision_4_aws', 'fedramp_moderate_revision_4_aws', 'ffiec_aws', 'gdpr_aws', 'gxp_21_cfr_part_11_aws', 'gxp_eu_annex_11_aws', 'hipaa_aws', 'iso27001_2013_aws', 'mitre_attack_aws', 'nist_800_171_revision_2_aws', 'nist_800_53_revision_4_aws', 'nist_800_53_revision_5_aws', 'nist_csf_1.1_aws', 'pci_3.2.1_aws', 'rbi_cyber_security_framework_aws', 'soc2_aws', 'cis_2.0_gcp']
-#
-# dict_compliance = {}
-# i = 1
-# for each in compliance:
-#     dict_compliance[i]=each
-#     i+=1
-#
+# dict_compliance={1: 'aws_audit_manager_control_tower_guardrails_aws', 2: 'aws_foundational_security_best_practices_aws', 3: 'aws_well_architected_framework_reliability_pillar_aws', 4: 'aws_well_architected_framework_security_pillar_aws', 5: 'cisa_aws', 6: 'cis_1.4_aws', 7: 'cis_1.5_aws', 8: 'cis_2.0_aws', 9: 'ens_rd2022_aws', 10: 'fedramp_low_revision_4_aws', 11: 'fedramp_moderate_revision_4_aws', 12: 'ffiec_aws', 13: 'gdpr_aws', 14: 'gxp_21_cfr_part_11_aws', 15: 'gxp_eu_annex_11_aws', 16: 'hipaa_aws', 17: 'iso27001_2013_aws', 18: 'mitre_attack_aws', 19: 'nist_800_171_revision_2_aws', 20: 'nist_800_53_revision_4_aws', 21: 'nist_800_53_revision_5_aws', 22: 'nist_csf_1.1_aws', 23: 'pci_3.2.1_aws', 24: 'rbi_cyber_security_framework_aws', 25: 'soc2_aws', 26: 'cis_2.0_gcp'}
+
 # @app.route('/')
 # def home():
 #     return render_template('index.html',dict_compliance=dict_compliance)

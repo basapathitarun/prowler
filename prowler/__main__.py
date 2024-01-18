@@ -27,7 +27,6 @@ from prowler.providers.common.audit_info import (
 )
 from prowler.providers.common.outputs import set_provider_output_options
 
-
 def prowler():
     # Parse Arguments
     parser = ProwlerArgumentParser()
@@ -41,28 +40,28 @@ def prowler():
     checks_file = args.checks_file
     severities = args.severity
 
-    compliance = ['aws_audit_manager_control_tower_guardrails_aws', 'aws_foundational_security_best_practices_aws',
-                  'aws_well_architected_framework_reliability_pillar_aws',
-                  'aws_well_architected_framework_security_pillar_aws', 'cisa_aws', 'cis_1.4_aws', 'cis_1.5_aws',
-                  'cis_2.0_aws', 'ens_rd2022_aws', 'fedramp_low_revision_4_aws', 'fedramp_moderate_revision_4_aws',
-                  'ffiec_aws', 'gdpr_aws', 'gxp_21_cfr_part_11_aws', 'gxp_eu_annex_11_aws', 'hipaa_aws',
-                  'iso27001_2013_aws', 'mitre_attack_aws', 'nist_800_171_revision_2_aws', 'nist_800_53_revision_4_aws',
-                  'nist_800_53_revision_5_aws', 'nist_csf_1.1_aws', 'pci_3.2.1_aws', 'rbi_cyber_security_framework_aws',
-                  'soc2_aws', 'cis_2.0_gcp']
+    # compliance = ['aws_audit_manager_control_tower_guardrails_aws', 'aws_foundational_security_best_practices_aws',
+    #               'aws_well_architected_framework_reliability_pillar_aws',
+    #               'aws_well_architected_framework_security_pillar_aws', 'cisa_aws', 'cis_1.4_aws', 'cis_1.5_aws',
+    #               'cis_2.0_aws', 'ens_rd2022_aws', 'fedramp_low_revision_4_aws', 'fedramp_moderate_revision_4_aws',
+    #               'ffiec_aws', 'gdpr_aws', 'gxp_21_cfr_part_11_aws', 'gxp_eu_annex_11_aws', 'hipaa_aws',
+    #               'iso27001_2013_aws', 'mitre_attack_aws', 'nist_800_171_revision_2_aws', 'nist_800_53_revision_4_aws',
+    #               'nist_800_53_revision_5_aws', 'nist_csf_1.1_aws', 'pci_3.2.1_aws', 'rbi_cyber_security_framework_aws',
+    #               'soc2_aws', 'cis_2.0_gcp']
+    #
+    # dict_compliance = {}
+    # i = 1
+    # for each in compliance:
+    #     dict_compliance[i] = each
+    #     i = i + 1
+    #
+    # for key, value in dict_compliance.items():
+    #     print(f"{key} for {value}")
 
-    dict_compliance = {}
-    i = 1
-    for each in compliance:
-        dict_compliance[i] = each
-        i = i + 1
+    # ans = int(input("Enter which compliance to scan\n"))
 
-    for key, value in dict_compliance.items():
-        print(f"{key} for {value}")
-
-    ans = int(input("Enter which compliance to scan\n"))
-
-    compliance_framework =  dict_compliance[ans]
-
+    # compliance_framework =  dict_compliance[ans]
+    compliance_framework = selected_compliance
     # We treat the compliance framework as another output format
     if compliance_framework:
         args.output_modes.extend(compliance_framework)
