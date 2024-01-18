@@ -402,74 +402,74 @@ def get_aws_html_assessment_summary(audit_info):
         sys.exit(1)
 
 
-# def get_azure_html_assessment_summary(audit_info):
-#     try:
-#         if isinstance(audit_info, Azure_Audit_Info):
-#             printed_subscriptions = []
-#             for key, value in audit_info.identity.subscriptions.items():
-#                 intermediate = f"{key} : {value}"
-#                 printed_subscriptions.append(intermediate)
-#
-#             # check if identity is str(coming from SP) or dict(coming from browser or)
-#             if isinstance(audit_info.identity.identity_id, dict):
-#                 html_identity = audit_info.identity.identity_id.get(
-#                     "userPrincipalName", "Identity not found"
-#                 )
-#             else:
-#                 html_identity = audit_info.identity.identity_id
-#             return (
-#                 """
-#             <div class="col-md-2">
-#                 <div class="card">
-#                     <div class="card-header">
-#                         Azure Assessment Summary
-#                     </div>
-#                     <ul class="list-group list-group-flush">
-#                         <li class="list-group-item">
-#                             <b>Azure Tenant IDs:</b> """
-#                 + " ".join(audit_info.identity.tenant_ids)
-#                 + """
-#                         </li>
-#                         <li class="list-group-item">
-#                             <b>Azure Tenant Domain:</b> """
-#                 + audit_info.identity.domain
-#                 + """
-#                         </li>
-#                         <li class="list-group-item">
-#                             <b>Azure Subscriptions:</b> """
-#                 + " ".join(printed_subscriptions)
-#                 + """
-#                         </li>
-#                     </ul>
-#                 </div>
-#             </div>
-#             <div class="col-md-4">
-#             <div class="card">
-#                 <div class="card-header">
-#                     Azure Credentials
-#                 </div>
-#                 <ul class="list-group list-group-flush">
-#                     <li class="list-group-item">
-#                         <b>Azure Identity Type:</b> """
-#                 + audit_info.identity.identity_type
-#                 + """
-#                         </li>
-#                         <li class="list-group-item">
-#                             <b>Azure Identity ID:</b> """
-#                 + html_identity
-#                 + """
-#                         </li>
-#                     </ul>
-#                 </div>
-#             </div>
-#             """
-#             )
-#     except Exception as error:
-#         logger.critical(
-#             f"{error.__class__.__name__}[{error.__traceback__.tb_lineno}] -- {error}"
-#         )
-#         sys.exit(1)
-#
+def get_azure_html_assessment_summary(audit_info):
+    try:
+        if isinstance(audit_info, Azure_Audit_Info):
+            printed_subscriptions = []
+            for key, value in audit_info.identity.subscriptions.items():
+                intermediate = f"{key} : {value}"
+                printed_subscriptions.append(intermediate)
+
+            # check if identity is str(coming from SP) or dict(coming from browser or)
+            if isinstance(audit_info.identity.identity_id, dict):
+                html_identity = audit_info.identity.identity_id.get(
+                    "userPrincipalName", "Identity not found"
+                )
+            else:
+                html_identity = audit_info.identity.identity_id
+            return (
+                """
+            <div class="col-md-2">
+                <div class="card">
+                    <div class="card-header">
+                        Azure Assessment Summary
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">
+                            <b>Azure Tenant IDs:</b> """
+                + " ".join(audit_info.identity.tenant_ids)
+                + """
+                        </li>
+                        <li class="list-group-item">
+                            <b>Azure Tenant Domain:</b> """
+                + audit_info.identity.domain
+                + """
+                        </li>
+                        <li class="list-group-item">
+                            <b>Azure Subscriptions:</b> """
+                + " ".join(printed_subscriptions)
+                + """
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-4">
+            <div class="card">
+                <div class="card-header">
+                    Azure Credentials
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">
+                        <b>Azure Identity Type:</b> """
+                + audit_info.identity.identity_type
+                + """
+                        </li>
+                        <li class="list-group-item">
+                            <b>Azure Identity ID:</b> """
+                + html_identity
+                + """
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            """
+            )
+    except Exception as error:
+        logger.critical(
+            f"{error.__class__.__name__}[{error.__traceback__.tb_lineno}] -- {error}"
+        )
+        sys.exit(1)
+
 
 def get_gcp_html_assessment_summary(audit_info):
     try:
