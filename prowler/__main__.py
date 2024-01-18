@@ -4,28 +4,56 @@
 import os
 import sys
 
+from colorama import Fore, Style
+
+# from prowler.lib.banner import print_banner
 from prowler.lib.check.check import (
     bulk_load_checks_metadata,
     bulk_load_compliance_frameworks,
+    # exclude_checks_to_run,
+    # exclude_services_to_run,
     execute_checks,
-
+    # list_categories,
+    # list_checks_json,
+    # list_services,
+    # parse_checks_from_folder,
+    # print_categories,
+    # print_checks,
+    # print_compliance_frameworks,
+    # print_compliance_requirements,
+    # print_services,
+    # remove_custom_checks_module,
 )
 from prowler.lib.check.checks_loader import load_checks_to_execute
 from prowler.lib.check.compliance import update_checks_metadata_with_compliance
+# from prowler.lib.check.custom_checks_metadata import (
+#     parse_custom_checks_metadata_file,
+#     update_checks_metadata,
+# )
 from prowler.lib.cli.parser import ProwlerArgumentParser
 from prowler.lib.logger import logger, set_logging_config
 from prowler.lib.outputs.compliance import display_compliance_table
 from prowler.lib.outputs.html import add_html_footer, fill_html_overview_statistics
 from prowler.lib.outputs.json import close_json
 from prowler.lib.outputs.outputs import extract_findings_statistics
+# from prowler.lib.outputs.slack import send_slack_message
 from prowler.lib.outputs.summary_table import display_summary_table
-
+from prowler.providers.aws.aws_provider import get_available_aws_service_regions
+# from prowler.providers.aws.lib.s3.s3 import send_to_s3_bucket
+# from prowler.providers.aws.lib.security_hub.security_hub import (
+#     batch_send_to_security_hub,
+#     prepare_security_hub_findings,
+#     resolve_security_hub_previous_findings,
+#     verify_security_hub_integration_enabled_per_region,
+# )
 from prowler.providers.common.allowlist import set_provider_allowlist
 from prowler.providers.common.audit_info import (
     set_provider_audit_info,
-
+    # set_provider_execution_parameters,
 )
 from prowler.providers.common.outputs import set_provider_output_options
+# from prowler.providers.common.quick_inventory import run_provider_quick_inventory
+
 
 def prowler():
     # Parse Arguments
@@ -35,41 +63,26 @@ def prowler():
     # Save Arguments
     provider = args.provider
     checks = args.checks
+    excluded_checks = args.excluded_checks
+    excluded_services = args.excluded_services
     services = args.services
     categories = args.categories
     checks_file = args.checks_file
+    checks_folder = args.checks_folder
     severities = args.severity
+    compliance_framework = ['cis_1.4_aws']
+    custom_checks_metadata_file = args.custom_checks_metadata_file
 
-    compliance = ['aws_audit_manager_control_tower_guardrails_aws', 'aws_foundational_security_best_practices_aws',
-                  'aws_well_architected_framework_reliability_pillar_aws',
-                  'aws_well_architected_framework_security_pillar_aws', 'cisa_aws', 'cis_1.4_aws', 'cis_1.5_aws',
-                  'cis_2.0_aws', 'ens_rd2022_aws', 'fedramp_low_revision_4_aws', 'fedramp_moderate_revision_4_aws',
-                  'ffiec_aws', 'gdpr_aws', 'gxp_21_cfr_part_11_aws', 'gxp_eu_annex_11_aws', 'hipaa_aws',
-                  'iso27001_2013_aws', 'mitre_attack_aws', 'nist_800_171_revision_2_aws', 'nist_800_53_revision_4_aws',
-                  'nist_800_53_revision_5_aws', 'nist_csf_1.1_aws', 'pci_3.2.1_aws', 'rbi_cyber_security_framework_aws',
-                  'soc2_aws', 'cis_2.0_gcp']
-
-    dict_compliance = {}
-    i = 1
-    for each in compliance:
-        dict_compliance[i] = each
-        i = i + 1
-
-    for key, value in dict_compliance.items():
-        print(f"{key} for {value}")
-
-    ans = int(input("Enter which compliance to scan\n"))
-
-    compliance_framework =  dict_compliance[ans]
 
     # We treat the compliance framework as another output format
     if compliance_framework:
         args.output_modes.extend(compliance_framework)
-        
 
     # Set Logger configuration
     set_logging_config(args.log_level, args.log_file, args.only_logs)
-    
+
+
+
     # Load checks metadata
     logger.debug("Loading checks metadata from .metadata.json files")
     bulk_checks_metadata = bulk_load_checks_metadata(provider)
@@ -83,10 +96,8 @@ def prowler():
     bulk_checks_metadata = update_checks_metadata_with_compliance(
         bulk_compliance_frameworks, bulk_checks_metadata
     )
-    
     # Update checks metadata if the --custom-checks-metadata-file is present
     custom_checks_metadata = None
-
 
     # Load checks to execute
     checks_to_execute = load_checks_to_execute(
@@ -101,10 +112,11 @@ def prowler():
         provider,
     )
 
+
     # Set the audit info based on the selected provider
     audit_info = set_provider_audit_info(provider, args.__dict__)
 
-    print(f"audit info ->{audit_info}\n")
+
     # Sort final check list
     checks_to_execute = sorted(checks_to_execute)
 
@@ -115,7 +127,7 @@ def prowler():
     audit_output_options = set_provider_output_options(
         provider, args, audit_info, allowlist_file, bulk_checks_metadata
     )
-    
+
     # Execute checks
     findings = []
     if len(checks_to_execute):
@@ -135,7 +147,6 @@ def prowler():
     stats = extract_findings_statistics(findings)
 
 
-
     if args.output_modes:
         for mode in args.output_modes:
             # Close json file if exists
@@ -150,6 +161,24 @@ def prowler():
                 fill_html_overview_statistics(
                     stats, audit_output_options.output_filename, args.output_directory
                 )
+            # Send output to S3 if needed (-B / -D)
+            # if provider == "aws" and (
+            #     args.output_bucket or args.output_bucket_no_assume
+            # ):
+            #     output_bucket = args.output_bucket
+            #     bucket_session = audit_info.audit_session
+            #     # Check if -D was input
+            #     if args.output_bucket_no_assume:
+            #         output_bucket = args.output_bucket_no_assume
+            #         bucket_session = audit_info.original_session
+            #     send_to_s3_bucket(
+            #         audit_output_options.output_filename,
+            #         args.output_directory,
+            #         mode,
+            #         output_bucket,
+            #         bucket_session,
+            #     )
+
 
     # Display summary table
     if not args.only_logs:
@@ -170,7 +199,6 @@ def prowler():
                     audit_output_options.output_filename,
                     audit_output_options.output_directory,
                 )
-
 
     # If there are failed findings exit code 3, except if -z is input
     if not args.ignore_exit_code_3 and stats["total_fail"] > 0:
