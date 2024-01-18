@@ -175,8 +175,10 @@ def perform_prowler_scan(selected_compliance):
         return "An error occured during the scan."
 
 
-if __name__ == '__main__':
-    app.run()
+# app.py
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=5000, debug=True)
+
 
 
 
