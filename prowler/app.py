@@ -129,51 +129,32 @@ def perform_prowler_scan(selected_compliance):
                 "There are no checks to execute. Please, check your input arguments"
             )
 
-        # Extract findings stats
+            # Extract findings stats
         stats = extract_findings_statistics(findings)
 
-
-        if args.output_modes:
-            for mode in args.output_modes:
-                # Close json file if exists
-                if "json" in mode:
-                    close_json(
-                        audit_output_options.output_filename, args.output_directory, mode
-                    )
-                if mode == "html":
-                    add_html_footer(
-                        audit_output_options.output_filename, args.output_directory
-                    )
-                    fill_html_overview_statistics(
-                        stats, audit_output_options.output_filename, args.output_directory
-                    )
-                # Send output to S3 if needed (-B / -D)
-                # if provider == "aws" and (
-                #     args.output_bucket or args.output_bucket_no_assume
-                # ):
-                #     output_bucket = args.output_bucket
-                #     bucket_session = audit_info.audit_session
-                #     # Check if -D was input
-                #     if args.output_bucket_no_assume:
-                #         output_bucket = args.output_bucket_no_assume
-                #         bucket_session = audit_info.original_session
-                #     send_to_s3_bucket(
-                #         audit_output_options.output_filename,
-                #         args.output_directory,
-                #         mode,
-                #         output_bucket,
-                #         bucket_session,
-                #     )
-
+        # if args.output_modes:
+        #     for mode in args.output_modes:
+        #         # Close json file if exists
+        #         if "json" in mode:
+        #             close_json(
+        #                 audit_output_options.output_filename, args.output_directory, mode
+        #             )
+        #         if mode == "html":
+        #             add_html_footer(
+        #                 audit_output_options.output_filename, args.output_directory
+        #             )
+        #             fill_html_overview_statistics(
+        #                 stats, audit_output_options.output_filename, args.output_directory
+        #             )
 
         # Display summary table
         if not args.only_logs:
-            display_summary_table(
-                findings,
-                audit_info,
-                audit_output_options,
-                provider,
-            )
+            # display_summary_table(
+            #     findings,
+            #     audit_info,
+            #     audit_output_options,
+            #     provider,
+            # )
 
             if compliance_framework and findings:
                 for compliance in compliance_framework:
@@ -195,6 +176,321 @@ def perform_prowler_scan(selected_compliance):
     except Exception as e:
         logger.error(f"An error occured: {str(e)}")
         return "An error occured during the scan."
+
+
+
+
+#testing purpose
+import sys
+from csv import DictWriter
+
+from colorama import Fore, Style
+from tabulate import tabulate
+
+from prowler.config.config import orange_color, timestamp
+from prowler.lib.check.models import Check_Report
+from prowler.lib.logger import logger
+from prowler.lib.outputs.models import (
+    Check_Output_CSV_AWS_CIS,
+    Check_Output_CSV_AWS_ISO27001_2013,
+    Check_Output_CSV_AWS_Well_Architected,
+    Check_Output_CSV_ENS_RD2022,
+    Check_Output_CSV_GCP_CIS,
+    Check_Output_CSV_Generic_Compliance,
+    Check_Output_MITRE_ATTACK,
+    generate_csv_fields,
+    unroll_list,
+)
+from prowler.lib.utils.utils import outputs_unix_timestamp
+def display_compliance_table(
+        findings: list,
+        bulk_checks_metadata: dict,
+        compliance_framework: str,
+        output_filename: str,
+        output_directory: str,
+):
+    try:
+        if "ens_rd2022_aws" == compliance_framework:
+            marcos = {}
+            ens_compliance_table = {
+                "Proveedor": [],
+                "Marco/Categoria": [],
+                "Estado": [],
+                "Alto": [],
+                "Medio": [],
+                "Bajo": [],
+                "Opcional": [],
+            }
+            pass_count = fail_count = 0
+            for finding in findings:
+                check = bulk_checks_metadata[finding.check_metadata.CheckID]
+                check_compliances = check.Compliance
+                for compliance in check_compliances:
+                    if (
+                            compliance.Framework == "ENS"
+                            and compliance.Provider == "AWS"
+                            and compliance.Version == "RD2022"
+                    ):
+                        compliance_version = compliance.Version
+                        compliance_fm = compliance.Framework
+                        compliance_provider = compliance.Provider
+                        for requirement in compliance.Requirements:
+                            for attribute in requirement.Attributes:
+                                marco_categoria = (
+                                    f"{attribute.Marco}/{attribute.Categoria}"
+                                )
+                                # Check if Marco/Categoria exists
+                                if marco_categoria not in marcos:
+                                    marcos[marco_categoria] = {
+                                        "Estado": f"{Fore.GREEN}CUMPLE{Style.RESET_ALL}",
+                                        "Opcional": 0,
+                                        "Alto": 0,
+                                        "Medio": 0,
+                                        "Bajo": 0,
+                                    }
+                                if finding.status == "FAIL":
+                                    if attribute.Tipo != "recomendacion":
+                                        fail_count += 1
+                                    marcos[marco_categoria][
+                                        "Estado"
+                                    ] = f"{Fore.RED}NO CUMPLE{Style.RESET_ALL}"
+                                elif finding.status == "PASS":
+                                    pass_count += 1
+                                if attribute.Nivel == "opcional":
+                                    marcos[marco_categoria]["Opcional"] += 1
+                                elif attribute.Nivel == "alto":
+                                    marcos[marco_categoria]["Alto"] += 1
+                                elif attribute.Nivel == "medio":
+                                    marcos[marco_categoria]["Medio"] += 1
+                                elif attribute.Nivel == "bajo":
+                                    marcos[marco_categoria]["Bajo"] += 1
+
+            # Add results to table
+            for marco in sorted(marcos):
+                ens_compliance_table["Proveedor"].append(compliance.Provider)
+                ens_compliance_table["Marco/Categoria"].append(marco)
+                ens_compliance_table["Estado"].append(marcos[marco]["Estado"])
+                ens_compliance_table["Opcional"].append(
+                    f"{Fore.BLUE}{marcos[marco]['Opcional']}{Style.RESET_ALL}"
+                )
+                ens_compliance_table["Alto"].append(
+                    f"{Fore.LIGHTRED_EX}{marcos[marco]['Alto']}{Style.RESET_ALL}"
+                )
+                ens_compliance_table["Medio"].append(
+                    f"{orange_color}{marcos[marco]['Medio']}{Style.RESET_ALL}"
+                )
+                ens_compliance_table["Bajo"].append(
+                    f"{Fore.YELLOW}{marcos[marco]['Bajo']}{Style.RESET_ALL}"
+                )
+            if fail_count + pass_count < 0:
+                print(
+                    f"\n {Style.BRIGHT}There are no resources for {Fore.YELLOW}{compliance_fm} {compliance_version} - {compliance_provider}{Style.RESET_ALL}.\n"
+                )
+            else:
+                print(
+                    f"\nEstado de Cumplimiento de {Fore.YELLOW}{compliance_fm} {compliance_version} - {compliance_provider}{Style.RESET_ALL}:"
+                )
+                overview_table = [
+                    [
+                        f"{Fore.RED}{round(fail_count / (fail_count + pass_count) * 100, 2)}% ({fail_count}) NO CUMPLE{Style.RESET_ALL}",
+                        f"{Fore.GREEN}{round(pass_count / (fail_count + pass_count) * 100, 2)}% ({pass_count}) CUMPLE{Style.RESET_ALL}",
+                    ]
+                ]
+                print(tabulate(overview_table, tablefmt="rounded_grid"))
+                print(
+                    f"\nResultados de {Fore.YELLOW}{compliance_fm} {compliance_version} - {compliance_provider}{Style.RESET_ALL}:"
+                )
+                print(
+                    tabulate(
+                        ens_compliance_table, headers="keys", tablefmt="rounded_grid"
+                    )
+                )
+                print(
+                    f"{Style.BRIGHT}* Solo aparece el Marco/Categoria que contiene resultados.{Style.RESET_ALL}"
+                )
+                print(f"\nResultados detallados de {compliance_fm} en:")
+                print(
+                    f" -output-> CSV: {output_directory}/{output_filename}_{compliance_framework}.csv\n"
+                )
+        elif "cis_" in compliance_framework:
+            sections = {}
+            cis_compliance_table = {
+                "Provider": [],
+                "Section": [],
+                "Level 1": [],
+                "Level 2": [],
+            }
+            pass_count = fail_count = 0
+            for finding in findings:
+                check = bulk_checks_metadata[finding.check_metadata.CheckID]
+                check_compliances = check.Compliance
+                for compliance in check_compliances:
+                    if (
+                            compliance.Framework == "CIS"
+                            and compliance.Version in compliance_framework
+                    ):
+                        compliance_version = compliance.Version
+                        compliance_fm = compliance.Framework
+                        for requirement in compliance.Requirements:
+                            for attribute in requirement.Attributes:
+                                section = attribute.Section
+                                # Check if Section exists
+                                if section not in sections:
+                                    sections[section] = {
+                                        "Status": f"{Fore.GREEN}PASS{Style.RESET_ALL}",
+                                        "Level 1": {"FAIL": 0, "PASS": 0},
+                                        "Level 2": {"FAIL": 0, "PASS": 0},
+                                    }
+                                if finding.status == "FAIL":
+                                    fail_count += 1
+                                elif finding.status == "PASS":
+                                    pass_count += 1
+                                if attribute.Profile == "Level 1":
+                                    if finding.status == "FAIL":
+                                        sections[section]["Level 1"]["FAIL"] += 1
+                                    else:
+                                        sections[section]["Level 1"]["PASS"] += 1
+                                elif attribute.Profile == "Level 2":
+                                    if finding.status == "FAIL":
+                                        sections[section]["Level 2"]["FAIL"] += 1
+                                    else:
+                                        sections[section]["Level 2"]["PASS"] += 1
+
+            # Add results to table
+            sections = dict(sorted(sections.items()))
+            for section in sections:
+                cis_compliance_table["Provider"].append(compliance.Provider)
+                cis_compliance_table["Section"].append(section)
+                if sections[section]["Level 1"]["FAIL"] > 0:
+                    cis_compliance_table["Level 1"].append(
+                        f"{Fore.RED}FAIL({sections[section]['Level 1']['FAIL']}){Style.RESET_ALL}"
+                    )
+                else:
+                    cis_compliance_table["Level 1"].append(
+                        f"{Fore.GREEN}PASS({sections[section]['Level 1']['PASS']}){Style.RESET_ALL}"
+                    )
+                if sections[section]["Level 2"]["FAIL"] > 0:
+                    cis_compliance_table["Level 2"].append(
+                        f"{Fore.RED}FAIL({sections[section]['Level 2']['FAIL']}){Style.RESET_ALL}"
+                    )
+                else:
+                    cis_compliance_table["Level 2"].append(
+                        f"{Fore.GREEN}PASS({sections[section]['Level 2']['PASS']}){Style.RESET_ALL}"
+                    )
+            if fail_count + pass_count < 1:
+                print(
+                    f"\n {Style.BRIGHT}There are no resources for {Fore.YELLOW}{compliance_fm}-{compliance_version}{Style.RESET_ALL}.\n"
+                )
+            else:
+                print(
+                    f"\nCompliance Status of {Fore.YELLOW}{compliance_fm}-{compliance_version}{Style.RESET_ALL} Framework:"
+                )
+                overview_table = [
+                    [
+                        f"{Fore.RED}{round(fail_count / (fail_count + pass_count) * 100, 2)}% ({fail_count}) FAIL{Style.RESET_ALL}",
+                        f"{Fore.GREEN}{round(pass_count / (fail_count + pass_count) * 100, 2)}% ({pass_count}) PASS{Style.RESET_ALL}",
+                    ]
+                ]
+                print(tabulate(overview_table, tablefmt="rounded_grid"))
+                print(
+                    f"\nFramework {Fore.YELLOW}{compliance_fm}-{compliance_version}{Style.RESET_ALL} Results:"
+                )
+                print(
+                    tabulate(
+                        cis_compliance_table, headers="keys", tablefmt="rounded_grid"
+                    )
+                )
+                for keys, value in cis_compliance_table.items():
+                    print(f"{keys}-> {value}\n")
+                print(
+                    f"{Style.BRIGHT}* Only sections containing results appear.{Style.RESET_ALL}"
+                )
+                print(f"\nDetailed results of {compliance_fm} are in:")
+                print(
+                    f" -output-> CSV: {output_directory}/{output_filename}_{compliance_framework}.csv\n"
+                )
+                return render_template('output.html')
+        elif "mitre_attack" in compliance_framework:
+            tactics = {}
+            mitre_compliance_table = {
+                "Provider": [],
+                "Tactic": [],
+                "Status": [],
+            }
+            pass_count = fail_count = 0
+            for finding in findings:
+                check = bulk_checks_metadata[finding.check_metadata.CheckID]
+                check_compliances = check.Compliance
+                for compliance in check_compliances:
+                    if (
+                            "MITRE-ATTACK" in compliance.Framework
+                            and compliance.Version in compliance_framework
+                    ):
+                        compliance_fm = compliance.Framework
+                        for requirement in compliance.Requirements:
+                            for tactic in requirement.Tactics:
+                                if tactic not in tactics:
+                                    tactics[tactic] = {"FAIL": 0, "PASS": 0}
+                                if finding.status == "FAIL":
+                                    fail_count += 1
+                                    tactics[tactic]["FAIL"] += 1
+                                elif finding.status == "PASS":
+                                    pass_count += 1
+                                    tactics[tactic]["PASS"] += 1
+
+            # Add results to table
+            tactics = dict(sorted(tactics.items()))
+            for tactic in tactics:
+                mitre_compliance_table["Provider"].append(compliance.Provider)
+                mitre_compliance_table["Tactic"].append(tactic)
+                if tactics[tactic]["FAIL"] > 0:
+                    mitre_compliance_table["Status"].append(
+                        f"{Fore.RED}FAIL({tactics[tactic]['FAIL']}){Style.RESET_ALL}"
+                    )
+                else:
+                    mitre_compliance_table["Status"].append(
+                        f"{Fore.GREEN}PASS({tactics[tactic]['PASS']}){Style.RESET_ALL}"
+                    )
+            if fail_count + pass_count < 1:
+                print(
+                    f"\n {Style.BRIGHT}There are no resources for {Fore.YELLOW}{compliance_fm}{Style.RESET_ALL}.\n"
+                )
+            else:
+                print(
+                    f"\nCompliance Status of {Fore.YELLOW}{compliance_fm}{Style.RESET_ALL} Framework:"
+                )
+                overview_table = [
+                    [
+                        f"{Fore.RED}{round(fail_count / (fail_count + pass_count) * 100, 2)}% ({fail_count}) FAIL{Style.RESET_ALL}",
+                        f"{Fore.GREEN}{round(pass_count / (fail_count + pass_count) * 100, 2)}% ({pass_count}) PASS{Style.RESET_ALL}",
+                    ]
+                ]
+                print(tabulate(overview_table, tablefmt="rounded_grid"))
+                print(
+                    f"\nFramework {Fore.YELLOW}{compliance_fm}{Style.RESET_ALL} Results:"
+                )
+                print(
+                    tabulate(
+                        mitre_compliance_table, headers="keys", tablefmt="rounded_grid"
+                    )
+                )
+                print(
+                    f"{Style.BRIGHT}* Only sections containing results appear.{Style.RESET_ALL}"
+                )
+                print(f"\nDetailed results of {compliance_fm} are in:")
+                print(
+                    f" -output-> CSV: {output_directory}/{output_filename}_{compliance_framework}.csv\n"
+                )
+        else:
+            print(f"\nDetailed results of {compliance_framework.upper()} are in:")
+            print(
+                f" -output-> CSV: {output_directory}/{output_filename}_{compliance_framework}.csv\n"
+            )
+    except Exception as error:
+        logger.critical(
+            f"{error.__class__.__name__}:{error.__traceback__.tb_lineno} -- {error}"
+        )
+        sys.exit(1)
 
 
 # app.py

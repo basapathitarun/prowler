@@ -561,6 +561,7 @@ def display_compliance_table(
                 print(
                     f" -output-> CSV: {output_directory}/{output_filename}_{compliance_framework}.csv\n"
                 )
+
         elif "mitre_attack" in compliance_framework:
             tactics = {}
             mitre_compliance_table = {
