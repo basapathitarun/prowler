@@ -51,7 +51,7 @@ def perform_prowler_scan(selected_compliance):
         args = parser.parse()
 
         # Save Arguments
-        provider = args.provider
+        provider = 'aws'
         checks = args.checks
         services = args.services
         categories = args.categories
