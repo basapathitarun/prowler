@@ -491,13 +491,14 @@ def display_compliance_table(
             print(
                 f" -output-> CSV: {output_directory}/{output_filename}_{compliance_framework}.csv\n"
             )
+        return render_template('output.html')
     except Exception as error:
         logger.critical(
             f"{error.__class__.__name__}:{error.__traceback__.tb_lineno} -- {error}"
         )
         sys.exit(1)
 
-    return render_template('output.html')
+
 
 
 # app.py
