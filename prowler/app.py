@@ -44,7 +44,8 @@ def scan_compliance():
     result = perform_prowler_scan(selected_compliance)
     return result
 
-@app.route('/output')
+
+
 def perform_prowler_scan(selected_compliance):
     try:
         # Parse Arguments
@@ -205,6 +206,8 @@ from prowler.lib.outputs.models import (
     unroll_list,
 )
 from prowler.lib.utils.utils import outputs_unix_timestamp
+
+@app.route('/output')
 def display_compliance_table(
         findings: list,
         bulk_checks_metadata: dict,
