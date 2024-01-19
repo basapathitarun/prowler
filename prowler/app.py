@@ -177,7 +177,7 @@ def perform_prowler_scan(selected_compliance):
 
 # app.py
 if __name__ == "__main__":
-    app.run()
+    app.run(host='0.0.0.0',port=8080)
 
 
 
