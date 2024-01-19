@@ -214,7 +214,7 @@ def display_compliance_table(
     try:
         if "ens_rd2022_aws" == compliance_framework:
             marcos = {}
-            ens_compliance_table = {
+            compliance_table = {
                 "Proveedor": [],
                 "Marco/Categoria": [],
                 "Estado": [],
@@ -269,19 +269,19 @@ def display_compliance_table(
 
             # Add results to table
             for marco in sorted(marcos):
-                ens_compliance_table["Proveedor"].append(compliance.Provider)
-                ens_compliance_table["Marco/Categoria"].append(marco)
-                ens_compliance_table["Estado"].append(marcos[marco]["Estado"])
-                ens_compliance_table["Opcional"].append(
+                compliance_table["Proveedor"].append(compliance.Provider)
+                compliance_table["Marco/Categoria"].append(marco)
+                compliance_table["Estado"].append(marcos[marco]["Estado"])
+                compliance_table["Opcional"].append(
                     f"{Fore.BLUE}{marcos[marco]['Opcional']}{Style.RESET_ALL}"
                 )
-                ens_compliance_table["Alto"].append(
+                compliance_table["Alto"].append(
                     f"{Fore.LIGHTRED_EX}{marcos[marco]['Alto']}{Style.RESET_ALL}"
                 )
-                ens_compliance_table["Medio"].append(
+                compliance_table["Medio"].append(
                     f"{orange_color}{marcos[marco]['Medio']}{Style.RESET_ALL}"
                 )
-                ens_compliance_table["Bajo"].append(
+                compliance_table["Bajo"].append(
                     f"{Fore.YELLOW}{marcos[marco]['Bajo']}{Style.RESET_ALL}"
                 )
             if fail_count + pass_count < 0:
@@ -304,7 +304,7 @@ def display_compliance_table(
                 )
                 print(
                     tabulate(
-                        ens_compliance_table, headers="keys", tablefmt="rounded_grid"
+                        compliance_table, headers="keys", tablefmt="rounded_grid"
                     )
                 )
                 print(
@@ -317,7 +317,7 @@ def display_compliance_table(
 
         elif "cis_" in compliance_framework:
             sections = {}
-            cis_compliance_table = {
+            compliance_table = {
                 "Provider": [],
                 "Section": [],
                 "Level 1": [],
@@ -362,22 +362,22 @@ def display_compliance_table(
             # Add results to table
             sections = dict(sorted(sections.items()))
             for section in sections:
-                cis_compliance_table["Provider"].append(compliance.Provider)
-                cis_compliance_table["Section"].append(section)
+                compliance_table["Provider"].append(compliance.Provider)
+                compliance_table["Section"].append(section)
                 if sections[section]["Level 1"]["FAIL"] > 0:
-                    cis_compliance_table["Level 1"].append(
+                    compliance_table["Level 1"].append(
                         f"{Fore.RED}FAIL({sections[section]['Level 1']['FAIL']}){Style.RESET_ALL}"
                     )
                 else:
-                    cis_compliance_table["Level 1"].append(
+                    compliance_table["Level 1"].append(
                         f"{Fore.GREEN}PASS({sections[section]['Level 1']['PASS']}){Style.RESET_ALL}"
                     )
                 if sections[section]["Level 2"]["FAIL"] > 0:
-                    cis_compliance_table["Level 2"].append(
+                    compliance_table["Level 2"].append(
                         f"{Fore.RED}FAIL({sections[section]['Level 2']['FAIL']}){Style.RESET_ALL}"
                     )
                 else:
-                    cis_compliance_table["Level 2"].append(
+                    compliance_table["Level 2"].append(
                         f"{Fore.GREEN}PASS({sections[section]['Level 2']['PASS']}){Style.RESET_ALL}"
                     )
             if fail_count + pass_count < 1:
@@ -400,11 +400,9 @@ def display_compliance_table(
                 )
                 print(
                     tabulate(
-                        cis_compliance_table, headers="keys", tablefmt="rounded_grid"
+                        compliance_table, headers="keys", tablefmt="rounded_grid"
                     )
                 )
-                for keys, value in cis_compliance_table.items():
-                    print(f"{keys}-> {value}\n")
                 print(
                     f"{Style.BRIGHT}* Only sections containing results appear.{Style.RESET_ALL}"
                 )
@@ -413,10 +411,9 @@ def display_compliance_table(
                     f" -output-> CSV: {output_directory}/{output_filename}_{compliance_framework}.csv\n"
 
                 )
-            return render_template('output.html')
         elif "mitre_attack" in compliance_framework:
             tactics = {}
-            mitre_compliance_table = {
+            compliance_table = {
                 "Provider": [],
                 "Tactic": [],
                 "Status": [],
@@ -445,14 +442,14 @@ def display_compliance_table(
             # Add results to table
             tactics = dict(sorted(tactics.items()))
             for tactic in tactics:
-                mitre_compliance_table["Provider"].append(compliance.Provider)
-                mitre_compliance_table["Tactic"].append(tactic)
+                compliance_table["Provider"].append(compliance.Provider)
+                compliance_table["Tactic"].append(tactic)
                 if tactics[tactic]["FAIL"] > 0:
-                    mitre_compliance_table["Status"].append(
+                    compliance_table["Status"].append(
                         f"{Fore.RED}FAIL({tactics[tactic]['FAIL']}){Style.RESET_ALL}"
                     )
                 else:
-                    mitre_compliance_table["Status"].append(
+                    compliance_table["Status"].append(
                         f"{Fore.GREEN}PASS({tactics[tactic]['PASS']}){Style.RESET_ALL}"
                     )
             if fail_count + pass_count < 1:
@@ -475,7 +472,7 @@ def display_compliance_table(
                 )
                 print(
                     tabulate(
-                        mitre_compliance_table, headers="keys", tablefmt="rounded_grid"
+                        compliance_table, headers="keys", tablefmt="rounded_grid"
                     )
                 )
                 print(
@@ -495,6 +492,8 @@ def display_compliance_table(
             f"{error.__class__.__name__}:{error.__traceback__.tb_lineno} -- {error}"
         )
         sys.exit(1)
+
+    return render_template('output.html')
 
 
 # app.py
