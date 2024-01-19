@@ -552,6 +552,8 @@ def display_compliance_table(
                         cis_compliance_table, headers="keys", tablefmt="rounded_grid"
                     )
                 )
+                for keys,value in cis_compliance_table.items():
+                    print(f"{keys}-> {value}\n")
                 print(
                     f"{Style.BRIGHT}* Only sections containing results appear.{Style.RESET_ALL}"
                 )
