@@ -51,7 +51,6 @@ def fill_compliance(output_options, finding, audit_info, file_descriptors):
         check_compliance = output_options.bulk_checks_metadata[
             finding.check_metadata.CheckID
         ].Compliance
-        # print(f"check_compliance -> {check_compliance}\n")
         for compliance in check_compliance:
             csv_header = compliance_row = compliance_output = None
             if (
@@ -349,7 +348,6 @@ def fill_compliance(output_options, finding, audit_info, file_descriptors):
                     delimiter=";",
                 )
                 csv_writer.writerow(compliance_row.__dict__)
-                print(f"csv_writer.writerow->{csv_writer}\n")
     except Exception as error:
         logger.error(
             f"{error.__class__.__name__}[{error.__traceback__.tb_lineno}]: {error}"
