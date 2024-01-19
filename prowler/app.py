@@ -169,8 +169,7 @@ def perform_prowler_scan(selected_compliance):
                         audit_output_options.output_directory,
                     )
 
-                    for key,value in compliance_table:
-                        print(f"{key}->{value}\n")
+                print(f"compliance_table->{compliance_table}\n")
 
         # return render_template('output.html')
         # # If there are failed findings exit code 3, except if -z is input
