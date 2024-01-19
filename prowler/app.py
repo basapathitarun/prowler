@@ -60,109 +60,131 @@ def perform_prowler_scan(selected_compliance):
 
         compliance_framework = selected_compliance
         # We treat the compliance framework as another output format
-        if compliance_framework:
-            args.output_modes.extend(compliance_framework)
 
-        # Set Logger configuration
-        set_logging_config(args.log_level, args.log_file, args.only_logs)
+    if compliance_framework:
+        args.output_modes.extend(compliance_framework)
 
-        # Load checks metadata
-        logger.debug("Loading checks metadata from .metadata.json files")
-        bulk_checks_metadata = bulk_load_checks_metadata(provider)
+    # Set Logger configuration
+    set_logging_config(args.log_level, args.log_file, args.only_logs)
 
-        bulk_compliance_frameworks = {}
-        # Load compliance frameworks
-        logger.debug("Loading compliance frameworks from .json files")
 
-        bulk_compliance_frameworks = bulk_load_compliance_frameworks(provider)
-        # Complete checks metadata with the compliance framework specification
-        bulk_checks_metadata = update_checks_metadata_with_compliance(
-            bulk_compliance_frameworks, bulk_checks_metadata
+
+    # Load checks metadata
+    logger.debug("Loading checks metadata from .metadata.json files")
+    bulk_checks_metadata = bulk_load_checks_metadata(provider)
+
+    bulk_compliance_frameworks = {}
+    # Load compliance frameworks
+    logger.debug("Loading compliance frameworks from .json files")
+
+    bulk_compliance_frameworks = bulk_load_compliance_frameworks(provider)
+    # Complete checks metadata with the compliance framework specification
+    bulk_checks_metadata = update_checks_metadata_with_compliance(
+        bulk_compliance_frameworks, bulk_checks_metadata
+    )
+    # Update checks metadata if the --custom-checks-metadata-file is present
+    custom_checks_metadata = None
+
+    # Load checks to execute
+    checks_to_execute = load_checks_to_execute(
+        bulk_checks_metadata,
+        bulk_compliance_frameworks,
+        checks_file,
+        checks,
+        services,
+        severities,
+        compliance_framework,
+        categories,
+        provider,
+    )
+
+
+    # Set the audit info based on the selected provider
+    audit_info = set_provider_audit_info(provider, args.__dict__)
+
+
+    # Sort final check list
+    checks_to_execute = sorted(checks_to_execute)
+
+    # Parse Allowlist
+    allowlist_file = set_provider_allowlist(provider, audit_info, args)
+
+    # Set output options based on the selected provider
+    audit_output_options = set_provider_output_options(
+        provider, args, audit_info, allowlist_file, bulk_checks_metadata
+    )
+
+    # Execute checks
+    findings = []
+    if len(checks_to_execute):
+        findings = execute_checks(
+            checks_to_execute,
+            provider,
+            audit_info,
+            audit_output_options,
+            custom_checks_metadata,
+        )
+    else:
+        logger.error(
+            "There are no checks to execute. Please, check your input arguments"
         )
 
-        # Update checks metadata if the --custom-checks-metadata-file is present
-        custom_checks_metadata = None
+    # Extract findings stats
+    stats = extract_findings_statistics(findings)
 
-        # Load checks to execute
-        checks_to_execute = load_checks_to_execute(
-            bulk_checks_metadata,
-            bulk_compliance_frameworks,
-            checks_file,
-            checks,
-            services,
-            severities,
-            compliance_framework,
-            categories,
+
+    if args.output_modes:
+        for mode in args.output_modes:
+            # Close json file if exists
+            if "json" in mode:
+                close_json(
+                    audit_output_options.output_filename, args.output_directory, mode
+                )
+            if mode == "html":
+                add_html_footer(
+                    audit_output_options.output_filename, args.output_directory
+                )
+                fill_html_overview_statistics(
+                    stats, audit_output_options.output_filename, args.output_directory
+                )
+            # Send output to S3 if needed (-B / -D)
+            # if provider == "aws" and (
+            #     args.output_bucket or args.output_bucket_no_assume
+            # ):
+            #     output_bucket = args.output_bucket
+            #     bucket_session = audit_info.audit_session
+            #     # Check if -D was input
+            #     if args.output_bucket_no_assume:
+            #         output_bucket = args.output_bucket_no_assume
+            #         bucket_session = audit_info.original_session
+            #     send_to_s3_bucket(
+            #         audit_output_options.output_filename,
+            #         args.output_directory,
+            #         mode,
+            #         output_bucket,
+            #         bucket_session,
+            #     )
+
+
+    # Display summary table
+    if not args.only_logs:
+        display_summary_table(
+            findings,
+            audit_info,
+            audit_output_options,
             provider,
         )
 
-        # Set the audit info based on the selected provider
-        audit_info = set_provider_audit_info(provider, args.__dict__)
-
-        # Sort final check list
-        checks_to_execute = sorted(checks_to_execute)
-
-        # Parse Allowlist
-        allowlist_file = set_provider_allowlist(provider, audit_info, args)
-
-        # Set output options based on the selected provider
-        audit_output_options = set_provider_output_options(
-            provider, args, audit_info, allowlist_file, bulk_checks_metadata
-        )
-
-        # Execute checks
-        findings = []
-        if len(checks_to_execute):
-            findings = execute_checks(
-                checks_to_execute,
-                provider,
-                audit_info,
-                audit_output_options,
-                custom_checks_metadata,
-            )
-        else:
-            logger.error(
-                "There are no checks to execute. Please, check your input arguments"
-            )
-
-        # Extract findings stats
-        stats = extract_findings_statistics(findings)
-
-        if args.output_modes:
-            for mode in args.output_modes:
-                # Close json file if exists
-                if "json" in mode:
-                    close_json(
-                        audit_output_options.output_filename, args.output_directory, mode
-                    )
-                if mode == "html":
-                    add_html_footer(
-                        audit_output_options.output_filename, args.output_directory
-                    )
-                    fill_html_overview_statistics(
-                        stats, audit_output_options.output_filename, args.output_directory
-                    )
-
-        # Display summary table
-        if not args.only_logs:
-            display_summary_table(
-                findings,
-                audit_info,
-                audit_output_options,
-                provider,
-            )
-
-            if compliance_framework and findings:
-                for compliance in compliance_framework:
-                    # Display compliance table
-                    display_compliance_table(
-                        findings,
-                        bulk_checks_metadata,
-                        compliance,
-                        audit_output_options.output_filename,
-                        audit_output_options.output_directory,
-                    )
-
+        if compliance_framework and findings:
+            for compliance in compliance_framework:
+                # Display compliance table
+                display_compliance_table(
+                    findings,
+                    bulk_checks_metadata,
+                    compliance,
+                    audit_output_options.output_filename,
+                    audit_output_options.output_directory,
+                )
         # If there are failed findings exit code 3, except if -z is input
         if not args.ignore_exit_code_3 and stats["total_fail"] > 0:
             # sys.exit(3)
