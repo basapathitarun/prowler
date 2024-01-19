@@ -1,28 +1,73 @@
+<!--<!DOCTYPE html>-->
+<!--<html lang="en">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <title>output</title>-->
+<!--</head>-->
+<!--<body>-->
+
+<!--<h1> Compliance Table</h1>-->
+
+<!--<table>-->
+<!--    {% for key, val in compliance_table.items() %}-->
+<!--        <thead>-->
+<!--            <tr>-->
+<!--                <th>{{ key }}</th>-->
+<!--            </tr>-->
+<!--        </thead>-->
+<!--        <tbody>-->
+<!--            {% for v in val %}-->
+<!--                <tr>-->
+<!--                    <td>{{ v|safe }}</td>-->
+<!--                </tr>-->
+<!--            {% endfor %}-->
+<!--        </tbody>-->
+<!--    {% endfor %}-->
+<!--</table>-->
+
+<!--</body>-->
+
+<!--</html>-->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>output</title>
+    <title>Output</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+    </style>
 </head>
 <body>
 
-<h1> Compliance Table</h1>
+<h1>Compliance Table</h1>
 
 <table>
-    {% for key, val in compliance_table.items() %}
-        <thead>
-            <tr>
-                <th>{{ key }}</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for v in val %}
-                <tr>
-                    <td>{{ v|safe }}</td>
-                </tr>
+    <thead>
+        <tr>
+            {% for heading in compliance_table.keys() %}
+                <th>{{ heading }}</th>
             {% endfor %}
-        </tbody>
-    {% endfor %}
+        </tr>
+    </thead>
+    <tbody>
+        {% for index in range(compliance_table['Provider']|length) %}
+            <tr>
+                {% for key, values in compliance_table.items() %}
+                    <td>{{ values[index]|safe }}</td>
+                {% endfor %}
+            </tr>
+        {% endfor %}
+    </tbody>
 </table>
 
 </body>
