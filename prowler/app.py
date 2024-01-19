@@ -167,7 +167,7 @@ def perform_prowler_scan(selected_compliance):
                         audit_output_options.output_directory,
                     )
 
-        return render_template('output.html')
+        # return render_template('output.html')
         # # If there are failed findings exit code 3, except if -z is input
         # if not args.ignore_exit_code_3 and stats["total_fail"] > 0:
         #     # sys.exit(3)
@@ -314,6 +314,7 @@ def display_compliance_table(
                 print(
                     f" -output-> CSV: {output_directory}/{output_filename}_{compliance_framework}.csv\n"
                 )
+
         elif "cis_" in compliance_framework:
             sections = {}
             cis_compliance_table = {
@@ -410,8 +411,9 @@ def display_compliance_table(
                 print(f"\nDetailed results of {compliance_fm} are in:")
                 print(
                     f" -output-> CSV: {output_directory}/{output_filename}_{compliance_framework}.csv\n"
-                )
 
+                )
+            return render_template('output.html')
         elif "mitre_attack" in compliance_framework:
             tactics = {}
             mitre_compliance_table = {
