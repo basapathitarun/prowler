@@ -159,7 +159,7 @@ def prowler():
 
     # Extract findings stats
     stats = extract_findings_statistics(findings)
-
+    print(f"stats -> {stats}\n")
 
     if args.output_modes:
         for mode in args.output_modes:
