@@ -166,12 +166,12 @@ def perform_prowler_scan(selected_compliance):
                         audit_output_options.output_filename,
                         audit_output_options.output_directory,
                     )
-        # If there are failed findings exit code 3, except if -z is input
-        if not args.ignore_exit_code_3 and stats["total_fail"] > 0:
-            # sys.exit(3)
-            return "prowler Scan failed\n"
-        else:
-            return "prowler Scan sucessfull\n"
+        # # If there are failed findings exit code 3, except if -z is input
+        # if not args.ignore_exit_code_3 and stats["total_fail"] > 0:
+        #     # sys.exit(3)
+        #     return "prowler Scan failed\n"
+        # else:
+        #     return "prowler Scan sucessfull\n"
 
     except Exception as e:
         logger.error(f"An error occured: {str(e)}")
