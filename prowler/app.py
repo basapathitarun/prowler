@@ -173,8 +173,7 @@ def perform_prowler_scan(selected_compliance):
                 file = os.path.join(audit_output_options.output_directory, audit_output_options.output_filename,
                                     f"{compliance_framework}.csv")
                 print(f" -output-> CSV: {file}\n")
-                print(f"string of file -> {file}\n")
-        return render_template('output.html',compliance_table=compliance_table)
+        return render_template('output.html',compliance_table=compliance_table,file=file)
         # # If there are failed findings exit code 3, except if -z is input
         # if not args.ignore_exit_code_3 and stats["total_fail"] > 0:
         #     # sys.exit(3)
