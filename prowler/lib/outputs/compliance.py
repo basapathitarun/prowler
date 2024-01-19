@@ -349,6 +349,7 @@ def fill_compliance(output_options, finding, audit_info, file_descriptors):
                     delimiter=";",
                 )
                 csv_writer.writerow(compliance_row.__dict__)
+                print(f"csv_writer.writerow->{csv_writer.writerow(compliance_row.__dict__)}\n")
     except Exception as error:
         logger.error(
             f"{error.__class__.__name__}[{error.__traceback__.tb_lineno}]: {error}"
