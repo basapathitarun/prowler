@@ -44,6 +44,7 @@ def scan_compliance():
     result = perform_prowler_scan(selected_compliance)
     return result
 
+@app.route('/output')
 def perform_prowler_scan(selected_compliance):
     try:
         # Parse Arguments
