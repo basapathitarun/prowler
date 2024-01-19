@@ -59,7 +59,7 @@ def report(check_findings, output_options, audit_info):
                 stdout_report(
                     finding, color, output_options.verbose, output_options.is_quiet
                 )
-
+                print(f"color ->{color}\n")
                 if file_descriptors:
                     # Check if --quiet to only add fails to outputs
                     if not (finding.status != "FAIL" and output_options.is_quiet):
