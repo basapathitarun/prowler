@@ -171,7 +171,7 @@ def perform_prowler_scan(selected_compliance):
 
                 print(f"compliance_table->{compliance_table}\n")
 
-        # return render_template('output.html')
+        return render_template('output.html',compliance_table=compliance_table)
         # # If there are failed findings exit code 3, except if -z is input
         # if not args.ignore_exit_code_3 and stats["total_fail"] > 0:
         #     # sys.exit(3)

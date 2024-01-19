@@ -6,6 +6,24 @@
 </head>
 <body>
 
-<p>output compliance </p>
+<h1> Compliance Table</h1>
+
+<table border="1">
+    {% for key, val in compliance_table.items() %}
+        <thead>
+            <tr>
+                <th>{{ key }}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for v in val %}
+                <tr>
+                    <td>{{ v|safe }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    {% endfor %}
+</table>
+
 </body>
 </html>
