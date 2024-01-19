@@ -359,6 +359,7 @@ def execute(
 
     if os.environ.get("PROWLER_REPORT_LIB_PATH"):
         try:
+            print(f"PROWLER_REPORT_LIB_PATH\n")
             logger.info("Using custom report interface ...")
             lib = os.environ["PROWLER_REPORT_LIB_PATH"]
             outputs_module = importlib.import_module(lib)
