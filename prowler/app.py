@@ -291,7 +291,7 @@ def display_compliance_table(
                 compliance_table["Bajo"].append(
                     f"{Fore.YELLOW}{marcos[marco]['Bajo']}{Style.RESET_ALL}"
                 )
-            return compliance_table
+
             if fail_count + pass_count < 0:
                 print(
                     f"\n {Style.BRIGHT}There are no resources for {Fore.YELLOW}{compliance_fm} {compliance_version} - {compliance_provider}{Style.RESET_ALL}.\n"
@@ -322,6 +322,7 @@ def display_compliance_table(
                 print(
                     f" -output-> CSV: {output_directory}/{output_filename}_{compliance_framework}.csv\n"
                 )
+                return compliance_table
 
         elif "cis_" in compliance_framework:
             sections = {}
@@ -389,7 +390,7 @@ def display_compliance_table(
                         f"{Fore.GREEN}PASS({sections[section]['Level 2']['PASS']}){Style.RESET_ALL}"
                     )
 
-            return compliance_table
+
             if fail_count + pass_count < 1:
                 print(
                     f"\n {Style.BRIGHT}There are no resources for {Fore.YELLOW}{compliance_fm}-{compliance_version}{Style.RESET_ALL}.\n"
@@ -421,6 +422,7 @@ def display_compliance_table(
                     f" -output-> CSV: {output_directory}/{output_filename}_{compliance_framework}.csv\n"
 
                 )
+                return compliance_table
         elif "mitre_attack" in compliance_framework:
             tactics = {}
             compliance_table = {
@@ -462,7 +464,7 @@ def display_compliance_table(
                     compliance_table["Status"].append(
                         f"{Fore.GREEN}PASS({tactics[tactic]['PASS']}){Style.RESET_ALL}"
                     )
-            return compliance_table
+
             if fail_count + pass_count < 1:
                 print(
                     f"\n {Style.BRIGHT}There are no resources for {Fore.YELLOW}{compliance_fm}{Style.RESET_ALL}.\n"
@@ -493,6 +495,7 @@ def display_compliance_table(
                 print(
                     f" -output-> CSV: {output_directory}/{output_filename}_{compliance_framework}.csv\n"
                 )
+                return compliance_table
         else:
             print(f"\nDetailed results of {compliance_framework.upper()} are in:")
             print(
