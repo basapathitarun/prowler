@@ -269,8 +269,6 @@ def generate_csv_fields(format: Any) -> list[str]:
     # __fields__ is always available in the Pydantic's BaseModel class
     for field in format.__dict__.get("__fields__").keys():
         csv_fields.append(field)
-
-    print(f"csv_fields-> {csv_fields}\n")
     return csv_fields
 
 

@@ -342,7 +342,6 @@ def fill_compliance(output_options, finding, audit_info, file_descriptors):
                         Check_Output_CSV_Generic_Compliance
                     )
 
-            print(f"csv_header->{csv_header}\n")
             if compliance_row:
                 csv_writer = DictWriter(
                     file_descriptors[compliance_output],
@@ -350,7 +349,7 @@ def fill_compliance(output_options, finding, audit_info, file_descriptors):
                     delimiter=";",
                 )
                 csv_writer.writerow(compliance_row.__dict__)
-                print(f"csv_writer.writerow->{csv_writer.writerow(compliance_row.__dict__)}\n")
+                print(f"csv_writer.writerow->{csv_writer}\n")
     except Exception as error:
         logger.error(
             f"{error.__class__.__name__}[{error.__traceback__.tb_lineno}]: {error}"
