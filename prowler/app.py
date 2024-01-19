@@ -161,13 +161,16 @@ def perform_prowler_scan(selected_compliance):
             if compliance_framework and findings:
                 for compliance in compliance_framework:
                     # Display compliance table
-                    display_compliance_table(
+                    compliance_table=display_compliance_table(
                         findings,
                         bulk_checks_metadata,
                         compliance,
                         audit_output_options.output_filename,
                         audit_output_options.output_directory,
                     )
+
+                    for key,value in compliance_table:
+                        print(f"{key}->{value}\n")
 
         # return render_template('output.html')
         # # If there are failed findings exit code 3, except if -z is input
@@ -288,6 +291,7 @@ def display_compliance_table(
                 compliance_table["Bajo"].append(
                     f"{Fore.YELLOW}{marcos[marco]['Bajo']}{Style.RESET_ALL}"
                 )
+            return compliance_table
             if fail_count + pass_count < 0:
                 print(
                     f"\n {Style.BRIGHT}There are no resources for {Fore.YELLOW}{compliance_fm} {compliance_version} - {compliance_provider}{Style.RESET_ALL}.\n"
@@ -384,6 +388,8 @@ def display_compliance_table(
                     compliance_table["Level 2"].append(
                         f"{Fore.GREEN}PASS({sections[section]['Level 2']['PASS']}){Style.RESET_ALL}"
                     )
+
+            return compliance_table
             if fail_count + pass_count < 1:
                 print(
                     f"\n {Style.BRIGHT}There are no resources for {Fore.YELLOW}{compliance_fm}-{compliance_version}{Style.RESET_ALL}.\n"
@@ -456,6 +462,7 @@ def display_compliance_table(
                     compliance_table["Status"].append(
                         f"{Fore.GREEN}PASS({tactics[tactic]['PASS']}){Style.RESET_ALL}"
                     )
+            return compliance_table
             if fail_count + pass_count < 1:
                 print(
                     f"\n {Style.BRIGHT}There are no resources for {Fore.YELLOW}{compliance_fm}{Style.RESET_ALL}.\n"
@@ -491,7 +498,7 @@ def display_compliance_table(
             print(
                 f" -output-> CSV: {output_directory}/{output_filename}_{compliance_framework}.csv\n"
             )
-        return render_template('output.html')
+
     except Exception as error:
         logger.critical(
             f"{error.__class__.__name__}:{error.__traceback__.tb_lineno} -- {error}"
