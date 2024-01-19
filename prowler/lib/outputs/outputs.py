@@ -52,7 +52,7 @@ def report(check_findings, output_options, audit_info):
                     output_options.output_filename,
                     audit_info,
                 )
-
+                print(f"file_descriptors-> {file_descriptors}\n")
             for finding in check_findings:
                 # Print findings by stdout
                 color = set_report_color(finding.status)
