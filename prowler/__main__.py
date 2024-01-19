@@ -179,12 +179,12 @@ def prowler():
 
     # Display summary table
     if not args.only_logs:
-        display_summary_table(
-            findings,
-            audit_info,
-            audit_output_options,
-            provider,
-        )
+        # display_summary_table(
+        #     findings,
+        #     audit_info,
+        #     audit_output_options,
+        #     provider,
+        # )
 
         if compliance_framework and findings:
             for compliance in compliance_framework:
