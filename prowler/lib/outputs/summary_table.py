@@ -116,21 +116,21 @@ def display_summary_table(
             print("\nDetailed results are in:")
             if "html" in output_options.output_modes:
                 print(
-                    f" - HTML: {output_directory}/{output_filename}{html_file_suffix}"
+                    f" - output-> HTML: {output_directory}/{output_filename}{html_file_suffix}"
                 )
             if "json-asff" in output_options.output_modes:
                 print(
-                    f" - JSON-ASFF: {output_directory}/{output_filename}{json_asff_file_suffix}"
+                    f" - output-> JSON-ASFF: {output_directory}/{output_filename}{json_asff_file_suffix}"
                 )
             if "json-ocsf" in output_options.output_modes:
                 print(
-                    f" - JSON-OCSF: {output_directory}/{output_filename}{json_ocsf_file_suffix}"
+                    f" -output-> JSON-OCSF: {output_directory}/{output_filename}{json_ocsf_file_suffix}"
                 )
             if "csv" in output_options.output_modes:
-                print(f" - CSV: {output_directory}/{output_filename}{csv_file_suffix}")
+                print(f" -output-> CSV: {output_directory}/{output_filename}{csv_file_suffix}")
             if "json" in output_options.output_modes:
                 print(
-                    f" - JSON: {output_directory}/{output_filename}{json_file_suffix}"
+                    f" -output-> JSON: {output_directory}/{output_filename}{json_file_suffix}"
                 )
 
         else:

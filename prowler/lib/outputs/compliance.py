@@ -462,7 +462,7 @@ def display_compliance_table(
                 )
                 print(f"\nResultados detallados de {compliance_fm} en:")
                 print(
-                    f" - CSV: {output_directory}/{output_filename}_{compliance_framework}.csv\n"
+                    f" -output-> CSV: {output_directory}/{output_filename}_{compliance_framework}.csv\n"
                 )
         elif "cis_" in compliance_framework:
             sections = {}
@@ -557,7 +557,7 @@ def display_compliance_table(
                 )
                 print(f"\nDetailed results of {compliance_fm} are in:")
                 print(
-                    f" - CSV: {output_directory}/{output_filename}_{compliance_framework}.csv\n"
+                    f" -output-> CSV: {output_directory}/{output_filename}_{compliance_framework}.csv\n"
                 )
         elif "mitre_attack" in compliance_framework:
             tactics = {}
@@ -628,12 +628,12 @@ def display_compliance_table(
                 )
                 print(f"\nDetailed results of {compliance_fm} are in:")
                 print(
-                    f" - CSV: {output_directory}/{output_filename}_{compliance_framework}.csv\n"
+                    f" -output-> CSV: {output_directory}/{output_filename}_{compliance_framework}.csv\n"
                 )
         else:
             print(f"\nDetailed results of {compliance_framework.upper()} are in:")
             print(
-                f" - CSV: {output_directory}/{output_filename}_{compliance_framework}.csv\n"
+                f" -output-> CSV: {output_directory}/{output_filename}_{compliance_framework}.csv\n"
             )
     except Exception as error:
         logger.critical(

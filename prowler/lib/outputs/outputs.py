@@ -83,7 +83,6 @@ def report(check_findings, output_options, audit_info):
                         if finding.check_metadata.Provider == "aws":
                             if "json-asff" in file_descriptors:
                                 finding_output = Check_Output_JSON_ASFF()
-                                print(f"finding_output -> {finding_output}\n")
                                 fill_json_asff(
                                     finding_output, audit_info, finding, output_options
                                 )
