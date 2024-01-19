@@ -159,22 +159,22 @@ def prowler():
 
     # Extract findings stats
     stats = extract_findings_statistics(findings)
-    print(f"stats -> {stats}\n")
 
-    if args.output_modes:
-        for mode in args.output_modes:
-            # Close json file if exists
-            if "json" in mode:
-                close_json(
-                    audit_output_options.output_filename, args.output_directory, mode
-                )
-            if mode == "html":
-                add_html_footer(
-                    audit_output_options.output_filename, args.output_directory
-                )
-                fill_html_overview_statistics(
-                    stats, audit_output_options.output_filename, args.output_directory
-                )
+
+    # if args.output_modes:
+    #     for mode in args.output_modes:
+    #         # Close json file if exists
+    #         if "json" in mode:
+    #             close_json(
+    #                 audit_output_options.output_filename, args.output_directory, mode
+    #             )
+    #         if mode == "html":
+    #             add_html_footer(
+    #                 audit_output_options.output_filename, args.output_directory
+    #             )
+    #             fill_html_overview_statistics(
+    #                 stats, audit_output_options.output_filename, args.output_directory
+    #             )
 
 
     # Display summary table
