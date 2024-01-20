@@ -6,7 +6,7 @@ from pymongo import MongoClient
 
 from envi import  PASSWORD
 
-URL = f"mongodb+srv://basapathitarunkumar9686:{PASSWORD}@cluster0.xljjfu2.mongodb.net/?retryWrites=true&w=majority"
+URL = f"mongodb+srv://basapathitarunkumar9686:12345@cluster.ssqkh2h.mongodb.net/?retryWrites=true&w=majority"
 
 
 def mongo_conn():
@@ -34,7 +34,7 @@ if __name__ == '__main__':
     file_loc = "prowler\prowler\database\prowler-output-720132924570-20240116170004_cis_1.5_aws.csv"
 
     db = mongo_conn()
-    fs = gridfs.GridFS(db, collection="output")
+    fs = gridfs.GridFS(db, collection="output1")
 
     # upload file
     upload_file(file_loc=file_loc, file_name=file_name, fs=fs)
