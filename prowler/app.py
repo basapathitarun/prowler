@@ -27,7 +27,9 @@ from prowler.providers.common.audit_info import (
 )
 from prowler.providers.common.outputs import set_provider_output_options
 
-
+from database.test import mongo_conn
+from database.test import upload_file
+import gridfs
 app = Flask(__name__)
 
 dict_compliance={1: 'aws_audit_manager_control_tower_guardrails_aws', 2: 'aws_foundational_security_best_practices_aws', 3: 'aws_well_architected_framework_reliability_pillar_aws', 4: 'aws_well_architected_framework_security_pillar_aws', 5: 'cisa_aws', 6: 'cis_1.4_aws', 7: 'cis_1.5_aws', 8: 'cis_2.0_aws', 9: 'ens_rd2022_aws', 10: 'fedramp_low_revision_4_aws', 11: 'fedramp_moderate_revision_4_aws', 12: 'ffiec_aws', 13: 'gdpr_aws', 14: 'gxp_21_cfr_part_11_aws', 15: 'gxp_eu_annex_11_aws', 16: 'hipaa_aws', 17: 'iso27001_2013_aws', 18: 'mitre_attack_aws', 19: 'nist_800_171_revision_2_aws', 20: 'nist_800_53_revision_4_aws', 21: 'nist_800_53_revision_5_aws', 22: 'nist_csf_1.1_aws', 23: 'pci_3.2.1_aws', 24: 'rbi_cyber_security_framework_aws', 25: 'soc2_aws', 26: 'cis_2.0_gcp'}
@@ -170,10 +172,18 @@ def perform_prowler_scan(selected_compliance):
                     )
 
                 print(f"compliance_table->{compliance_table}\n")
-                file = os.path.join(audit_output_options.output_directory, audit_output_options.output_filename,
+                file_loc = os.path.join(audit_output_options.output_directory, audit_output_options.output_filename,
                                     f"{compliance_framework[0]}.csv")
-                print(f" -output-> CSV: {file}\n")
-        return render_template('output.html',compliance_table=compliance_table,file=file)
+
+                print(f" -output-> CSV: {file_loc}\n")
+                # adding to database
+                file_name = f"{compliance_framework[0]}.csv"
+                db = mongo_conn()
+                fs = gridfs.GridFS(db, collection="output")
+                # upload file
+                upload_file(file_loc=file_loc, file_name=file_name, fs=fs)
+
+        return render_template('output.html',compliance_table=compliance_table,file=file_name)
         # # If there are failed findings exit code 3, except if -z is input
         # if not args.ignore_exit_code_3 and stats["total_fail"] > 0:
         #     # sys.exit(3)

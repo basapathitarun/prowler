@@ -1,35 +1,40 @@
-from datetime import datetime
+# pip install pymongo
 
-from gridfs import GridFS
-# from pymongo.mongo_client import MongoClient
+# import gridfs
+
+from pymongo import MongoClient
+
+from envi import  PASSWORD
+
+URL = f"mongodb+srv://basapathitarunkumar9686:{PASSWORD}@cluster0.xljjfu2.mongodb.net/?retryWrites=true&w=majority"
+
+
+def mongo_conn():
+    """create a connection"""
+    try:
+        conn = MongoClient(URL)
+        print("Mongodb Connected", conn)
+        return conn.compliance
+    except Exception as err:
+        print(f"Error in mongodb connection: {err}")
+
+
+def upload_file(file_loc, file_name, fs):
+    """upload file to mongodb"""
+    with open(file_loc, 'rb') as file_data:
+        data = file_data.read()
+
+    # put file into mongodb
+    fs.put(data, filename=file_name)
+    print("Upload Complete")
+
+
+# if __name__ == '__main__':
+#     file_name = "mnist_test.csv"
+#     file_loc = "/content/sample_data/" + file_name
 #
+#     db = mongo_conn()
+#     fs = gridfs.GridFS(db, collection="youtube")
 #
-# uri = "mongodb+srv://tarunkumar:tarun@cluster.nopycic.mongodb.net/"
-#
-# client = MongoClient(uri)
-# dbs= client.list_database_names()
-# print(dbs)
-# db = client.files
-# collection_list = db.list_collection_names()
-# print(collection_list)
-# db = client.outputfiles
-# record = db.compliance
-
-
-
-
-from pymongo.mongo_client import MongoClient
-
-uri = "mongodb+srv://tarunkumar:tarun@cluster.nopycic.mongodb.net/files"  # Include the database name in the connection string
-
-try:
-    client = MongoClient(uri)
-    dbs = client.list_database_names()
-    print("Databases:", dbs)
-
-    db = client.files
-    collection_list = db.list_collection_names()
-    print("Collections in 'files' database:", collection_list)
-
-except Exception as e:
-    print("Error:", e)
+#     # upload file
+#     upload_file(file_loc=file_loc, file_name=file_name, fs=fs)
