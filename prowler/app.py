@@ -171,7 +171,7 @@ def perform_prowler_scan(selected_compliance):
 
                 print(f"compliance_table->{compliance_table}\n")
                 file = os.path.join(audit_output_options.output_directory, audit_output_options.output_filename,
-                                    f"{compliance_framework}.csv")
+                                    f"{compliance_framework[0]}.csv")
                 print(f" -output-> CSV: {file}\n")
         return render_template('output.html',compliance_table=compliance_table,file=file)
         # # If there are failed findings exit code 3, except if -z is input
