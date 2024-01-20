@@ -1,6 +1,6 @@
 # pip install pymongo
 
-# import gridfs
+import gridfs
 
 from pymongo import MongoClient
 
@@ -29,12 +29,12 @@ def upload_file(file_loc, file_name, fs):
     print("Upload Complete")
 
 
-# if __name__ == '__main__':
-#     file_name = "mnist_test.csv"
-#     file_loc = "/content/sample_data/" + file_name
-#
-#     db = mongo_conn()
-#     fs = gridfs.GridFS(db, collection="youtube")
-#
-#     # upload file
-#     upload_file(file_loc=file_loc, file_name=file_name, fs=fs)
+if __name__ == '__main__':
+    file_name = "\prowler-output-720132924570-20240116170004_cis_1.5_aws.csv"
+    file_loc = "prowler\prowler\database" + file_name
+
+    db = mongo_conn()
+    fs = gridfs.GridFS(db, collection="output")
+
+    # upload file
+    upload_file(file_loc=file_loc, file_name=file_name, fs=fs)
