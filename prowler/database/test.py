@@ -30,8 +30,8 @@ def upload_file(file_loc, file_name, fs):
 
 
 if __name__ == '__main__':
-    file_name = "\prowler-output-720132924570-20240116170004_cis_1.5_aws.csv"
-    file_loc = "prowler\prowler\database" + file_name
+    file_name = "prowler-output-720132924570-20240116170004_cis_1.5_aws.csv"
+    file_loc = "prowler\prowler\database\prowler-output-720132924570-20240116170004_cis_1.5_aws.csv"
 
     db = mongo_conn()
     fs = gridfs.GridFS(db, collection="output")
