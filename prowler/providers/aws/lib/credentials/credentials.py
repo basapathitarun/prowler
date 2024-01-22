@@ -35,9 +35,9 @@ def validate_aws_credentials(
         caller_identity["region"] = aws_region
     except Exception as error:
         print("INVALID \n")
-        logger.critical(
-            f"{error.__class__.__name__}[{error.__traceback__.tb_lineno}]: {error}"
-        )
+        # logger.critical(
+        #     f"{error.__class__.__name__}[{error.__traceback__.tb_lineno}]: {error}"
+        # )
         sys.exit(1)
     else:
         return caller_identity
