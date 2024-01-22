@@ -31,13 +31,13 @@ def validate_aws_credentials(
 
         validate_credentials_client = create_sts_session(session, aws_region)
         caller_identity = validate_credentials_client.get_caller_identity()
+        print(f"caller_identity:{caller_identity}\n")
         # Include the region where the caller_identity has validated the credentials
         caller_identity["region"] = aws_region
     except Exception as error:
-        print("INVALID \n")
-        # logger.critical(
-        #     f"{error.__class__.__name__}[{error.__traceback__.tb_lineno}]: {error}"
-        # )
+        logger.critical(
+            f"{error.__class__.__name__}[{error.__traceback__.tb_lineno}]: {error}"
+        )
         sys.exit(1)
     else:
         return caller_identity
