@@ -34,6 +34,7 @@ def validate_aws_credentials(
         # Include the region where the caller_identity has validated the credentials
         caller_identity["region"] = aws_region
     except Exception as error:
+        print("INVALID \n")
         logger.critical(
             f"{error.__class__.__name__}[{error.__traceback__.tb_lineno}]: {error}"
         )
