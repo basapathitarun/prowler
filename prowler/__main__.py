@@ -1,10 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-import os
 import sys
-
-from colorama import Fore, Style
 
 # from prowler.lib.banner import print_banner
 from prowler.lib.check.check import (
@@ -30,15 +27,10 @@ from prowler.lib.check.compliance import update_checks_metadata_with_compliance
 #     parse_custom_checks_metadata_file,
 #     update_checks_metadata,
 # )
-from prowler.lib.cli.parser import ProwlerArgumentParser
 from prowler.lib.logger import logger, set_logging_config
 from prowler.lib.outputs.compliance import display_compliance_table
-from prowler.lib.outputs.html import add_html_footer, fill_html_overview_statistics
-from prowler.lib.outputs.json import close_json
 from prowler.lib.outputs.outputs import extract_findings_statistics
 # from prowler.lib.outputs.slack import send_slack_message
-from prowler.lib.outputs.summary_table import display_summary_table
-from prowler.providers.aws.aws_provider import get_available_aws_service_regions
 # from prowler.providers.aws.lib.s3.s3 import send_to_s3_bucket
 # from prowler.providers.aws.lib.security_hub.security_hub import (
 #     batch_send_to_security_hub,
@@ -54,11 +46,12 @@ from prowler.providers.common.audit_info import (
 from prowler.providers.common.outputs import set_provider_output_options
 # from prowler.providers.common.quick_inventory import run_provider_quick_inventory
 
-
+#args
+import args
 def prowler():
     # Parse Arguments
-    parser = ProwlerArgumentParser()
-    args = parser.parse()
+    # parser = ProwlerArgumentParser()
+    # args = parser.parse()
 
     # Save Arguments
     provider = args.provider
