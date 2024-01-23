@@ -6,8 +6,8 @@ from prowler.config.config import (
 
 
 version= False
-provider: 'aws'
-quiet: False
+provider= 'aws'
+quiet= False
 output_modes= ['csv','html']
 output_filename= None
 output_directory= default_output_directory
