@@ -12,6 +12,7 @@ from prowler.lib.check.check import (
 )
 from prowler.lib.check.checks_loader import load_checks_to_execute
 from prowler.lib.check.compliance import update_checks_metadata_with_compliance
+from prowler.lib.cli.parser import ProwlerArgumentParser
 
 from prowler.lib.logger import logger, set_logging_config
 from prowler.lib.outputs.compliance import display_compliance_table
@@ -23,11 +24,11 @@ from prowler.providers.common.audit_info import (
 from prowler.providers.common.outputs import set_provider_output_options
 
 #args
-import args
+# import args
 def prowler():
     # Parse Arguments
-    # parser = ProwlerArgumentParser()
-    # args = parser.parse()
+    parser = ProwlerArgumentParser()
+    args = parser.parse()
 
 
     # Save Arguments
@@ -98,7 +99,7 @@ def prowler():
 
 
     # Set the audit info based on the selected provider
-    audit_info = set_provider_audit_info(provider, args.argument.__dict__)
+    audit_info = set_provider_audit_info(provider, args.__dict__)
 
 
     # Sort final check list
