@@ -29,6 +29,7 @@ def prowler():
     # parser = ProwlerArgumentParser()
     # args = parser.parse()
 
+
     # Save Arguments
     provider = args.provider
     checks = args.checks
@@ -97,7 +98,7 @@ def prowler():
 
 
     # Set the audit info based on the selected provider
-    audit_info = set_provider_audit_info(provider, args.__dict__)
+    audit_info = set_provider_audit_info(provider, args.argument.__dict__)
 
 
     # Sort final check list

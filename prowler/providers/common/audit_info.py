@@ -37,43 +37,10 @@ from prowler.providers.gcp.lib.audit_info.audit_info import gcp_audit_info
 from prowler.providers.gcp.lib.audit_info.models import GCP_Audit_Info
 
 
+
 class Audit_Info:
     def __init__(self):
         logger.info("Setting Audit Info ...")
-
-    def print_gcp_credentials(self, audit_info: GCP_Audit_Info):
-        # Beautify audited profile, set "default" if there is no profile set
-        try:
-            getattr(audit_info.credentials, "_service_account_email")
-            profile = (
-                audit_info.credentials._service_account_email
-                if audit_info.credentials._service_account_email is not None
-                else "default"
-            )
-        except AttributeError:
-            profile = "default"
-
-        report = f"""
-This report is being generated using credentials below:
-
-GCP Account: {Fore.YELLOW}[{profile}]{Style.RESET_ALL}  GCP Project IDs: {Fore.YELLOW}[{", ".join(audit_info.project_ids)}]{Style.RESET_ALL}
-"""
-        print(report)
-
-    def print_azure_credentials(self, audit_info: Azure_Audit_Info):
-        printed_subscriptions = []
-        for key, value in audit_info.identity.subscriptions.items():
-            intermediate = f"{key} : {value}"
-            printed_subscriptions.append(intermediate)
-        report = f"""
-This report is being generated using the identity below:
-
-Azure Tenant IDs: {Fore.YELLOW}[{" ".join(audit_info.identity.tenant_ids)}]{Style.RESET_ALL} Azure Tenant Domain: {Fore.YELLOW}[{audit_info.identity.domain}]{Style.RESET_ALL} Azure Region: {Fore.YELLOW}[{audit_info.azure_region_config.name}]{Style.RESET_ALL}
-Azure Subscriptions: {Fore.YELLOW}{printed_subscriptions}{Style.RESET_ALL}
-Azure Identity Type: {Fore.YELLOW}[{audit_info.identity.identity_type}]{Style.RESET_ALL} Azure Identity ID: {Fore.YELLOW}[{audit_info.identity.identity_id}]{Style.RESET_ALL}
-"""
-        print(report)
-
     def set_aws_audit_info(self, arguments) -> AWS_Audit_Info:
         """
         set_aws_audit_info returns the AWS_Audit_Info
@@ -281,86 +248,7 @@ Azure Identity Type: {Fore.YELLOW}[{audit_info.identity.identity_type}]{Style.RE
             )
             sys.exit(1)
 
-    def set_azure_audit_info(self, arguments) -> Azure_Audit_Info:
-        """
-        set_azure_audit_info returns the Azure_Audit_Info
-        """
-        logger.info("Setting Azure session ...")
-        subscription_ids = arguments.get("subscription_ids")
 
-        logger.info("Checking if any credentials mode is set ...")
-        az_cli_auth = arguments.get("az_cli_auth")
-        sp_env_auth = arguments.get("sp_env_auth")
-        browser_auth = arguments.get("browser_auth")
-        managed_entity_auth = arguments.get("managed_entity_auth")
-        tenant_id = arguments.get("tenant_id")
-
-        logger.info("Checking if region is different than default one")
-        region = arguments.get("azure_region")
-
-        if (
-            not az_cli_auth
-            and not sp_env_auth
-            and not browser_auth
-            and not managed_entity_auth
-        ):
-            raise AzureException(
-                "Azure provider requires at least one authentication method set: [--az-cli-auth | --sp-env-auth | --browser-auth | --managed-identity-auth]"
-            )
-        if (not browser_auth and tenant_id) or (browser_auth and not tenant_id):
-            raise AzureException(
-                "Azure Tenant ID (--tenant-id) is required only for browser authentication mode"
-            )
-
-        azure_provider = Azure_Provider(
-            az_cli_auth,
-            sp_env_auth,
-            browser_auth,
-            managed_entity_auth,
-            subscription_ids,
-            tenant_id,
-            region,
-        )
-        azure_audit_info.credentials = azure_provider.get_credentials()
-        azure_audit_info.identity = azure_provider.get_identity()
-        region_config = azure_provider.get_region_config()
-        azure_audit_info.azure_region_config = Azure_Region_Config(
-            name=region,
-            authority=region_config["authority"],
-            base_url=region_config["base_url"],
-            credential_scopes=region_config["credential_scopes"],
-        )
-
-        if not arguments.get("only_logs"):
-            self.print_azure_credentials(azure_audit_info)
-
-        return azure_audit_info
-
-    def set_gcp_audit_info(self, arguments) -> GCP_Audit_Info:
-        """
-        set_gcp_audit_info returns the GCP_Audit_Info
-        """
-        logger.info("Setting GCP session ...")
-        project_ids = arguments.get("project_ids")
-
-        logger.info("Checking if any credentials mode is set ...")
-        credentials_file = arguments.get("credentials_file")
-
-        gcp_provider = GCP_Provider(
-            credentials_file,
-            project_ids,
-        )
-
-        (
-            gcp_audit_info.credentials,
-            gcp_audit_info.default_project_id,
-            gcp_audit_info.project_ids,
-        ) = gcp_provider.get_credentials()
-
-        if not arguments.get("only_logs"):
-            self.print_gcp_credentials(gcp_audit_info)
-
-        return gcp_audit_info
 
 
 def set_provider_audit_info(provider: str, arguments: dict):
