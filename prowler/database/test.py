@@ -4,7 +4,7 @@ import gridfs
 
 from pymongo import MongoClient
 
-from envi import  PASSWORD
+# from envi import  PASSWORD
 
 URL = f"mongodb+srv://basapathitarunkumar9686:12345@cluster.ssqkh2h.mongodb.net/?retryWrites=true&w=majority"
 
