@@ -27,8 +27,8 @@ from prowler.providers.common.audit_info import (
 )
 from prowler.providers.common.outputs import set_provider_output_options
 
-from database.test import mongo_conn
-from database.test import upload_file
+from database.insertdb import mongo_conn
+from database.insertdb import upload_file
 import gridfs
 app = Flask(__name__)
 
