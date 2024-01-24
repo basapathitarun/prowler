@@ -23,7 +23,10 @@ session = boto3.Session()
 
 # Use the Organizations service to retrieve account details
 org_client = session.client('organizations')
-account_details = org_client.describe_account(AccountId='your_account_id')['Account']
+
+# Replace 'your_account_id' with the actual AWS account ID
+account_id = '720132924570'
+account_details = org_client.describe_account(AccountId=account_id)['Account']
 
 # Create an instance of AWS_Organizations_Info with retrieved values
 aws_organizations_info = AWS_Organizations_Info(
