@@ -134,35 +134,19 @@ def prowler():
     stats = extract_findings_statistics(findings)
 
 
-    # if args.output_modes:
-    #     for mode in args.output_modes:
-    #         # Close json file if exists
-    #         if "json" in mode:
-    #             close_json(
-    #                 audit_output_options.output_filename, args.output_directory, mode
-    #             )
-    #         if mode == "html":
-    #             add_html_footer(
-    #                 audit_output_options.output_filename, args.output_directory
-    #             )
-    #             fill_html_overview_statistics(
-    #                 stats, audit_output_options.output_filename, args.output_directory
-    #             )
+    # # Display summary table
+    # if not args.only_logs:
+    #     # display_summary_table(
+    #     #     findings,
+    #     #     audit_info,
+    #     #     audit_output_options,
+    #     #     provider,
+    #     # )
 
-
-    # Display summary table
-    if not args.only_logs:
-        # display_summary_table(
-        #     findings,
-        #     audit_info,
-        #     audit_output_options,
-        #     provider,
-        # )
-
-        if compliance_framework and findings:
-            for compliance in compliance_framework:
+    if compliance_framework and findings:
+        for compliance in compliance_framework:
                 # Display compliance table
-                display_compliance_table(
+            display_compliance_table(
                     findings,
                     bulk_checks_metadata,
                     compliance,
