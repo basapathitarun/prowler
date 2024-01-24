@@ -18,9 +18,9 @@ from prowler.lib.outputs.compliance import display_compliance_table
 from prowler.lib.outputs.html import add_html_footer, fill_html_overview_statistics
 from prowler.lib.outputs.json import close_json
 from prowler.lib.outputs.outputs import extract_findings_statistics
-from prowler.lib.outputs.summary_table import display_summary_table
+# from prowler.lib.outputs.summary_table import display_summary_table
 
-from prowler.providers.common.allowlist import set_provider_allowlist
+# from prowler.providers.common.allowlist import set_provider_allowlist
 from prowler.providers.common.audit_info import (
     set_provider_audit_info,
 
@@ -111,7 +111,7 @@ def perform_prowler_scan(selected_compliance):
         checks_to_execute = sorted(checks_to_execute)
 
         # Parse Allowlist
-        allowlist_file = set_provider_allowlist(provider, audit_info, args)
+        allowlist_file = None
 
         # Set output options based on the selected provider
         audit_output_options = set_provider_output_options(
@@ -136,32 +136,13 @@ def perform_prowler_scan(selected_compliance):
             # Extract findings stats
         stats = extract_findings_statistics(findings)
 
-        # if args.output_modes:
-        #     for mode in args.output_modes:
-        #         # Close json file if exists
-        #         if "json" in mode:
-        #             close_json(
-        #                 audit_output_options.output_filename, args.output_directory, mode
-        #             )
-        #         if mode == "html":
-        #             add_html_footer(
-        #                 audit_output_options.output_filename, args.output_directory
-        #             )
-        #             fill_html_overview_statistics(
-        #                 stats, audit_output_options.output_filename, args.output_directory
-        #             )
+
 
         # Display summary table
-        if not args.only_logs:
-            # display_summary_table(
-            #     findings,
-            #     audit_info,
-            #     audit_output_options,
-            #     provider,
-            # )
 
-            if compliance_framework and findings:
-                for compliance in compliance_framework:
+
+        if compliance_framework and findings:
+            for compliance in compliance_framework:
                     # Display compliance table
                     compliance_table=display_compliance_table(
                         findings,
@@ -171,17 +152,17 @@ def perform_prowler_scan(selected_compliance):
                         audit_output_options.output_directory,
                     )
 
-                print(f"compliance_table->{compliance_table}\n")
-                file_loc = os.path.join(audit_output_options.output_directory, audit_output_options.output_filename,
+            print(f"compliance_table->{compliance_table}\n")
+            file_loc = os.path.join(audit_output_options.output_directory, audit_output_options.output_filename,
                                     f"{compliance_framework[0]}.csv")
 
-                print(f" -output-> CSV: {file_loc}\n")
+            print(f" -output-> CSV: {file_loc}\n")
                 # adding to database
-                file_name = f"{compliance_framework[0]}.csv"
-                db = mongo_conn()
-                fs = gridfs.GridFS(db, collection="output")
+            file_name = f"{compliance_framework[0]}.csv"
+            db = mongo_conn()
+            fs = gridfs.GridFS(db, collection="output")
                 # upload file
-                upload_file(file_loc=file_loc, file_name=file_name, fs=fs)
+            upload_file(file_loc=file_loc, file_name=file_name, fs=fs)
 
         return render_template('output.html',compliance_table=compliance_table,file=file_name)
         # # If there are failed findings exit code 3, except if -z is input
