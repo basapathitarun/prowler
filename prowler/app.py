@@ -114,6 +114,7 @@ def prowler():
         provider, args, audit_info, allowlist_file, bulk_checks_metadata
     )
 
+    print(f"audit_output_options:{audit_output_options}\n")
     # Execute checks
     findings = []
     if len(checks_to_execute):
