@@ -100,6 +100,7 @@ def prowler():
 
 
     # Set the audit info based on the selected provider
+    print(args.__dict__)
     audit_info = set_provider_audit_info(provider, args.__dict__)
 
 

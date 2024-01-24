@@ -370,6 +370,7 @@ def set_provider_audit_info(provider: str, arguments: dict):
     try:
         provider_set_audit_info = f"set_{provider}_audit_info"
         provider_audit_info = getattr(Audit_Info(), provider_set_audit_info)(arguments)
+
         print(f"provider_audit_info: {provider_audit_info}\n")
         # Set the audit configuration from the config file
         provider_audit_info.audit_config = load_and_validate_config_file(
