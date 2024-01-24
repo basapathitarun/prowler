@@ -18,7 +18,7 @@ from prowler.lib.logger import logger, set_logging_config
 from prowler.lib.outputs.compliance import display_compliance_table
 from prowler.lib.outputs.outputs import extract_findings_statistics
 # from prowler.lib.outputs.summary_table import display_summary_table
-from prowler.providers.common.allowlist import set_provider_allowlist
+# from prowler.providers.common.allowlist import set_provider_allowlist
 from prowler.providers.common.audit_info import (
     set_provider_audit_info,
 )
@@ -107,9 +107,7 @@ def prowler():
     checks_to_execute = sorted(checks_to_execute)
 
     # Parse Allowlist
-    # allowlist_file = set_provider_allowlist(provider, audit_info, args)
     allowlist_file = None
-    # print(f"allowlist_file:{allowlist_file}\n")
 
     # Set output options based on the selected provider
     audit_output_options = set_provider_output_options(
@@ -137,15 +135,7 @@ def prowler():
     stats = extract_findings_statistics(findings)
 
 
-    # # # Display summary table
-    # if not args.only_logs:
-    #     display_summary_table(
-    #         findings,
-    #         audit_info,
-    #         audit_output_options,
-    #         provider,
-    #     )
-
+    # Display summary table
     if compliance_framework and findings:
         for compliance in compliance_framework:
                 # Display compliance table
