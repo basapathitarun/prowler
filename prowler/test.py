@@ -21,21 +21,12 @@ class AWS_Organizations_Info:
 # Assuming you have AWS credentials configured, you can create a session using Boto3
 session = boto3.Session()
 
-# Use the Organizations service to retrieve account details
-org_client = session.client('organizations')
+# Use the STS service to get the account ID
+sts_client = session.client('sts')
+response = sts_client.get_caller_identity()
 
-# Replace 'your_account_id' with the actual AWS account ID
-account_id = '720132924570'
-account_details = org_client.describe_account(AccountId=account_id)['Account']
+# Extract the account ID from the response
+account_id = response['Account']
 
-# Create an instance of AWS_Organizations_Info with retrieved values
-aws_organizations_info = AWS_Organizations_Info(
-    account_details_email=account_details['Email'],
-    account_details_name=account_details['Name'],
-    account_details_arn=account_details['Arn'],
-    account_details_org=account_details['JoinedMethod'],
-    account_details_tags=str(account_details['Tags'])
-)
-
-# Print or use the retrieved information
-print(aws_organizations_info)
+# Print the account ID
+print("AWS Account ID:", account_id)
