@@ -108,13 +108,15 @@ def prowler():
     # Parse Allowlist
     # allowlist_file = set_provider_allowlist(provider, audit_info, args)
     allowlist_file = None
-    print(f"allowlist_file:{allowlist_file}\n")
+    # print(f"allowlist_file:{allowlist_file}\n")
+
     # Set output options based on the selected provider
     audit_output_options = set_provider_output_options(
         provider, args, audit_info, allowlist_file, bulk_checks_metadata
     )
 
-    print(f"audit_output_options:{audit_output_options}\n")
+    # print(f"audit_output_options:{audit_output_options}\n")
+
     # Execute checks
     findings = []
     if len(checks_to_execute):
