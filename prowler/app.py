@@ -69,7 +69,7 @@ def perform_prowler_scan(selected_compliance):
             args.output_modes.extend(compliance_framework)
 
         # Set Logger configuration
-        # set_logging_config(args.log_level, args.log_file, args.only_logs)
+        set_logging_config(args.log_level, args.log_file, args.only_logs)
 
 
 
