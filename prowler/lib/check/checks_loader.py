@@ -38,21 +38,25 @@ def load_checks_to_execute(
 
             # Severities
             if metadata.Severity:
+                print("metadata.Severity\n")
                 check_severities[metadata.Severity].append(check)
 
             # Categories
             for category in metadata.Categories:
                 if category not in check_categories:
+                    print("metadata.Categories\n")
                     check_categories[category] = []
                 check_categories[category].append(check)
 
         # Handle if there are checks passed using -c/--checks
         if check_list:
+            print('check_list\n')
             for check_name in check_list:
                 checks_to_execute.add(check_name)
 
         # Handle if there are some severities passed using --severity
         elif severities:
+            print('severities\n')
             for severity in severities:
                 checks_to_execute.update(check_severities[severity])
 
@@ -64,10 +68,12 @@ def load_checks_to_execute(
 
         # Handle if there are checks passed using -C/--checks-file
         elif checks_file:
+            print('checks_file\n')
             checks_to_execute = parse_checks_from_file(checks_file, provider)
 
         # Handle if there are services passed using -s/--services
         elif service_list:
+            print('service_list\n')
             checks_to_execute = recover_checks_from_service(service_list, provider)
 
         # Handle if there are compliance frameworks passed using --compliance
@@ -78,6 +84,7 @@ def load_checks_to_execute(
 
         # Handle if there are categories passed using --categories
         elif categories:
+            print('categories\n')
             for category in categories:
                 checks_to_execute.update(check_categories[category])
 
