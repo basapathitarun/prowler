@@ -32,12 +32,12 @@ def set_logging_config(log_level: str, log_file: str = None, only_logs: bool = F
     logging_handlers.append(stream_handler)
 
     # Log to file configuration
-    if log_file:
-        # Set log to file handler
-        log_file_handler = logging.FileHandler(log_file)
-        log_file_handler.setFormatter(log_file_formatter)
-        # Append the log formatter
-        logging_handlers.append(log_file_handler)
+    # if log_file:
+    #     # Set log to file handler
+    #     log_file_handler = logging.FileHandler(log_file)
+    #     log_file_handler.setFormatter(log_file_formatter)
+    #     # Append the log formatter
+    #     logging_handlers.append(log_file_handler)
 
     # Set Log Level, environment takes precedence over the --log-level argument
     try:

@@ -24,13 +24,11 @@ from prowler.providers.common.audit_info import (
 )
 from prowler.providers.common.outputs import set_provider_output_options
 
-#args
-import args
-from args import argument as ag
+
 def prowler():
     # Parse Arguments
-    # parser = ProwlerArgumentParser()
-    # args = parser.parse()
+    parser = ProwlerArgumentParser()
+    args = parser.parse()
 
 
     # Save Arguments
@@ -101,7 +99,7 @@ def prowler():
 
 
     # Set the audit info based on the selected provider
-    audit_info = set_provider_audit_info(provider, ag)
+    audit_info = set_provider_audit_info(provider, args.__dict__)
 
 
     # Sort final check list
