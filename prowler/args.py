@@ -1,7 +1,7 @@
 from prowler.config.config import (
     default_config_file_path,
     default_output_directory,
-    valid_severities,
+
 )
 
 
