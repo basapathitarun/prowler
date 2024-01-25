@@ -73,6 +73,7 @@ def perform_prowler_scan(selected_compliance):
 
 
 
+
         # Load checks metadata
         logger.debug("Loading checks metadata from .metadata.json files")
         bulk_checks_metadata = bulk_load_checks_metadata(provider)

@@ -11,7 +11,7 @@ logging_levels = {
 }
 
 
-def set_logging_config(log_level: str,  only_logs: bool = False):
+def set_logging_config(  only_logs: bool = False):
     # Logs formatter
     stream_formatter = logging.Formatter(
         "\n%(asctime)s [File: %(filename)s:%(lineno)d] \t[Module: %(module)s]\t %(levelname)s: %(message)s"
@@ -40,19 +40,19 @@ def set_logging_config(log_level: str,  only_logs: bool = False):
     #     logging_handlers.append(log_file_handler)
 
     # Set Log Level, environment takes precedence over the --log-level argument
-    try:
-        log_level = environ["LOG_LEVEL"]
-    except KeyError:
-        log_level = log_level
+    # try:
+    #     log_level = environ["LOG_LEVEL"]
+    # except KeyError:
+    #     log_level = log_level
 
     # Configure Logger
     # Initialize you log configuration using the base class
     # https://docs.python.org/3/library/logging.html#logrecord-attributes
-    logging.basicConfig(
-        level=logging_levels.get(log_level),
-        handlers=logging_handlers,
-        datefmt="%m/%d/%Y %I:%M:%S %p",
-    )
+    # logging.basicConfig(
+    #     level=logging_levels.get(log_level),
+    #     handlers=logging_handlers,
+    #     datefmt="%m/%d/%Y %I:%M:%S %p",
+    # )
 
 
 # Retrieve the logger instance

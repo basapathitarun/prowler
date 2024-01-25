@@ -66,7 +66,7 @@ def prowler():
     # Set Logger configuration
     print(args.log_level)
     print('before\n')
-    set_logging_config(args.log_level, args.only_logs)
+    set_logging_config(args.only_logs)
     print('after\n')
     print(args.log_level)
 
