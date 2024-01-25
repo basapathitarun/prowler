@@ -14,12 +14,12 @@ from prowler.lib.logger import logger
 def load_checks_to_execute(
     bulk_checks_metadata: dict,
     bulk_compliance_frameworks: dict,
-    checks_file: str,
-    check_list: list,
-    service_list: list,
-    severities: list,
+    # checks_file: str,
+    # check_list: list,
+    # service_list: list,
+    # severities: list,
     compliance_frameworks: list,
-    categories: set,
+    # categories: set,
     provider: str,
 ) -> set:
     """Generate the list of checks to execute based on the cloud provider and the input arguments given"""

@@ -89,12 +89,12 @@ def prowler():
     checks_to_execute = load_checks_to_execute(
         bulk_checks_metadata,
         bulk_compliance_frameworks,
-        checks_file,
-        checks,
-        services,
-        severities,
+        # checks_file,
+        # checks,
+        # services,
+        # severities,
         compliance_framework,
-        categories,
+        # categories,
         provider,
     )
 
