@@ -101,7 +101,7 @@ def prowler():
 
 
     # Set the audit info based on the selected provider
-    audit_info = set_provider_audit_info(provider, ag.__dict__)
+    audit_info = set_provider_audit_info(provider, ag)
 
 
     # Sort final check list
