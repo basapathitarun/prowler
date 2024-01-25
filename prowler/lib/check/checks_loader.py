@@ -14,12 +14,12 @@ from prowler.lib.logger import logger
 def load_checks_to_execute(
     bulk_checks_metadata: dict,
     bulk_compliance_frameworks: dict,
-    # checks_file: str,
-    # check_list: list,
-    # service_list: list,
-    # severities: list,
+    checks_file: str,
+    check_list: list,
+    service_list: list,
+    severities: list,
     compliance_frameworks: list,
-    # categories: set,
+    categories: set,
     provider: str,
 ) -> set:
     """Generate the list of checks to execute based on the cloud provider and the input arguments given"""
@@ -27,67 +27,67 @@ def load_checks_to_execute(
         # Local subsets
         checks_to_execute = set()
         check_aliases = {}
-        # check_severities = {key: [] for key in valid_severities}
-        # check_categories = {}
+        check_severities = {key: [] for key in valid_severities}
+        check_categories = {}
 
         # First, loop over the bulk_checks_metadata to extract the needed subsets
-        # for check, metadata in bulk_checks_metadata.items():
-        #     # Aliases
-        #     for alias in metadata.CheckAliases:
-        #         check_aliases[alias] = check
-        #
-        #     # Severities
-        #     if metadata.Severity:
-        #         print("metadata.Severity\n")
-        #         check_severities[metadata.Severity].append(check)
-        #
-        #     # Categories
-        #     for category in metadata.Categories:
-        #         if category not in check_categories:
-        #             print("metadata.Categories\n")
-        #             check_categories[category] = []
-        #         check_categories[category].append(check)
+        for check, metadata in bulk_checks_metadata.items():
+            # Aliases
+            for alias in metadata.CheckAliases:
+                check_aliases[alias] = check
+
+            # Severities
+            if metadata.Severity:
+                print("metadata.Severity\n")
+                check_severities[metadata.Severity].append(check)
+
+            # Categories
+            for category in metadata.Categories:
+                if category not in check_categories:
+                    print("metadata.Categories\n")
+                    check_categories[category] = []
+                check_categories[category].append(check)
 
         # Handle if there are checks passed using -c/--checks
-        # if check_list:
-        #     print('check_list\n')
-        #     for check_name in check_list:
-        #         checks_to_execute.add(check_name)
+        if check_list:
+            print('check_list\n')
+            for check_name in check_list:
+                checks_to_execute.add(check_name)
 
         # Handle if there are some severities passed using --severity
-        # elif severities:
-        #     print('severities\n')
-        #     for severity in severities:
-        #         checks_to_execute.update(check_severities[severity])
-        #
-        #     if service_list:
-        #         checks_to_execute = (
-        #             recover_checks_from_service(service_list, provider)
-        #             & checks_to_execute
-        #         )
-        #
-        # # Handle if there are checks passed using -C/--checks-file
-        # elif checks_file:
-        #     print('checks_file\n')
-        #     checks_to_execute = parse_checks_from_file(checks_file, provider)
+        elif severities:
+            print('severities\n')
+            for severity in severities:
+                checks_to_execute.update(check_severities[severity])
+
+            if service_list:
+                checks_to_execute = (
+                    recover_checks_from_service(service_list, provider)
+                    & checks_to_execute
+                )
+
+        # Handle if there are checks passed using -C/--checks-file
+        elif checks_file:
+            print('checks_file\n')
+            checks_to_execute = parse_checks_from_file(checks_file, provider)
 
         # Handle if there are services passed using -s/--services
-        # elif service_list:
-        #     print('service_list\n')
-        #     checks_to_execute = recover_checks_from_service(service_list, provider)
+        elif service_list:
+            print('service_list\n')
+            checks_to_execute = recover_checks_from_service(service_list, provider)
 
         # Handle if there are compliance frameworks passed using --compliance
-        if compliance_frameworks:
+        elif  compliance_frameworks:
             print('compliance_frameworks\n')
             checks_to_execute = parse_checks_from_compliance_framework(
                 compliance_frameworks, bulk_compliance_frameworks
             )
 
         # Handle if there are categories passed using --categories
-        # elif categories:
-        #     print('categories\n')
-        #     for category in categories:
-        #         checks_to_execute.update(check_categories[category])
+        elif categories:
+            print('categories\n')
+            for category in categories:
+                checks_to_execute.update(check_categories[category])
 
         # If there are no checks passed as argument
         else:
