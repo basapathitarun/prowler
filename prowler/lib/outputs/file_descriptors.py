@@ -82,29 +82,29 @@ def fill_file_descriptors(output_modes, output_directory, output_filename, audit
                         output_model,
                     )
                     file_descriptors.update({output_mode: file_descriptor})
-
-                elif output_mode == "json":
-                    filename = f"{output_directory}/{output_filename}{json_file_suffix}"
-                    file_descriptor = initialize_file_descriptor(
-                        filename, output_mode, audit_info
-                    )
-                    file_descriptors.update({output_mode: file_descriptor})
-
-                elif output_mode == "json-ocsf":
-                    filename = (
-                        f"{output_directory}/{output_filename}{json_ocsf_file_suffix}"
-                    )
-                    file_descriptor = initialize_file_descriptor(
-                        filename, output_mode, audit_info
-                    )
-                    file_descriptors.update({output_mode: file_descriptor})
-
-                elif output_mode == "html":
-                    filename = f"{output_directory}/{output_filename}{html_file_suffix}"
-                    file_descriptor = initialize_file_descriptor(
-                        filename, output_mode, audit_info
-                    )
-                    file_descriptors.update({output_mode: file_descriptor})
+                #
+                # elif output_mode == "json":
+                #     filename = f"{output_directory}/{output_filename}{json_file_suffix}"
+                #     file_descriptor = initialize_file_descriptor(
+                #         filename, output_mode, audit_info
+                #     )
+                #     file_descriptors.update({output_mode: file_descriptor})
+                #
+                # elif output_mode == "json-ocsf":
+                #     filename = (
+                #         f"{output_directory}/{output_filename}{json_ocsf_file_suffix}"
+                #     )
+                #     file_descriptor = initialize_file_descriptor(
+                #         filename, output_mode, audit_info
+                #     )
+                #     file_descriptors.update({output_mode: file_descriptor})
+                #
+                # elif output_mode == "html":
+                #     filename = f"{output_directory}/{output_filename}{html_file_suffix}"
+                #     file_descriptor = initialize_file_descriptor(
+                #         filename, output_mode, audit_info
+                #     )
+                #     file_descriptors.update({output_mode: file_descriptor})
 
                 elif isinstance(audit_info, GCP_Audit_Info):
                     if output_mode == "cis_2.0_gcp":
@@ -115,14 +115,14 @@ def fill_file_descriptors(output_modes, output_directory, output_filename, audit
                         file_descriptors.update({output_mode: file_descriptor})
 
                 elif isinstance(audit_info, AWS_Audit_Info):
-                    if output_mode == "json-asff":
-                        filename = f"{output_directory}/{output_filename}{json_asff_file_suffix}"
-                        file_descriptor = initialize_file_descriptor(
-                            filename, output_mode, audit_info
-                        )
-                        file_descriptors.update({output_mode: file_descriptor})
+                    # if output_mode == "json-asff":
+                    #     filename = f"{output_directory}/{output_filename}{json_asff_file_suffix}"
+                    #     file_descriptor = initialize_file_descriptor(
+                    #         filename, output_mode, audit_info
+                    #     )
+                    #     file_descriptors.update({output_mode: file_descriptor})
 
-                    elif output_mode == "ens_rd2022_aws":
+                    if output_mode == "ens_rd2022_aws":
                         filename = f"{output_directory}/{output_filename}_ens_rd2022_aws{csv_file_suffix}"
                         file_descriptor = initialize_file_descriptor(
                             filename,
