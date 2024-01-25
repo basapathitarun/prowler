@@ -116,6 +116,8 @@ def prowler():
 
     # Execute checks
     findings = []
+
+    #changes -> file_descriptors.py
     if len(checks_to_execute):
         findings = execute_checks(
             checks_to_execute,
