@@ -27,26 +27,26 @@ def load_checks_to_execute(
         # Local subsets
         checks_to_execute = set()
         check_aliases = {}
-        check_severities = {key: [] for key in valid_severities}
-        check_categories = {}
+        # check_severities = {key: [] for key in valid_severities}
+        # check_categories = {}
 
         # First, loop over the bulk_checks_metadata to extract the needed subsets
-        for check, metadata in bulk_checks_metadata.items():
-            # Aliases
-            for alias in metadata.CheckAliases:
-                check_aliases[alias] = check
-
-            # Severities
-            if metadata.Severity:
-                print("metadata.Severity\n")
-                check_severities[metadata.Severity].append(check)
-
-            # Categories
-            for category in metadata.Categories:
-                if category not in check_categories:
-                    print("metadata.Categories\n")
-                    check_categories[category] = []
-                check_categories[category].append(check)
+        # for check, metadata in bulk_checks_metadata.items():
+        #     # Aliases
+        #     for alias in metadata.CheckAliases:
+        #         check_aliases[alias] = check
+        #
+        #     # Severities
+        #     if metadata.Severity:
+        #         print("metadata.Severity\n")
+        #         check_severities[metadata.Severity].append(check)
+        #
+        #     # Categories
+        #     for category in metadata.Categories:
+        #         if category not in check_categories:
+        #             print("metadata.Categories\n")
+        #             check_categories[category] = []
+        #         check_categories[category].append(check)
 
         # Handle if there are checks passed using -c/--checks
         # if check_list:
