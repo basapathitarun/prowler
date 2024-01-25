@@ -69,7 +69,7 @@ def perform_prowler_scan(selected_compliance):
             args.output_modes.extend(compliance_framework)
 
         # Set Logger configuration
-        set_logging_config(args.log_level, args.log_file, args.only_logs)
+        # set_logging_config(args.log_level, args.log_file, args.only_logs)
 
 
 
@@ -186,21 +186,9 @@ from csv import DictWriter
 from colorama import Fore, Style
 from tabulate import tabulate
 
-from prowler.config.config import orange_color, timestamp
-from prowler.lib.check.models import Check_Report
+from prowler.config.config import orange_color
 from prowler.lib.logger import logger
-from prowler.lib.outputs.models import (
-    Check_Output_CSV_AWS_CIS,
-    Check_Output_CSV_AWS_ISO27001_2013,
-    Check_Output_CSV_AWS_Well_Architected,
-    Check_Output_CSV_ENS_RD2022,
-    Check_Output_CSV_GCP_CIS,
-    Check_Output_CSV_Generic_Compliance,
-    Check_Output_MITRE_ATTACK,
-    generate_csv_fields,
-    unroll_list,
-)
-from prowler.lib.utils.utils import outputs_unix_timestamp
+
 
 @app.route('/output')
 def display_compliance_table(
