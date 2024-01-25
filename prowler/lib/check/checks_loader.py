@@ -78,6 +78,7 @@ def load_checks_to_execute(
 
         # Handle if there are compliance frameworks passed using --compliance
         elif compliance_frameworks:
+            print('compliance_frameworks\n')
             checks_to_execute = parse_checks_from_compliance_framework(
                 compliance_frameworks, bulk_compliance_frameworks
             )
