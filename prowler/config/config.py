@@ -63,23 +63,23 @@ default_config_file_path = (
 )
 
 
-# def check_current_version():
-#     try:
-#         prowler_version_string = f"Prowler {prowler_version}"
-#         release_response = requests.get(
-#             "https://api.github.com/repos/prowler-cloud/prowler/tags", timeout=1
-#         )
-#         latest_version = release_response.json()[0]["name"]
-#         if latest_version != prowler_version:
-#             return f"{prowler_version_string} (latest is {latest_version}, upgrade for the latest features)"
-#         else:
-#             return (
-#                 f"{prowler_version_string} (You are running the latest version, yay!)"
-#             )
-#     except requests.RequestException:
-#         return f"{prowler_version_string}"
-#     except Exception:
-#         return f"{prowler_version_string}"
+def check_current_version():
+    try:
+        prowler_version_string = f"Prowler {prowler_version}"
+        release_response = requests.get(
+            "https://api.github.com/repos/prowler-cloud/prowler/tags", timeout=1
+        )
+        latest_version = release_response.json()[0]["name"]
+        if latest_version != prowler_version:
+            return f"{prowler_version_string} (latest is {latest_version}, upgrade for the latest features)"
+        else:
+            return (
+                f"{prowler_version_string} (You are running the latest version, yay!)"
+            )
+    except requests.RequestException:
+        return f"{prowler_version_string}"
+    except Exception:
+        return f"{prowler_version_string}"
 
 
 def change_config_var(variable: str, value: str, audit_info):
