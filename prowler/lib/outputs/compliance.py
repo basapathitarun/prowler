@@ -630,13 +630,19 @@ def display_compliance_table(
                     f"{Style.BRIGHT}* Only sections containing results appear.{Style.RESET_ALL}"
                 )
                 print(f"\nDetailed results of {compliance_fm} are in:")
+                # print(
+                #     f" -output-> CSV: {output_directory}/{output_filename}_{compliance_framework}.csv\n"
+                # )
                 print(
-                    f" -output-> CSV: {output_directory}/{output_filename}_{compliance_framework}.csv\n"
+                    f" -output-> CSV: {output_directory}/{output_filename}.csv\n"
                 )
         else:
             print(f"\nDetailed results of {compliance_framework.upper()} are in:")
+            # print(
+            #     f" -output-> CSV: {output_directory}/{output_filename}_{compliance_framework}.csv\n"
+            # )
             print(
-                f" -output-> CSV: {output_directory}/{output_filename}_{compliance_framework}.csv\n"
+                f" -output-> CSV: {output_directory}/{output_filename}.csv\n"
             )
     except Exception as error:
         logger.critical(
