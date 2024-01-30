@@ -4,7 +4,7 @@ from argparse import RawTextHelpFormatter
 
 from prowler.config.config import (
     available_compliance_frameworks,
-    check_current_version,
+    # check_current_version,
     default_config_file_path,
     default_output_directory,
     valid_severities,
@@ -116,17 +116,17 @@ Detailed documentation at https://docs.prowler.cloud
             "Outputs"
         )
         common_outputs_parser.add_argument(
-            "-q",
+            # "-q",
             "--quiet",
-            action="store_true",
-            help="Store or send only Prowler failed findings",
+            # action="store_true",
+            # help="Store or send only Prowler failed findings",
         )
         common_outputs_parser.add_argument(
             # "-M",
             "--output-modes",
             # nargs="+",
             # help="Output modes, by default csv, html and json",
-            default=["csv"],
+            default=["csv","json","html", "json-ocsf"],
             # choices=["csv", "json", "json-asff", "html", "json-ocsf"],
         )
         common_outputs_parser.add_argument(
