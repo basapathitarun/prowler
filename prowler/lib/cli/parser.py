@@ -29,12 +29,12 @@ Detailed documentation at https://docs.prowler.cloud
 """,
         )
         # Default
-        self.parser.add_argument(
-            "-v",
-            "--version",
-            action="store_true",
-            help="show Prowler version",
-        )
+        # self.parser.add_argument(
+        #     "-v",
+        #     "--version",
+        #     action="store_true",
+        #     help="show Prowler version",
+        # )
         # Common arguments parser
         self.common_providers_parser = argparse.ArgumentParser(add_help=False)
 
@@ -47,7 +47,7 @@ Detailed documentation at https://docs.prowler.cloud
         self.__init_outputs_parser__()
         self.__init_logging_parser__()
         self.__init_checks_parser__()
-        self.__init_exclude_checks_parser__()
+        # self.__init_exclude_checks_parser__()
         # self.__init_list_checks_parser__()
         self.__init_config_parser__()
         # self.__init_custom_checks_metadata_parser__()
@@ -122,18 +122,18 @@ Detailed documentation at https://docs.prowler.cloud
             help="Store or send only Prowler failed findings",
         )
         common_outputs_parser.add_argument(
-            "-M",
+            # "-M",
             "--output-modes",
-            nargs="+",
-            help="Output modes, by default csv, html and json",
-            default=["csv", "json", "html", "json-ocsf"],
-            choices=["csv", "json", "json-asff", "html", "json-ocsf"],
+            # nargs="+",
+            # help="Output modes, by default csv, html and json",
+            default=["csv"],
+            # choices=["csv", "json", "json-asff", "html", "json-ocsf"],
         )
         common_outputs_parser.add_argument(
             "-F",
             "--output-filename",
-            nargs="?",
-            help="Custom output report name without the file extension, if not specified will use default output/prowler-output-ACCOUNT_NUM-OUTPUT_DATE.format",
+            # nargs="?",
+            # help="Custom output report name without the file extension, if not specified will use default output/prowler-output-ACCOUNT_NUM-OUTPUT_DATE.format",
         )
         common_outputs_parser.add_argument(
             "-o",
@@ -147,12 +147,12 @@ Detailed documentation at https://docs.prowler.cloud
             action="store_true",
             help="Display detailed information about findings",
         )
-        # common_outputs_parser.add_argument(
-        #     "-z",
-        #     "--ignore-exit-code-3",
-        #     action="store_true",
-        #     help="Failed checks do not trigger exit code 3",
-        # )
+        common_outputs_parser.add_argument(
+            "-z",
+            "--ignore-exit-code-3",
+            action="store_true",
+            help="Failed checks do not trigger exit code 3",
+        )
         # common_outputs_parser.add_argument(
         #     "-b", "--no-banner", action="store_true", help="Hide Prowler banner"
         # )
@@ -191,17 +191,17 @@ Detailed documentation at https://docs.prowler.cloud
             help="Print only Prowler logs by the stdout. This option sets --no-banner.",
         )
 
-    def __init_exclude_checks_parser__(self):
-        # Exclude checks options
-        exclude_checks_parser = self.common_providers_parser.add_argument_group(
-            "Exclude checks/services to run"
-        )
-        # exclude_checks_parser.add_argument(
-        #     "-e", "--excluded-checks", nargs="+", help="Checks to exclude"
-        # )
-        # exclude_checks_parser.add_argument(
-        #     "--excluded-services", nargs="+", help="Services to exclude"
-        # )
+    # def __init_exclude_checks_parser__(self):
+    #     # Exclude checks options
+    #     exclude_checks_parser = self.common_providers_parser.add_argument_group(
+    #         "Exclude checks/services to run"
+    #     )
+    #     # exclude_checks_parser.add_argument(
+    #     #     "-e", "--excluded-checks", nargs="+", help="Checks to exclude"
+    #     # )
+    #     # exclude_checks_parser.add_argument(
+    #     #     "--excluded-services", nargs="+", help="Services to exclude"
+    #     # )
 
     def __init_checks_parser__(self):
         # Set checks to execute
