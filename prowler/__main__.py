@@ -34,12 +34,12 @@ def prowler():
     # Save Arguments
     provider = args.provider
     checks = args.checks
-    excluded_checks = args.excluded_checks
-    excluded_services = args.excluded_services
+    # excluded_checks = args.excluded_checks
+    # excluded_services = args.excluded_services
     services = args.services
     categories = args.categories
     checks_file = args.checks_file
-    checks_folder = args.checks_folder
+    # checks_folder = args.checks_folder
     severities = args.severity
     dict_compliance = {1: 'aws_audit_manager_control_tower_guardrails_aws',
                        2: 'aws_foundational_security_best_practices_aws',
@@ -56,8 +56,8 @@ def prowler():
         print(f"{key}-> for {value}")
     ans = int(input("Enter which compliance to scan\n"))
     compliance_framework = [dict_compliance[ans]]
-    custom_checks_metadata_file = args.custom_checks_metadata_file
-
+    # custom_checks_metadata_file = args.custom_checks_metadata_file
+    # custom_checks_metadata_file = None
 
     # We treat the compliance framework as another output format
     if compliance_framework:

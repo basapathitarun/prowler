@@ -48,9 +48,9 @@ Detailed documentation at https://docs.prowler.cloud
         self.__init_logging_parser__()
         self.__init_checks_parser__()
         self.__init_exclude_checks_parser__()
-        self.__init_list_checks_parser__()
+        # self.__init_list_checks_parser__()
         self.__init_config_parser__()
-        self.__init_custom_checks_metadata_parser__()
+        # self.__init_custom_checks_metadata_parser__()
 
         # Init Providers Arguments
         init_providers_parser(self)
@@ -63,24 +63,24 @@ Detailed documentation at https://docs.prowler.cloud
         if args:
             sys.argv = args
 
-        if len(sys.argv) == 2 and sys.argv[1] in ("-v", "--version"):
-            print(check_current_version())
-            sys.exit(0)
+        # if len(sys.argv) == 2 and sys.argv[1] in ("-v", "--version"):
+        #     print(check_current_version())
+        #     sys.exit(0)
 
         # Set AWS as the default provider if no provider is supplied
         if len(sys.argv) == 1:
             sys.argv = self.__set_default_provider__(sys.argv)
 
-        # Help and Version flags cannot set a default provider
-        if (
-            len(sys.argv) >= 2
-            and (sys.argv[1] not in ("-h", "--help"))
-            and (sys.argv[1] not in ("-v", "--version"))
-        ):
-            # Since the provider is always the second argument, we are checking if
-            # a flag, starting by "-", is supplied
-            if "-" in sys.argv[1]:
-                sys.argv = self.__set_default_provider__(sys.argv)
+        # # Help and Version flags cannot set a default provider
+        # if (
+        #     len(sys.argv) >= 2
+        #     and (sys.argv[1] not in ("-h", "--help"))
+        #     and (sys.argv[1] not in ("-v", "--version"))
+        # ):
+        #     # Since the provider is always the second argument, we are checking if
+        #     # a flag, starting by "-", is supplied
+        #     if "-" in sys.argv[1]:
+        #         sys.argv = self.__set_default_provider__(sys.argv)
 
         # Parse arguments
         args = self.parser.parse_args()
@@ -92,8 +92,8 @@ Detailed documentation at https://docs.prowler.cloud
             )
 
         # Only Logging Configuration
-        if args.only_logs or args.list_checks_json:
-            args.no_banner = True
+        # if args.only_logs or args.list_checks_json:
+        #     args.no_banner = True
 
         # Extra validation for provider arguments
         valid, message = validate_provider_arguments(args)
@@ -115,12 +115,12 @@ Detailed documentation at https://docs.prowler.cloud
         common_outputs_parser = self.common_providers_parser.add_argument_group(
             "Outputs"
         )
-        common_outputs_parser.add_argument(
-            "-q",
-            "--quiet",
-            action="store_true",
-            help="Store or send only Prowler failed findings",
-        )
+        # common_outputs_parser.add_argument(
+        #     "-q",
+        #     "--quiet",
+        #     action="store_true",
+        #     help="Store or send only Prowler failed findings",
+        # )
         common_outputs_parser.add_argument(
             "-M",
             "--output-modes",
@@ -147,20 +147,20 @@ Detailed documentation at https://docs.prowler.cloud
             action="store_true",
             help="Display detailed information about findings",
         )
-        common_outputs_parser.add_argument(
-            "-z",
-            "--ignore-exit-code-3",
-            action="store_true",
-            help="Failed checks do not trigger exit code 3",
-        )
-        common_outputs_parser.add_argument(
-            "-b", "--no-banner", action="store_true", help="Hide Prowler banner"
-        )
-        common_outputs_parser.add_argument(
-            "--slack",
-            action="store_true",
-            help="Send a summary of the execution with a Slack APP in your channel. Environment variables SLACK_API_TOKEN and SLACK_CHANNEL_ID are required (see more in https://docs.prowler.cloud/en/latest/tutorials/integrations/#slack).",
-        )
+        # common_outputs_parser.add_argument(
+        #     "-z",
+        #     "--ignore-exit-code-3",
+        #     action="store_true",
+        #     help="Failed checks do not trigger exit code 3",
+        # )
+        # common_outputs_parser.add_argument(
+        #     "-b", "--no-banner", action="store_true", help="Hide Prowler banner"
+        # )
+        # common_outputs_parser.add_argument(
+        #     "--slack",
+        #     action="store_true",
+        #     help="Send a summary of the execution with a Slack APP in your channel. Environment variables SLACK_API_TOKEN and SLACK_CHANNEL_ID are required (see more in https://docs.prowler.cloud/en/latest/tutorials/integrations/#slack).",
+        # )
         common_outputs_parser.add_argument(
             "--unix-timestamp",
             action="store_true",
@@ -196,12 +196,12 @@ Detailed documentation at https://docs.prowler.cloud
         exclude_checks_parser = self.common_providers_parser.add_argument_group(
             "Exclude checks/services to run"
         )
-        exclude_checks_parser.add_argument(
-            "-e", "--excluded-checks", nargs="+", help="Checks to exclude"
-        )
-        exclude_checks_parser.add_argument(
-            "--excluded-services", nargs="+", help="Services to exclude"
-        )
+        # exclude_checks_parser.add_argument(
+        #     "-e", "--excluded-checks", nargs="+", help="Checks to exclude"
+        # )
+        # exclude_checks_parser.add_argument(
+        #     "--excluded-services", nargs="+", help="Services to exclude"
+        # )
 
     def __init_checks_parser__(self):
         # Set checks to execute
@@ -248,37 +248,37 @@ Detailed documentation at https://docs.prowler.cloud
             help="Specify external directory with custom checks (each check must have a folder with the required files, see more in https://docs.prowler.cloud/en/latest/tutorials/misc/#custom-checks).",
         )
 
-    def __init_list_checks_parser__(self):
-        # List checks options
-        list_checks_parser = self.common_providers_parser.add_argument_group(
-            "List checks/services/categories/compliance-framework checks"
-        )
-        list_group = list_checks_parser.add_mutually_exclusive_group()
-        list_group.add_argument(
-            "-l", "--list-checks", action="store_true", help="List checks"
-        )
-        list_group.add_argument(
-            "--list-checks-json",
-            action="store_true",
-            help="Output a list of checks in json for use with --checks-file",
-        )
-        list_group.add_argument(
-            "--list-services", action="store_true", help="List services"
-        )
-        list_group.add_argument(
-            "--list-compliance", action="store_true", help="List compliance frameworks"
-        )
-        list_group.add_argument(
-            "--list-compliance-requirements",
-            nargs="+",
-            help="List compliance requirements for a given compliance framework",
-            choices=available_compliance_frameworks,
-        )
-        list_group.add_argument(
-            "--list-categories",
-            action="store_true",
-            help="List the available check's categories",
-        )
+    # def __init_list_checks_parser__(self):
+    #     # List checks options
+    #     list_checks_parser = self.common_providers_parser.add_argument_group(
+    #         "List checks/services/categories/compliance-framework checks"
+    #     )
+    #     list_group = list_checks_parser.add_mutually_exclusive_group()
+    #     list_group.add_argument(
+    #         "-l", "--list-checks", action="store_true", help="List checks"
+    #     )
+    #     list_group.add_argument(
+    #         "--list-checks-json",
+    #         action="store_true",
+    #         help="Output a list of checks in json for use with --checks-file",
+    #     )
+    #     list_group.add_argument(
+    #         "--list-services", action="store_true", help="List services"
+    #     )
+    #     list_group.add_argument(
+    #         "--list-compliance", action="store_true", help="List compliance frameworks"
+    #     )
+    #     list_group.add_argument(
+    #         "--list-compliance-requirements",
+    #         nargs="+",
+    #         help="List compliance requirements for a given compliance framework",
+    #         choices=available_compliance_frameworks,
+    #     )
+    #     list_group.add_argument(
+    #         "--list-categories",
+    #         action="store_true",
+    #         help="List the available check's categories",
+    #     )
 
     def __init_config_parser__(self):
         config_parser = self.common_providers_parser.add_argument_group("Configuration")
@@ -289,14 +289,14 @@ Detailed documentation at https://docs.prowler.cloud
             help="Set configuration file path",
         )
 
-    def __init_custom_checks_metadata_parser__(self):
-        # CustomChecksMetadata
-        custom_checks_metadata_subparser = (
-            self.common_providers_parser.add_argument_group("Custom Checks Metadata")
-        )
-        custom_checks_metadata_subparser.add_argument(
-            "--custom-checks-metadata-file",
-            nargs="?",
-            default=None,
-            help="Path for the custom checks metadata YAML file. See example prowler/config/custom_checks_metadata_example.yaml for reference and format. See more in https://docs.prowler.cloud/en/latest/tutorials/custom-checks-metadata/",
-        )
+    # def __init_custom_checks_metadata_parser__(self):
+    #     # CustomChecksMetadata
+    #     custom_checks_metadata_subparser = (
+    #         self.common_providers_parser.add_argument_group("Custom Checks Metadata")
+    #     )
+    #     custom_checks_metadata_subparser.add_argument(
+    #         "--custom-checks-metadata-file",
+    #         nargs="?",
+    #         default=None,
+    #         help="Path for the custom checks metadata YAML file. See example prowler/config/custom_checks_metadata_example.yaml for reference and format. See more in https://docs.prowler.cloud/en/latest/tutorials/custom-checks-metadata/",
+    #     )

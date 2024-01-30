@@ -71,9 +71,6 @@ def perform_prowler_scan(selected_compliance):
         # Set Logger configuration
         set_logging_config(args.log_level, args.log_file, args.only_logs)
 
-
-
-
         # Load checks metadata
         logger.debug("Loading checks metadata from .metadata.json files")
         bulk_checks_metadata = bulk_load_checks_metadata(provider)
