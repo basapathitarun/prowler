@@ -130,23 +130,23 @@ Detailed documentation at https://docs.prowler.cloud
             # choices=["csv", "json", "json-asff", "html", "json-ocsf"],
         )
         common_outputs_parser.add_argument(
-            "-F",
+            # "-F",
             "--output-filename",
             # nargs="?",
             # help="Custom output report name without the file extension, if not specified will use default output/prowler-output-ACCOUNT_NUM-OUTPUT_DATE.format",
         )
         common_outputs_parser.add_argument(
-            "-o",
+            # "-o",
             "--output-directory",
-            nargs="?",
-            help="Custom output directory, by default the folder where Prowler is stored",
+            # nargs="?",
+            # help="Custom output directory, by default the folder where Prowler is stored",
             default=default_output_directory,
         )
-        common_outputs_parser.add_argument(
-            "--verbose",
-            action="store_true",
-            help="Display detailed information about findings",
-        )
+        # common_outputs_parser.add_argument(
+        #     "--verbose",
+        #     action="store_true",
+        #     help="Display detailed information about findings",
+        # )
         common_outputs_parser.add_argument(
             "-z",
             "--ignore-exit-code-3",
@@ -161,12 +161,12 @@ Detailed documentation at https://docs.prowler.cloud
         #     action="store_true",
         #     help="Send a summary of the execution with a Slack APP in your channel. Environment variables SLACK_API_TOKEN and SLACK_CHANNEL_ID are required (see more in https://docs.prowler.cloud/en/latest/tutorials/integrations/#slack).",
         # )
-        common_outputs_parser.add_argument(
-            "--unix-timestamp",
-            action="store_true",
-            default=False,
-            help="Set the output timestamp format as unix timestamps instead of iso format timestamps (default mode).",
-        )
+        # common_outputs_parser.add_argument(
+        #     "--unix-timestamp",
+        #     action="store_true",
+        #     default=False,
+        #     help="Set the output timestamp format as unix timestamps instead of iso format timestamps (default mode).",
+        # )
 
     def __init_logging_parser__(self):
         # Logging Options
