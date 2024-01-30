@@ -14,133 +14,133 @@ def init_parser(self):
     # Authentication Methods
     aws_auth_subparser = aws_parser.add_argument_group("Authentication Modes")
     aws_auth_subparser.add_argument(
-        "-p",
+        # "-p",
         "--profile",
-        nargs="?",
+        # nargs="?",
         default=None,
-        help="AWS profile to launch prowler with",
+        # help="AWS profile to launch prowler with",
     )
     aws_auth_subparser.add_argument(
-        "-R",
+        # "-R",
         "--role",
-        nargs="?",
+        # nargs="?",
         default=None,
-        help="ARN of the role to be assumed",
+        # help="ARN of the role to be assumed",
         # Pending ARN validation
     )
     aws_auth_subparser.add_argument(
         "--role-session-name",
-        nargs="?",
+        # nargs="?",
         default=ROLE_SESSION_NAME,
-        help="An identifier for the assumed role session. Defaults to ProwlerAssessmentSession",
+        # help="An identifier for the assumed role session. Defaults to ProwlerAssessmentSession",
         type=validate_role_session_name,
     )
     aws_auth_subparser.add_argument(
         "--sts-endpoint-region",
-        nargs="?",
+        # nargs="?",
         default=None,
-        help="Specify the AWS STS endpoint region to use. Read more at https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_enable-regions.html",
+        # help="Specify the AWS STS endpoint region to use. Read more at https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_enable-regions.html",
     )
     aws_auth_subparser.add_argument(
         "--mfa",
-        action="store_true",
-        help="IAM entity enforces MFA so you need to input the MFA ARN and the TOTP",
+        # action="store_true",
+        # help="IAM entity enforces MFA so you need to input the MFA ARN and the TOTP",
     )
     aws_auth_subparser.add_argument(
-        "-T",
+        # "-T",
         "--session-duration",
-        nargs="?",
+        # nargs="?",
         default=3600,
         type=validate_session_duration,
-        help="Assumed role session duration in seconds, must be between 900 and 43200. Default: 3600",
+        # help="Assumed role session duration in seconds, must be between 900 and 43200. Default: 3600",
         # Pending session duration validation
     )
     aws_auth_subparser.add_argument(
-        "-I",
+        # "-I",
         "--external-id",
-        nargs="?",
+        # nargs="?",
         default=None,
-        help="External ID to be passed when assuming role",
+        # help="External ID to be passed when assuming role",
     )
     # AWS Regions
     aws_regions_subparser = aws_parser.add_argument_group("AWS Regions")
     aws_regions_subparser.add_argument(
-        "-f",
+        # "-f",
         "--region",
-        "--filter-region",
-        nargs="+",
-        help="AWS region names to run Prowler against",
+        # "--filter-region",
+        # nargs="+",
+        # help="AWS region names to run Prowler against",
         choices=get_aws_available_regions(),
     )
     # AWS Organizations
     aws_orgs_subparser = aws_parser.add_argument_group("AWS Organizations")
     aws_orgs_subparser.add_argument(
-        "-O",
+        # "-O",
         "--organizations-role",
-        nargs="?",
-        help="Specify AWS Organizations management role ARN to be assumed, to get Organization metadata",
+        # nargs="?",
+        # help="Specify AWS Organizations management role ARN to be assumed, to get Organization metadata",
     )
     # AWS Security Hub
     aws_security_hub_subparser = aws_parser.add_argument_group("AWS Security Hub")
-    aws_security_hub_subparser.add_argument(
-        "-S",
-        "--security-hub",
-        action="store_true",
-        help="Send check output to AWS Security Hub",
-    )
-    aws_security_hub_subparser.add_argument(
-        "--skip-sh-update",
-        action="store_true",
-        help="Skip updating previous findings of Prowler in Security Hub",
-    )
-    aws_security_hub_subparser.add_argument(
-        "--send-sh-only-fails",
-        action="store_true",
-        help="Send only Prowler failed findings to SecurityHub",
-    )
+    # aws_security_hub_subparser.add_argument(
+    #     # "-S",
+    #     "--security-hub",
+    #     # action="store_true",
+    #     help="Send check output to AWS Security Hub",
+    # )
+    # aws_security_hub_subparser.add_argument(
+    #     "--skip-sh-update",
+    #     action="store_true",
+    #     help="Skip updating previous findings of Prowler in Security Hub",
+    # )
+    # aws_security_hub_subparser.add_argument(
+    #     "--send-sh-only-fails",
+    #     action="store_true",
+    #     help="Send only Prowler failed findings to SecurityHub",
+    # )
     # AWS Quick Inventory
-    aws_quick_inventory_subparser = aws_parser.add_argument_group("Quick Inventory")
-    aws_quick_inventory_subparser.add_argument(
-        "-i",
-        "--quick-inventory",
-        action="store_true",
-        help="Run Prowler Quick Inventory. The inventory will be stored in an output csv by default",
-    )
+    # aws_quick_inventory_subparser = aws_parser.add_argument_group("Quick Inventory")
+    # aws_quick_inventory_subparser.add_argument(
+    #     "-i",
+    #     "--quick-inventory",
+    #     action="store_true",
+    #     help="Run Prowler Quick Inventory. The inventory will be stored in an output csv by default",
+    # )
     # AWS Outputs
-    aws_outputs_subparser = aws_parser.add_argument_group("AWS Outputs to S3")
-    aws_outputs_bucket_parser = aws_outputs_subparser.add_mutually_exclusive_group()
-    aws_outputs_bucket_parser.add_argument(
-        "-B",
-        "--output-bucket",
-        nargs="?",
-        type=validate_bucket,
-        default=None,
-        help="Custom output bucket, requires -M <mode> and it can work also with -o flag.",
-    )
-    aws_outputs_bucket_parser.add_argument(
-        "-D",
-        "--output-bucket-no-assume",
-        nargs="?",
-        type=validate_bucket,
-        default=None,
-        help="Same as -B but do not use the assumed role credentials to put objects to the bucket, instead uses the initial credentials.",
-    )
-    aws_3rd_party_subparser = aws_parser.add_argument_group("3rd Party Integrations")
-    aws_3rd_party_subparser.add_argument(
-        "-N",
-        "--shodan",
-        nargs="?",
-        default=None,
-        help="Shodan API key used by check ec2_elastic_ip_shodan.",
-    )
+    # aws_outputs_subparser = aws_parser.add_argument_group("AWS Outputs to S3")
+    # aws_outputs_bucket_parser = aws_outputs_subparser.add_mutually_exclusive_group()
+    # aws_outputs_bucket_parser.add_argument(
+    #     "-B",
+    #     "--output-bucket",
+    #     nargs="?",
+    #     type=validate_bucket,
+    #     default=None,
+    #     help="Custom output bucket, requires -M <mode> and it can work also with -o flag.",
+    # )
+    # aws_outputs_bucket_parser.add_argument(
+    #     "-D",
+    #     "--output-bucket-no-assume",
+    #     nargs="?",
+    #     type=validate_bucket,
+    #     default=None,
+    #     help="Same as -B but do not use the assumed role credentials to put objects to the bucket, instead uses the initial credentials.",
+    # )
+    # aws_3rd_party_subparser = aws_parser.add_argument_group("3rd Party Integrations")
+    # aws_3rd_party_subparser.add_argument(
+    #     "-N",
+    #     "--shodan",
+    #     nargs="?",
+    #     default=None,
+    #     help="Shodan API key used by check ec2_elastic_ip_shodan.",
+    # )
     # Allowlist
     allowlist_subparser = aws_parser.add_argument_group("Allowlist")
     allowlist_subparser.add_argument(
-        "-w",
+        # "-w",
         "--allowlist-file",
-        nargs="?",
+        # nargs="?",
         default=None,
-        help="Path for allowlist yaml file. See example prowler/config/aws_allowlist.yaml for reference and format. It also accepts AWS DynamoDB Table or Lambda ARNs or S3 URIs, see more in https://docs.prowler.cloud/en/latest/tutorials/allowlist/",
+        # help="Path for allowlist yaml file. See example prowler/config/aws_allowlist.yaml for reference and format. It also accepts AWS DynamoDB Table or Lambda ARNs or S3 URIs, see more in https://docs.prowler.cloud/en/latest/tutorials/allowlist/",
     )
 
     # Based Scans
