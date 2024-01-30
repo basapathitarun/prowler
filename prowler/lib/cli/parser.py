@@ -48,7 +48,7 @@ Detailed documentation at https://docs.prowler.cloud
         self.__init_logging_parser__()
         self.__init_checks_parser__()
         # self.__init_exclude_checks_parser__()
-        # self.__init_list_checks_parser__()
+        self.__init_list_checks_parser__()
         self.__init_config_parser__()
         # self.__init_custom_checks_metadata_parser__()
 
@@ -250,12 +250,12 @@ Detailed documentation at https://docs.prowler.cloud
             # help="Specify external directory with custom checks (each check must have a folder with the required files, see more in https://docs.prowler.cloud/en/latest/tutorials/misc/#custom-checks).",
         )
 
-    # def __init_list_checks_parser__(self):
-    #     # List checks options
-    #     list_checks_parser = self.common_providers_parser.add_argument_group(
-    #         "List checks/services/categories/compliance-framework checks"
-    #     )
-    #     list_group = list_checks_parser.add_mutually_exclusive_group()
+    def __init_list_checks_parser__(self):
+        # List checks options
+        list_checks_parser = self.common_providers_parser.add_argument_group(
+            "List checks/services/categories/compliance-framework checks"
+        )
+        list_group = list_checks_parser.add_mutually_exclusive_group()
     #     list_group.add_argument(
     #         "-l", "--list-checks", action="store_true", help="List checks"
     #     )
@@ -270,12 +270,12 @@ Detailed documentation at https://docs.prowler.cloud
     #     list_group.add_argument(
     #         "--list-compliance", action="store_true", help="List compliance frameworks"
     #     )
-    #     list_group.add_argument(
-    #         "--list-compliance-requirements",
-    #         nargs="+",
-    #         help="List compliance requirements for a given compliance framework",
-    #         choices=available_compliance_frameworks,
-    #     )
+        list_group.add_argument(
+            "--list-compliance-requirements",
+            nargs="+",
+            help="List compliance requirements for a given compliance framework",
+            choices=available_compliance_frameworks,
+        )
     #     list_group.add_argument(
     #         "--list-categories",
     #         action="store_true",
