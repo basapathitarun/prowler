@@ -115,12 +115,12 @@ Detailed documentation at https://docs.prowler.cloud
         common_outputs_parser = self.common_providers_parser.add_argument_group(
             "Outputs"
         )
-        # common_outputs_parser.add_argument(
-        #     "-q",
-        #     "--quiet",
-        #     action="store_true",
-        #     help="Store or send only Prowler failed findings",
-        # )
+        common_outputs_parser.add_argument(
+            "-q",
+            "--quiet",
+            action="store_true",
+            help="Store or send only Prowler failed findings",
+        )
         common_outputs_parser.add_argument(
             "-M",
             "--output-modes",
