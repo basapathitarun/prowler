@@ -142,11 +142,11 @@ Detailed documentation at https://docs.prowler.cloud
             # help="Custom output directory, by default the folder where Prowler is stored",
             default=default_output_directory,
         )
-        # common_outputs_parser.add_argument(
-        #     "--verbose",
-        #     action="store_true",
-        #     help="Display detailed information about findings",
-        # )
+        common_outputs_parser.add_argument(
+            "--verbose",
+            # action="store_true",
+            # help="Display detailed information about findings",
+        )
         common_outputs_parser.add_argument(
             "-z",
             "--ignore-exit-code-3",
