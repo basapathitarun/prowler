@@ -116,36 +116,36 @@ Detailed documentation at https://docs.prowler.cloud
             "Outputs"
         )
         common_outputs_parser.add_argument(
-            "-q",
+            # "-q",
             "--quiet",
-            action="store_true",
-            help="Store or send only Prowler failed findings",
+            # action="store_true",
+            # help="Store or send only Prowler failed findings",
         )
         common_outputs_parser.add_argument(
-            "-M",
+            # "-M",
             "--output-modes",
-            nargs="+",
-            help="Output modes, by default csv, html and json",
+            # nargs="+",
+            # help="Output modes, by default csv, html and json",
             default=["csv", "json", "html", "json-ocsf"],
-            choices=["csv", "json", "json-asff", "html", "json-ocsf"],
+            # choices=["csv", "json", "json-asff", "html", "json-ocsf"],
         )
         common_outputs_parser.add_argument(
-            "-F",
+            # "-F",
             "--output-filename",
-            nargs="?",
-            help="Custom output report name without the file extension, if not specified will use default output/prowler-output-ACCOUNT_NUM-OUTPUT_DATE.format",
+            # nargs="?",
+            # help="Custom output report name without the file extension, if not specified will use default output/prowler-output-ACCOUNT_NUM-OUTPUT_DATE.format",
         )
         common_outputs_parser.add_argument(
-            "-o",
+            # "-o",
             "--output-directory",
-            nargs="?",
-            help="Custom output directory, by default the folder where Prowler is stored",
+            # nargs="?",
+            # help="Custom output directory, by default the folder where Prowler is stored",
             default=default_output_directory,
         )
         common_outputs_parser.add_argument(
             "--verbose",
-            action="store_true",
-            help="Display detailed information about findings",
+            # action="store_true",
+            # help="Display detailed information about findings",
         )
         # common_outputs_parser.add_argument(
         #     "-z",
@@ -163,9 +163,9 @@ Detailed documentation at https://docs.prowler.cloud
         # )
         common_outputs_parser.add_argument(
             "--unix-timestamp",
-            action="store_true",
+            # action="store_true",
             default=False,
-            help="Set the output timestamp format as unix timestamps instead of iso format timestamps (default mode).",
+            # help="Set the output timestamp format as unix timestamps instead of iso format timestamps (default mode).",
         )
 
     def __init_logging_parser__(self):
@@ -176,19 +176,19 @@ Detailed documentation at https://docs.prowler.cloud
         )
         common_logging_parser.add_argument(
             "--log-level",
-            choices=["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"],
+            # choices=["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"],
             default="CRITICAL",
-            help="Select Log Level",
+            # help="Select Log Level",
         )
         common_logging_parser.add_argument(
             "--log-file",
-            nargs="?",
-            help="Set log file name",
+            # nargs="?",
+            # help="Set log file name",
         )
         common_logging_parser.add_argument(
             "--only-logs",
-            action="store_true",
-            help="Print only Prowler logs by the stdout. This option sets --no-banner.",
+            # action="store_true",
+            # help="Print only Prowler logs by the stdout. This option sets --no-banner.",
         )
 
     # def __init_exclude_checks_parser__(self):
@@ -211,41 +211,43 @@ Detailed documentation at https://docs.prowler.cloud
         # The following arguments needs to be set exclusivelly
         group = common_checks_parser.add_mutually_exclusive_group()
         group.add_argument(
-            "-c", "--checks", nargs="+", help="List of checks to be executed."
+            # "-c",
+            "--checks", #nargs="+", help="List of checks to be executed."
         )
         group.add_argument(
-            "-C",
+            # "-C",
             "--checks-file",
-            nargs="?",
-            help="JSON file containing the checks to be executed. See config/checklist_example.json",
+            # nargs="?",
+            # help="JSON file containing the checks to be executed. See config/checklist_example.json",
         )
         group.add_argument(
-            "-s", "--services", nargs="+", help="List of services to be executed."
+            #"-s",
+            "--services",# nargs="+", help="List of services to be executed."
         )
         common_checks_parser.add_argument(
             "--severity",
-            nargs="+",
-            help=f"List of severities to be executed {valid_severities}",
+            # nargs="+",
+            # help=f"List of severities to be executed {valid_severities}",
             choices=valid_severities,
         )
         group.add_argument(
             "--compliance",
-            nargs="+",
-            help="Compliance Framework to check against for. The format should be the following: framework_version_provider (e.g.: ens_rd2022_aws)",
+            # nargs="+",
+            # help="Compliance Framework to check against for. The format should be the following: framework_version_provider (e.g.: ens_rd2022_aws)",
             choices=available_compliance_frameworks,
         )
         group.add_argument(
             "--categories",
-            nargs="+",
-            help="List of categories to be executed.",
+            # nargs="+",
+            # help="List of categories to be executed.",
             default=[],
             # Pending validate choices
         )
         common_checks_parser.add_argument(
-            "-x",
+            # "-x",
             "--checks-folder",
-            nargs="?",
-            help="Specify external directory with custom checks (each check must have a folder with the required files, see more in https://docs.prowler.cloud/en/latest/tutorials/misc/#custom-checks).",
+            # nargs="?",
+            # help="Specify external directory with custom checks (each check must have a folder with the required files, see more in https://docs.prowler.cloud/en/latest/tutorials/misc/#custom-checks).",
         )
 
     # def __init_list_checks_parser__(self):
@@ -284,9 +286,9 @@ Detailed documentation at https://docs.prowler.cloud
         config_parser = self.common_providers_parser.add_argument_group("Configuration")
         config_parser.add_argument(
             "--config-file",
-            nargs="?",
+            # nargs="?",
             default=default_config_file_path,
-            help="Set configuration file path",
+            # help="Set configuration file path",
         )
 
     # def __init_custom_checks_metadata_parser__(self):
