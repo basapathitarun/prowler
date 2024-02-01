@@ -6,7 +6,7 @@ from prowler.config.config import available_compliance_frameworks, orange_color
 from prowler.lib.logger import logger
 from prowler.lib.outputs.compliance import add_manual_controls, fill_compliance
 from prowler.lib.outputs.file_descriptors import fill_file_descriptors
-# from prowler.lib.outputs.html import fill_html
+from prowler.lib.outputs.html import fill_html
 # from prowler.lib.outputs.json import fill_json_asff, fill_json_ocsf
 from prowler.lib.outputs.models import (
     Check_Output_JSON_ASFF,
@@ -37,7 +37,6 @@ def report(check_findings, output_options, audit_info):
         if check_findings:
             # TO-DO Generic Function
             if isinstance(audit_info, AWS_Audit_Info):
-                print('isinstance AWS_Audit_Info\n')
                 check_findings.sort(key=lambda x: x.region)
 
             if isinstance(audit_info, Azure_Audit_Info):
@@ -95,9 +94,10 @@ def report(check_findings, output_options, audit_info):
                             #     file_descriptors["json-asff"].write(",")
 
                         # Common outputs
-                        # if "html" in file_descriptors:
-                        #     fill_html(file_descriptors["html"], finding, output_options)
-                        #     file_descriptors["html"].write("")
+                        if "html" in file_descriptors:
+                            print('html\n')
+                            fill_html(file_descriptors["html"], finding, output_options)
+                            file_descriptors["html"].write("")
 
                         if "csv" in file_descriptors:
                             csv_writer, finding_output = generate_provider_output_csv(
