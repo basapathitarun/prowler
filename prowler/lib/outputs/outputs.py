@@ -45,14 +45,14 @@ def report(check_findings, output_options, audit_info):
 
             # Generate the required output files
             if output_options.output_modes:
-                # if isinstance(audit_info, AWS_Audit_Info):
+                if isinstance(audit_info, AWS_Audit_Info):
                 # We have to create the required output files
-                file_descriptors = fill_file_descriptors(
-                    output_options.output_modes,
-                    output_options.output_directory,
-                    output_options.output_filename,
-                    audit_info,
-                )
+                    file_descriptors = fill_file_descriptors(
+                        output_options.output_modes,
+                        output_options.output_directory,
+                        output_options.output_filename,
+                        audit_info,
+                    )
             for finding in check_findings:
                 # Print findings by stdout
                 color = set_report_color(finding.status)
@@ -143,8 +143,8 @@ def report(check_findings, output_options, audit_info):
             if output_options.verbose:
                 print(f"\t{color}INFO{Style.RESET_ALL} There are no resources")
         # Separator between findings and bar
-        if output_options.verbose:
-            print()
+        # if output_options.verbose:
+        #     print()
         if file_descriptors:
             # Close all file descriptors
             for file_descriptor in file_descriptors:
