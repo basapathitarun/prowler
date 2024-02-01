@@ -210,45 +210,45 @@ Detailed documentation at https://docs.prowler.cloud
         )
         # The following arguments needs to be set exclusivelly
         group = common_checks_parser.add_mutually_exclusive_group()
-        group.add_argument(
-            # "-c",
-            "--checks", #nargs="+", help="List of checks to be executed."
-        )
-        group.add_argument(
-            # "-C",
-            "--checks-file",
-            # nargs="?",
-            # help="JSON file containing the checks to be executed. See config/checklist_example.json",
-        )
-        group.add_argument(
-            #"-s",
-            "--services",# nargs="+", help="List of services to be executed."
-        )
-        common_checks_parser.add_argument(
-            "--severity",
-            # nargs="+",
-            # help=f"List of severities to be executed {valid_severities}",
-            choices=valid_severities,
-        )
+        # group.add_argument(
+        #     # "-c",
+        #     "--checks", #nargs="+", help="List of checks to be executed."
+        # )
+        # group.add_argument(
+        #     # "-C",
+        #     "--checks-file",
+        #     # nargs="?",
+        #     # help="JSON file containing the checks to be executed. See config/checklist_example.json",
+        # )
+        # group.add_argument(
+        #     #"-s",
+        #     "--services",# nargs="+", help="List of services to be executed."
+        # )
+        # common_checks_parser.add_argument(
+        #     "--severity",
+        #     # nargs="+",
+        #     # help=f"List of severities to be executed {valid_severities}",
+        #     choices=valid_severities,
+        # )
         group.add_argument(
             "--compliance",
             # nargs="+",
             # help="Compliance Framework to check against for. The format should be the following: framework_version_provider (e.g.: ens_rd2022_aws)",
             choices=available_compliance_frameworks,
         )
-        group.add_argument(
-            "--categories",
-            # nargs="+",
-            # help="List of categories to be executed.",
-            default=[],
-            # Pending validate choices
-        )
-        common_checks_parser.add_argument(
-            # "-x",
-            "--checks-folder",
-            # nargs="?",
-            # help="Specify external directory with custom checks (each check must have a folder with the required files, see more in https://docs.prowler.cloud/en/latest/tutorials/misc/#custom-checks).",
-        )
+        # group.add_argument(
+        #     "--categories",
+        #     # nargs="+",
+        #     # help="List of categories to be executed.",
+        #     default=[],
+        #     # Pending validate choices
+        # )
+        # common_checks_parser.add_argument(
+        #     # "-x",
+        #     "--checks-folder",
+        #     # nargs="?",
+        #     # help="Specify external directory with custom checks (each check must have a folder with the required files, see more in https://docs.prowler.cloud/en/latest/tutorials/misc/#custom-checks).",
+        # )
 
     # def __init_list_checks_parser__(self):
     #     # List checks options
