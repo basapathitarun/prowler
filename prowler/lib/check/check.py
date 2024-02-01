@@ -237,6 +237,7 @@ def execute_checks(
 
     # Execution with the --only-logs flag
     if audit_output_options.only_logs:
+        print('only_logs\n')
         for check_name in checks_to_execute:
             # Recover service from check name
             service = check_name.split("_")[0]
@@ -263,6 +264,7 @@ def execute_checks(
                     f"{check_name} - {error.__class__.__name__}[{error.__traceback__.tb_lineno}]: {error}"
                 )
     else:
+        print('else only_logs\n')
         # Default execution
         checks_num = len(checks_to_execute)
         plural_string = "checks"

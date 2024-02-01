@@ -3,8 +3,6 @@
 
 
 import sys
-
-
 from prowler.lib.check.check import (
     bulk_load_checks_metadata,
     bulk_load_compliance_frameworks,
@@ -13,14 +11,11 @@ from prowler.lib.check.check import (
 )
 from prowler.lib.check.checks_loader import load_checks_to_execute
 from prowler.lib.check.compliance import update_checks_metadata_with_compliance
-
 from prowler.lib.cli.parser import ProwlerArgumentParser
 from prowler.lib.logger import logger, set_logging_config
 from prowler.lib.outputs.compliance import display_compliance_table
 from prowler.lib.outputs.outputs import extract_findings_statistics
-from prowler.providers.common.audit_info import (
-    set_provider_audit_info,
-)
+from prowler.providers.common.audit_info import set_provider_audit_info
 from prowler.providers.common.outputs import set_provider_output_options
 
 
@@ -61,9 +56,6 @@ def prowler():
 
     # Set Logger configuration
     set_logging_config(args.log_level, args.only_logs)
-
-
-
 
     # Load checks metadata
     logger.debug("Loading checks metadata from .metadata.json files")
