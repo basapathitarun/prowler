@@ -48,7 +48,6 @@ def add_manual_controls(output_options, audit_info, file_descriptors):
 
 def fill_compliance(output_options, finding, audit_info, file_descriptors):
     try:
-        print('fill_compliance\n')
         # We have to retrieve all the check's compliance requirements
         check_compliance = output_options.bulk_checks_metadata[
             finding.check_metadata.CheckID

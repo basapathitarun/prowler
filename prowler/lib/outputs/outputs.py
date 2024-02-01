@@ -93,22 +93,22 @@ def report(check_findings, output_options, audit_info):
                             #     )
                             #     file_descriptors["json-asff"].write(",")
 
-                        # Common outputs
-                        if "html" in file_descriptors:
-                            print('html\n')
-                            fill_html(file_descriptors["html"], finding, output_options)
-                            file_descriptors["html"].write("")
-
-                        if "csv" in file_descriptors:
-                            csv_writer, finding_output = generate_provider_output_csv(
-                                finding.check_metadata.Provider,
-                                finding,
-                                audit_info,
-                                "csv",
-                                file_descriptors["csv"],
-                                output_options,
-                            )
-                            csv_writer.writerow(finding_output.__dict__)
+                        # # Common outputs
+                        # if "html" in file_descriptors:
+                        #     print('html\n')
+                        #     fill_html(file_descriptors["html"], finding, output_options)
+                        #     file_descriptors["html"].write("")
+                        #
+                        # if "csv" in file_descriptors:
+                        #     csv_writer, finding_output = generate_provider_output_csv(
+                        #         finding.check_metadata.Provider,
+                        #         finding,
+                        #         audit_info,
+                        #         "csv",
+                        #         file_descriptors["csv"],
+                        #         output_options,
+                        #     )
+                        #     csv_writer.writerow(finding_output.__dict__)
 
                         # if "json" in file_descriptors:
                         #     finding_output = generate_provider_output_json(
