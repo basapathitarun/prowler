@@ -93,12 +93,12 @@ def report(check_findings, output_options, audit_info):
                             #     )
                             #     file_descriptors["json-asff"].write(",")
 
-                        # # Common outputs
-                        # if "html" in file_descriptors:
-                        #     print('html\n')
-                        #     fill_html(file_descriptors["html"], finding, output_options)
-                        #     file_descriptors["html"].write("")
-                        #
+                        # Common outputs
+                        if "html" in file_descriptors:
+                            print('html\n')
+                            fill_html(file_descriptors["html"], finding, output_options)
+                            file_descriptors["html"].write("")
+
                         if "csv" in file_descriptors:
                             csv_writer, finding_output = generate_provider_output_csv(
                                 finding.check_metadata.Provider,
