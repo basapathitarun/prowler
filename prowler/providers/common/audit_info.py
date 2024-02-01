@@ -252,7 +252,6 @@ Azure Identity Type: {Fore.YELLOW}[{audit_info.identity.identity_type}]{Style.RE
             current_audit_info.profile_region = "us-east-1"
 
         if not arguments.get("only_logs"):
-            print('''arguments.get("only_logs")\n''')
             print_aws_credentials(current_audit_info)
 
         # Parse Scan Tags
@@ -375,7 +374,6 @@ def set_provider_audit_info(provider: str, arguments: dict):
         provider_set_audit_info = f"set_{provider}_audit_info"
         provider_audit_info = getattr(Audit_Info(), provider_set_audit_info)(arguments)
 
-        print(f"provider_audit_info: {provider_audit_info}\n")
         # Set the audit configuration from the config file
         provider_audit_info.audit_config = load_and_validate_config_file(
             provider, arguments["config_file"]
