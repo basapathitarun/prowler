@@ -49,45 +49,45 @@ def load_checks_to_execute(
                 check_categories[category].append(check)
 
         # Handle if there are checks passed using -c/--checks
-        if check_list:
-            print('check_list\n')
-            for check_name in check_list:
-                checks_to_execute.add(check_name)
+        # if check_list:
+        #     print('check_list\n')
+        #     for check_name in check_list:
+        #         checks_to_execute.add(check_name)
 
         # Handle if there are some severities passed using --severity
-        elif severities:
-            print('severities\n')
-            for severity in severities:
-                checks_to_execute.update(check_severities[severity])
-
-            if service_list:
-                checks_to_execute = (
-                    recover_checks_from_service(service_list, provider)
-                    & checks_to_execute
-                )
+        # elif severities:
+        #     print('severities\n')
+        #     for severity in severities:
+        #         checks_to_execute.update(check_severities[severity])
+        #
+        #     if service_list:
+        #         checks_to_execute = (
+        #             recover_checks_from_service(service_list, provider)
+        #             & checks_to_execute
+        #         )
 
         # Handle if there are checks passed using -C/--checks-file
-        elif checks_file:
-            print('checks_file\n')
-            checks_to_execute = parse_checks_from_file(checks_file, provider)
+        # elif checks_file:
+            # print('checks_file\n')
+            # checks_to_execute = parse_checks_from_file(checks_file, provider)
 
         # Handle if there are services passed using -s/--services
-        elif service_list:
-            print('service_list\n')
-            checks_to_execute = recover_checks_from_service(service_list, provider)
+        # elif service_list:
+        #     print('service_list\n')
+        #     checks_to_execute = recover_checks_from_service(service_list, provider)
 
         # Handle if there are compliance frameworks passed using --compliance
-        elif  compliance_frameworks:
+        if  compliance_frameworks:
             print('compliance_frameworks\n')
             checks_to_execute = parse_checks_from_compliance_framework(
                 compliance_frameworks, bulk_compliance_frameworks
             )
 
         # Handle if there are categories passed using --categories
-        elif categories:
-            print('categories\n')
-            for category in categories:
-                checks_to_execute.update(check_categories[category])
+        # elif categories:
+        #     print('categories\n')
+        #     for category in categories:
+        #         checks_to_execute.update(check_categories[category])
 
         # If there are no checks passed as argument
         else:
