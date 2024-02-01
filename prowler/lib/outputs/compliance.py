@@ -23,6 +23,7 @@ from prowler.lib.utils.utils import outputs_unix_timestamp
 
 def add_manual_controls(output_options, audit_info, file_descriptors):
     try:
+        print('add_manual_controls\n')
         # Check if MANUAL control was already added to output
         if "manual_check" in output_options.bulk_checks_metadata:
             manual_finding = Check_Report(
@@ -47,6 +48,7 @@ def add_manual_controls(output_options, audit_info, file_descriptors):
 
 def fill_compliance(output_options, finding, audit_info, file_descriptors):
     try:
+        print('fill_compliance\n')
         # We have to retrieve all the check's compliance requirements
         check_compliance = output_options.bulk_checks_metadata[
             finding.check_metadata.CheckID

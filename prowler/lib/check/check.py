@@ -329,18 +329,18 @@ def execute(
     # Report the check's findings
     report(check_findings, audit_output_options, audit_info)
 
-    if os.environ.get("PROWLER_REPORT_LIB_PATH"):
-        print('PROWLER_REPORT_LIB_PATH\n')
-        try:
-            print(f"PROWLER_REPORT_LIB_PATH\n")
-            logger.info("Using custom report interface ...")
-            lib = os.environ["PROWLER_REPORT_LIB_PATH"]
-            outputs_module = importlib.import_module(lib)
-            custom_report_interface = getattr(outputs_module, "report")
-
-            custom_report_interface(check_findings, audit_output_options, audit_info)
-        except Exception:
-            sys.exit(1)
+    # if os.environ.get("PROWLER_REPORT_LIB_PATH"):
+    #     print('PROWLER_REPORT_LIB_PATH\n')
+    #     try:
+    #         print(f"PROWLER_REPORT_LIB_PATH\n")
+    #         logger.info("Using custom report interface ...")
+    #         lib = os.environ["PROWLER_REPORT_LIB_PATH"]
+    #         outputs_module = importlib.import_module(lib)
+    #         custom_report_interface = getattr(outputs_module, "report")
+    #
+    #         custom_report_interface(check_findings, audit_output_options, audit_info)
+    #     except Exception:
+    #         sys.exit(1)
 
     return check_findings
 

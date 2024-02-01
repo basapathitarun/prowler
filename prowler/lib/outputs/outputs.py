@@ -37,6 +37,7 @@ def report(check_findings, output_options, audit_info):
         if check_findings:
             # TO-DO Generic Function
             if isinstance(audit_info, AWS_Audit_Info):
+                print('isinstance AWS_Audit_Info\n')
                 check_findings.sort(key=lambda x: x.region)
 
             if isinstance(audit_info, Azure_Audit_Info):
@@ -79,24 +80,24 @@ def report(check_findings, output_options, audit_info):
                             )
 
                         # AWS specific outputs
-                        if finding.check_metadata.Provider == "aws":
-                            if "json-asff" in file_descriptors:
-                                finding_output = Check_Output_JSON_ASFF()
-                                fill_json_asff(
-                                    finding_output, audit_info, finding, output_options
-                                )
-
-                                json.dump(
-                                    finding_output.dict(exclude_none=True),
-                                    file_descriptors["json-asff"],
-                                    indent=4,
-                                )
-                                file_descriptors["json-asff"].write(",")
+                        # if finding.check_metadata.Provider == "aws":
+                            # if "json-asff" in file_descriptors:
+                            #     finding_output = Check_Output_JSON_ASFF()
+                            #     # fill_json_asff(
+                            #     #     finding_output, audit_info, finding, output_options
+                            #     # )
+                            #
+                            #     json.dump(
+                            #         finding_output.dict(exclude_none=True),
+                            #         file_descriptors["json-asff"],
+                            #         indent=4,
+                            #     )
+                            #     file_descriptors["json-asff"].write(",")
 
                         # Common outputs
-                        if "html" in file_descriptors:
-                            fill_html(file_descriptors["html"], finding, output_options)
-                            file_descriptors["html"].write("")
+                        # if "html" in file_descriptors:
+                        #     fill_html(file_descriptors["html"], finding, output_options)
+                        #     file_descriptors["html"].write("")
 
                         if "csv" in file_descriptors:
                             csv_writer, finding_output = generate_provider_output_csv(
@@ -109,33 +110,33 @@ def report(check_findings, output_options, audit_info):
                             )
                             csv_writer.writerow(finding_output.__dict__)
 
-                        if "json" in file_descriptors:
-                            finding_output = generate_provider_output_json(
-                                finding.check_metadata.Provider,
-                                finding,
-                                audit_info,
-                                "json",
-                                output_options,
-                            )
-                            json.dump(
-                                finding_output.dict(),
-                                file_descriptors["json"],
-                                indent=4,
-                            )
-                            file_descriptors["json"].write(",")
+                        # if "json" in file_descriptors:
+                        #     finding_output = generate_provider_output_json(
+                        #         finding.check_metadata.Provider,
+                        #         finding,
+                        #         audit_info,
+                        #         "json",
+                        #         output_options,
+                        #     )
+                        #     json.dump(
+                        #         finding_output.dict(),
+                        #         file_descriptors["json"],
+                        #         indent=4,
+                        #     )
+                        #     file_descriptors["json"].write(",")
 
-                        if "json-ocsf" in file_descriptors:
-                            finding_output = fill_json_ocsf(
-                                audit_info, finding, output_options
-                            )
-
-                            json.dump(
-                                finding_output.dict(),
-                                file_descriptors["json-ocsf"],
-                                indent=4,
-                                default=str,
-                            )
-                            file_descriptors["json-ocsf"].write(",")
+                        # if "json-ocsf" in file_descriptors:
+                        #     finding_output = fill_json_ocsf(
+                        #         audit_info, finding, output_options
+                        #     )
+                        #
+                        #     json.dump(
+                        #         finding_output.dict(),
+                        #         file_descriptors["json-ocsf"],
+                        #         indent=4,
+                        #         default=str,
+                        #     )
+                        #     file_descriptors["json-ocsf"].write(",")
 
         else:  # No service resources in the whole account
             color = set_report_color("INFO")
