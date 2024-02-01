@@ -44,9 +44,9 @@ def report(check_findings, output_options, audit_info):
 
             # Generate the required output files
             if output_options.output_modes:
-                if isinstance(audit_info, AWS_Audit_Info):
+                # if isinstance(audit_info, AWS_Audit_Info):
                 # We have to create the required output files
-                    file_descriptors = fill_file_descriptors(
+                file_descriptors = fill_file_descriptors(
                         output_options.output_modes,
                         output_options.output_directory,
                         output_options.output_filename,
