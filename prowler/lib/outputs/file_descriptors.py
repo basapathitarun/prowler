@@ -2,9 +2,7 @@ from csv import DictWriter
 from io import TextIOWrapper
 from typing import Any
 
-from prowler.config.config import (
-    csv_file_suffix, html_file_suffix,
-)
+from prowler.config.config import csv_file_suffix
 from prowler.lib.logger import logger
 from prowler.lib.outputs.models import (
     Check_Output_CSV_AWS_CIS,
@@ -188,16 +186,16 @@ def fill_file_descriptors(output_modes, output_directory, output_filename, audit
                         )
                         file_descriptors.update({output_mode: file_descriptor})
 
-                    # else:
-                    #     # Generic Compliance framework
-                    #     filename = f"{output_directory}/{output_filename}_{output_mode}{csv_file_suffix}"
-                    #     file_descriptor = initialize_file_descriptor(
-                    #         filename,
-                    #         output_mode,
-                    #         audit_info,
-                    #         Check_Output_CSV_Generic_Compliance,
-                    #     )
-                    #     file_descriptors.update({output_mode: file_descriptor})
+                    else:
+                        # Generic Compliance framework
+                        filename = f"{output_directory}/{output_filename}_{output_mode}{csv_file_suffix}"
+                        file_descriptor = initialize_file_descriptor(
+                            filename,
+                            output_mode,
+                            audit_info,
+                            Check_Output_CSV_Generic_Compliance,
+                        )
+                        file_descriptors.update({output_mode: file_descriptor})
 
     except Exception as error:
         logger.error(

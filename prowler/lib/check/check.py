@@ -12,11 +12,10 @@ from colorama import Fore, Style
 
 from prowler.config.config import orange_color
 from prowler.lib.check.compliance_models import load_compliance_framework
-from prowler.lib.check.custom_checks_metadata import update_check_metadata
+# from prowler.lib.check.custom_checks_metadata import update_check_metadata
 from prowler.lib.check.models import Check, load_check_metadata
 from prowler.lib.logger import logger
 from prowler.lib.outputs.outputs import report
-from prowler.lib.utils.utils import open_file, parse_json_file
 from prowler.providers.aws.lib.allowlist.allowlist import allowlist_findings
 from prowler.providers.common.models import Audit_Metadata
 from prowler.providers.common.outputs import Provider_Output_Options
