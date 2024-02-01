@@ -330,6 +330,7 @@ def execute(
     report(check_findings, audit_output_options, audit_info)
 
     if os.environ.get("PROWLER_REPORT_LIB_PATH"):
+        print('PROWLER_REPORT_LIB_PATH\n')
         try:
             print(f"PROWLER_REPORT_LIB_PATH\n")
             logger.info("Using custom report interface ...")
