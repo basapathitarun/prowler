@@ -95,12 +95,12 @@ def fill_file_descriptors(output_modes, output_directory, output_filename, audit
                 #     )
                 #     file_descriptors.update({output_mode: file_descriptor})
                 #
-                elif output_mode == "html":
-                    filename = f"{output_directory}/{output_filename}{html_file_suffix}"
-                    file_descriptor = initialize_file_descriptor(
-                        filename, output_mode, audit_info
-                    )
-                    file_descriptors.update({output_mode: file_descriptor})
+                # elif output_mode == "html":
+                #     filename = f"{output_directory}/{output_filename}{html_file_suffix}"
+                #     file_descriptor = initialize_file_descriptor(
+                #         filename, output_mode, audit_info
+                #     )
+                #     file_descriptors.update({output_mode: file_descriptor})
 
                 elif isinstance(audit_info, GCP_Audit_Info):
                     if output_mode == "cis_2.0_gcp":
@@ -188,16 +188,16 @@ def fill_file_descriptors(output_modes, output_directory, output_filename, audit
                         )
                         file_descriptors.update({output_mode: file_descriptor})
 
-                    else:
-                        # Generic Compliance framework
-                        filename = f"{output_directory}/{output_filename}_{output_mode}{csv_file_suffix}"
-                        file_descriptor = initialize_file_descriptor(
-                            filename,
-                            output_mode,
-                            audit_info,
-                            Check_Output_CSV_Generic_Compliance,
-                        )
-                        file_descriptors.update({output_mode: file_descriptor})
+                    # else:
+                    #     # Generic Compliance framework
+                    #     filename = f"{output_directory}/{output_filename}_{output_mode}{csv_file_suffix}"
+                    #     file_descriptor = initialize_file_descriptor(
+                    #         filename,
+                    #         output_mode,
+                    #         audit_info,
+                    #         Check_Output_CSV_Generic_Compliance,
+                    #     )
+                    #     file_descriptors.update({output_mode: file_descriptor})
 
     except Exception as error:
         logger.error(
