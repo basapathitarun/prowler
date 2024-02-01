@@ -203,7 +203,7 @@ def execute_checks(
     provider: str,
     audit_info: Any,
     audit_output_options: Provider_Output_Options,
-    custom_checks_metadata: Any,
+    # custom_checks_metadata: Any,
 ) -> list:
     # List to store all the check's findings
     all_findings = []
@@ -235,37 +235,7 @@ def execute_checks(
                 f"{error.__class__.__name__}[{error.__traceback__.tb_lineno}]: {error}"
             )
 
-    # Execution with the --only-logs flag
-    # if audit_output_options.only_logs:
-    #     print('only_logs\n')
-    #     for check_name in checks_to_execute:
-    #         # Recover service from check name
-    #         service = check_name.split("_")[0]
-    #         try:
-    #             check_findings = execute(
-    #                 service,
-    #                 check_name,
-    #                 provider,
-    #                 audit_output_options,
-    #                 audit_info,
-    #                 services_executed,
-    #                 checks_executed,
-    #                 custom_checks_metadata,
-    #             )
-    #             all_findings.extend(check_findings)
-    #
-    #         # If check does not exists in the provider or is from another provider
-    #         except ModuleNotFoundError:
-    #             logger.error(
-    #                 f"Check '{check_name}' was not found for the {provider.upper()} provider"
-    #             )
-    #         except Exception as error:
-    #             logger.error(
-    #                 f"{check_name} - {error.__class__.__name__}[{error.__traceback__.tb_lineno}]: {error}"
-    #             )
-    # else:
-    print('else only_logs\n')
-    # Default execution
+    # Execution with the - logs file
     checks_num = len(checks_to_execute)
     plural_string = "checks"
     singular_string = "check"
@@ -297,7 +267,7 @@ def execute_checks(
                     audit_info,
                     services_executed,
                     checks_executed,
-                    custom_checks_metadata,
+                    # custom_checks_metadata,
                 )
                 all_findings.extend(check_findings)
 
@@ -323,7 +293,7 @@ def execute(
     audit_info: Any,
     services_executed: set,
     checks_executed: set,
-    custom_checks_metadata: Any,
+    # custom_checks_metadata: Any,
 ):
     # Import check module
     check_module_path = (
@@ -335,8 +305,8 @@ def execute(
     c = check_to_execute()
 
     # Update check metadata to reflect that in the outputs
-    if custom_checks_metadata and custom_checks_metadata["Checks"].get(c.CheckID):
-        c = update_check_metadata(c, custom_checks_metadata["Checks"][c.CheckID])
+    # if custom_checks_metadata and custom_checks_metadata["Checks"].get(c.CheckID):
+    #     c = update_check_metadata(c, custom_checks_metadata["Checks"][c.CheckID])
 
     # Run check
     check_findings = run_check(c, audit_output_options)

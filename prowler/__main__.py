@@ -27,11 +27,6 @@ def prowler():
 
     # Save Arguments
     provider = args.provider
-    # checks = args.checks
-    # services = args.services
-    # categories = args.categories
-    # checks_file = args.checks_file
-    # severities = args.severity
     dict_compliance = {1: 'aws_audit_manager_control_tower_guardrails_aws',
                        2: 'aws_foundational_security_best_practices_aws',
                        3: 'aws_well_architected_framework_reliability_pillar_aws',
@@ -47,7 +42,6 @@ def prowler():
         print(f"{key}-> for {value}")
     ans = int(input("Enter which compliance to scan\n"))
     compliance_framework = [dict_compliance[ans]]
-    # custom_checks_metadata_file = args.custom_checks_metadata_file
     custom_checks_metadata_file = None
 
     # We treat the compliance framework as another output format
@@ -71,7 +65,7 @@ def prowler():
         bulk_compliance_frameworks, bulk_checks_metadata
     )
     # Update checks metadata if the --custom-checks-metadata-file is present
-    custom_checks_metadata = None
+    # custom_checks_metadata = None
 
     # Load checks to execute
     checks_to_execute = load_checks_to_execute(
@@ -107,7 +101,7 @@ def prowler():
             provider,
             audit_info,
             audit_output_options,
-            custom_checks_metadata,
+            # custom_checks_metadata,
         )
     else:
         logger.error(

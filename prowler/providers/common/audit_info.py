@@ -149,7 +149,6 @@ Azure Identity Type: {Fore.YELLOW}[{audit_info.identity.identity_type}]{Style.RE
 
         logger.info("Checking if role assumption is needed ...")
         if input_role:
-            print('input_role\n')
             current_audit_info.assumed_role_info.role_arn = input_role
             current_audit_info.assumed_role_info.session_duration = (
                 input_session_duration
@@ -172,7 +171,6 @@ Azure Identity Type: {Fore.YELLOW}[{audit_info.identity.identity_type}]{Style.RE
                 sys.exit(1)
 
             else:
-                print('else input_role\n')
                 logger.info(
                     f"Assuming role {current_audit_info.assumed_role_info.role_arn}"
                 )
