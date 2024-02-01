@@ -3,9 +3,9 @@ from colorama import Fore, Style
 from prowler.config.config import valid_severities
 from prowler.lib.check.check import (
     parse_checks_from_compliance_framework,
-    parse_checks_from_file,
+    # parse_checks_from_file,
     recover_checks_from_provider,
-    recover_checks_from_service,
+    # recover_checks_from_service,
 )
 from prowler.lib.logger import logger
 
@@ -14,12 +14,12 @@ from prowler.lib.logger import logger
 def load_checks_to_execute(
     bulk_checks_metadata: dict,
     bulk_compliance_frameworks: dict,
-    checks_file: str,
-    check_list: list,
-    service_list: list,
-    severities: list,
+    # checks_file: str,
+    # check_list: list,
+    # service_list: list,
+    # severities: list,
     compliance_frameworks: list,
-    categories: set,
+    # categories: set,
     provider: str,
 ) -> set:
     """Generate the list of checks to execute based on the cloud provider and the input arguments given"""
@@ -60,11 +60,11 @@ def load_checks_to_execute(
         #     for severity in severities:
         #         checks_to_execute.update(check_severities[severity])
         #
-        #     if service_list:
-        #         checks_to_execute = (
-        #             recover_checks_from_service(service_list, provider)
-        #             & checks_to_execute
-        #         )
+            # if service_list:
+            #     checks_to_execute = (
+            #         recover_checks_from_service(service_list, provider)
+            #         & checks_to_execute
+            #     )
 
         # Handle if there are checks passed using -C/--checks-file
         # elif checks_file:

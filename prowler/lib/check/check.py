@@ -76,21 +76,21 @@ def bulk_load_compliance_frameworks(provider: str) -> dict:
 
 # Load checks from checklist.json
 
-def parse_checks_from_file(input_file: str, provider: str) -> set:
-    """parse_checks_from_file returns a set of checks read from the given file"""
-    try:
-        checks_to_execute = set()
-        with open_file(input_file) as f:
-            json_file = parse_json_file(f)
-
-        for check_name in json_file[provider]:
-            checks_to_execute.add(check_name)
-
-        return checks_to_execute
-    except Exception as error:
-        logger.error(
-            f"{error.__class__.__name__}[{error.__traceback__.tb_lineno}] -- {error}"
-        )
+# def parse_checks_from_file(input_file: str, provider: str) -> set:
+#     """parse_checks_from_file returns a set of checks read from the given file"""
+#     try:
+#         checks_to_execute = set()
+#         with open_file(input_file) as f:
+#             json_file = parse_json_file(f)
+#
+#         for check_name in json_file[provider]:
+#             checks_to_execute.add(check_name)
+#
+#         return checks_to_execute
+#     except Exception as error:
+#         logger.error(
+#             f"{error.__class__.__name__}[{error.__traceback__.tb_lineno}] -- {error}"
+#         )
 
 # Parse checks from compliance frameworks specification
 def parse_checks_from_compliance_framework(
