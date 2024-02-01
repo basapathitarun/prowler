@@ -23,7 +23,6 @@ from prowler.lib.utils.utils import outputs_unix_timestamp
 
 def add_manual_controls(output_options, audit_info, file_descriptors):
     try:
-        print('add_manual_controls\n')
         # Check if MANUAL control was already added to output
         if "manual_check" in output_options.bulk_checks_metadata:
             manual_finding = Check_Report(
