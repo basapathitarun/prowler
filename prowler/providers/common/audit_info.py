@@ -104,6 +104,7 @@ Azure Identity Type: {Fore.YELLOW}[{audit_info.identity.identity_type}]{Style.RE
         # Set the maximum retries for the standard retrier config
         aws_retries_max_attempts = arguments.get("aws_retries_max_attempts")
         if aws_retries_max_attempts:
+            print('aws_retries_max_attempts\n')
             # Create the new config
             config = Config(
                 retries={
@@ -148,6 +149,7 @@ Azure Identity Type: {Fore.YELLOW}[{audit_info.identity.identity_type}]{Style.RE
 
         logger.info("Checking if role assumption is needed ...")
         if input_role:
+            print('input_role\n')
             current_audit_info.assumed_role_info.role_arn = input_role
             current_audit_info.assumed_role_info.session_duration = (
                 input_session_duration
@@ -170,6 +172,7 @@ Azure Identity Type: {Fore.YELLOW}[{audit_info.identity.identity_type}]{Style.RE
                 sys.exit(1)
 
             else:
+                print('else input_role\n')
                 logger.info(
                     f"Assuming role {current_audit_info.assumed_role_info.role_arn}"
                 )
@@ -249,6 +252,7 @@ Azure Identity Type: {Fore.YELLOW}[{audit_info.identity.identity_type}]{Style.RE
             current_audit_info.profile_region = "us-east-1"
 
         if not arguments.get("only_logs"):
+            print('''arguments.get("only_logs")\n''')
             print_aws_credentials(current_audit_info)
 
         # Parse Scan Tags
