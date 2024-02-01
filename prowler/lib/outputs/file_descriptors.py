@@ -2,6 +2,8 @@ from csv import DictWriter
 from io import TextIOWrapper
 from typing import Any
 
+from prowler.lib.outputs.html import add_html_header
+
 from prowler.config.config import (
     csv_file_suffix, html_file_suffix,
 )
@@ -41,18 +43,17 @@ def initialize_file_descriptor(
                 "a",
             )
 
-            # if output_mode in ("json", "json-asff", "json-ocsf"):
-            #     file_descriptor.write("[")
-            # elif "html" in output_mode:
-            #     add_html_header(file_descriptor, audit_info)
-            # else:
-
+            if output_mode in ("json", "json-asff", "json-ocsf"):
+                file_descriptor.write("[")
+            elif "html" in output_mode:
+                add_html_header(file_descriptor, audit_info)
+            else:
                 # Format is the class model of the CSV format to print the headers
-            csv_header = [x.upper() for x in generate_csv_fields(format)]
-            csv_writer = DictWriter(
-                    file_descriptor, fieldnames=csv_header, delimiter=";"
-                )
-            csv_writer.writeheader()
+                csv_header = [x.upper() for x in generate_csv_fields(format)]
+                csv_writer = DictWriter(
+                        file_descriptor, fieldnames=csv_header, delimiter=";"
+                    )
+                csv_writer.writeheader()
     except Exception as error:
         logger.error(
             f"{error.__class__.__name__}[{error.__traceback__.tb_lineno}]: {error}"
@@ -95,12 +96,12 @@ def fill_file_descriptors(output_modes, output_directory, output_filename, audit
                 #     )
                 #     file_descriptors.update({output_mode: file_descriptor})
                 #
-                elif output_mode == "html":
-                    filename = f"{output_directory}/{output_filename}{html_file_suffix}"
-                    file_descriptor = initialize_file_descriptor(
-                        filename, output_mode, audit_info
-                    )
-                    file_descriptors.update({output_mode: file_descriptor})
+                # elif output_mode == "html":
+                #     filename = f"{output_directory}/{output_filename}{html_file_suffix}"
+                #     file_descriptor = initialize_file_descriptor(
+                #         filename, output_mode, audit_info
+                #     )
+                #     file_descriptors.update({output_mode: file_descriptor})
 
                 elif isinstance(audit_info, GCP_Audit_Info):
                     if output_mode == "cis_2.0_gcp":
