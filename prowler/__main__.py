@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+
 import sys
 
-# from prowler.lib.banner import print_banner
+
 from prowler.lib.check.check import (
     bulk_load_checks_metadata,
     bulk_load_compliance_frameworks,
@@ -12,13 +13,11 @@ from prowler.lib.check.check import (
 )
 from prowler.lib.check.checks_loader import load_checks_to_execute
 from prowler.lib.check.compliance import update_checks_metadata_with_compliance
-from prowler.lib.cli.parser import ProwlerArgumentParser
 
+from prowler.lib.cli.parser import ProwlerArgumentParser
 from prowler.lib.logger import logger, set_logging_config
 from prowler.lib.outputs.compliance import display_compliance_table
 from prowler.lib.outputs.outputs import extract_findings_statistics
-# from prowler.lib.outputs.summary_table import display_summary_table
-# from prowler.providers.common.allowlist import set_provider_allowlist
 from prowler.providers.common.audit_info import (
     set_provider_audit_info,
 )
@@ -34,12 +33,9 @@ def prowler():
     # Save Arguments
     provider = args.provider
     checks = args.checks
-    # excluded_checks = args.excluded_checks
-    # excluded_services = args.excluded_services
     services = args.services
     categories = args.categories
     checks_file = args.checks_file
-    # checks_folder = args.checks_folder
     severities = args.severity
     dict_compliance = {1: 'aws_audit_manager_control_tower_guardrails_aws',
                        2: 'aws_foundational_security_best_practices_aws',
@@ -57,7 +53,7 @@ def prowler():
     ans = int(input("Enter which compliance to scan\n"))
     compliance_framework = [dict_compliance[ans]]
     # custom_checks_metadata_file = args.custom_checks_metadata_file
-    # custom_checks_metadata_file = None
+    custom_checks_metadata_file = None
 
     # We treat the compliance framework as another output format
     if compliance_framework:

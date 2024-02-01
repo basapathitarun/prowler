@@ -4,13 +4,8 @@ from typing import Any
 
 from prowler.config.config import (
     csv_file_suffix,
-    html_file_suffix,
-    json_asff_file_suffix,
-    json_file_suffix,
-    json_ocsf_file_suffix,
 )
 from prowler.lib.logger import logger
-from prowler.lib.outputs.html import add_html_header
 from prowler.lib.outputs.models import (
     Check_Output_CSV_AWS_CIS,
     Check_Output_CSV_AWS_ISO27001_2013,
