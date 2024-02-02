@@ -5,15 +5,14 @@ from prowler.lib.check.check import (
     bulk_load_checks_metadata,
     bulk_load_compliance_frameworks,
     execute_checks,
-
 )
 from prowler.lib.check.checks_loader import load_checks_to_execute
 from prowler.lib.check.compliance import update_checks_metadata_with_compliance
 from prowler.lib.cli.parser import ProwlerArgumentParser
 from prowler.lib.logger import  set_logging_config
 from prowler.lib.outputs.compliance import display_compliance_table
-from prowler.lib.logger import logger
-from prowler.lib.outputs.outputs import extract_findings_statistics
+# from prowler.lib.logger import logger
+# from prowler.lib.outputs.outputs import extract_findings_statistics
 
 from prowler.providers.common.audit_info import (
     set_provider_audit_info,
