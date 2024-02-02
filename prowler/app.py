@@ -54,12 +54,11 @@ def perform_prowler_scan(selected_compliance):
 
         compliance_framework = [selected_compliance]
         # We treat the compliance framework as another output format
-
         if compliance_framework:
             args.output_modes.extend(compliance_framework)
 
         # Set Logger configuration
-        set_logging_config(args.log_level, args.log_file)
+        set_logging_config(args.log_level, args.only_logs)
 
         # Load checks metadata
         logger.debug("Loading checks metadata from .metadata.json files")
@@ -74,6 +73,9 @@ def perform_prowler_scan(selected_compliance):
         bulk_checks_metadata = update_checks_metadata_with_compliance(
             bulk_compliance_frameworks, bulk_checks_metadata
         )
+        # Update checks metadata if the --custom-checks-metadata-file is present
+        # custom_checks_metadata = None
+
         # Load checks to execute
         checks_to_execute = load_checks_to_execute(
             bulk_checks_metadata,
@@ -84,7 +86,6 @@ def perform_prowler_scan(selected_compliance):
 
         # Set the audit info based on the selected provider
         audit_info = set_provider_audit_info(provider, args.__dict__)
-
 
         # Sort final check list
         checks_to_execute = sorted(checks_to_execute)
@@ -99,6 +100,8 @@ def perform_prowler_scan(selected_compliance):
 
         # Execute checks
         findings = []
+
+        # changes -> file_descriptors.py
         if len(checks_to_execute):
             findings = execute_checks(
                 checks_to_execute,
@@ -111,19 +114,17 @@ def perform_prowler_scan(selected_compliance):
                 "There are no checks to execute. Please, check your input arguments"
             )
 
-            # Extract findings stats
-        # stats = extract_findings_statistics(findings)
-
+        # Display summary table
         if compliance_framework and findings:
             for compliance in compliance_framework:
-                    # Display compliance table
-                    compliance_table=display_compliance_table(
-                        findings,
-                        bulk_checks_metadata,
-                        compliance,
-                        audit_output_options.output_filename,
-                        audit_output_options.output_directory,
-                    )
+                # Display compliance table
+                compliance_table=display_compliance_table(
+                    findings,
+                    bulk_checks_metadata,
+                    compliance,
+                    audit_output_options.output_filename,
+                    audit_output_options.output_directory,
+                )
 
             print(f"compliance_table->{compliance_table}\n")
             file_loc = os.path.join(audit_output_options.output_directory, audit_output_options.output_filename,
@@ -136,8 +137,6 @@ def perform_prowler_scan(selected_compliance):
             fs = gridfs.GridFS(db, collection="output")
                 # upload file
             upload_file(file_loc=file_loc, file_name=file_name, fs=fs)
-
-
 
         return render_template('output.html',compliance_table=compliance_table,file=file_name)
 
