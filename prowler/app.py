@@ -113,7 +113,7 @@ def perform_prowler_scan(selected_compliance):
             )
 
             # Extract findings stats
-        stats = extract_findings_statistics(findings)
+        # stats = extract_findings_statistics(findings)
 
         if compliance_framework and findings:
             for compliance in compliance_framework:
@@ -138,9 +138,7 @@ def perform_prowler_scan(selected_compliance):
                 # upload file
             upload_file(file_loc=file_loc, file_name=file_name, fs=fs)
 
-            # If there are failed findings exit code 3, except if -z is input
-        if not args.ignore_exit_code_3 and stats["total_fail"] > 0:
-            sys.exit(3)
+
 
         return render_template('output.html',compliance_table=compliance_table,file=file_name)
 
