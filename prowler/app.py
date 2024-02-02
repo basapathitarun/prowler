@@ -146,6 +146,7 @@ def perform_prowler_scan(selected_compliance):
 
 
     except Exception as e:
+        print(f"n error occured: {str(e)}\n")
         logger.error(f"An error occured: {str(e)}")
         return "An error occured during the scan."
 
