@@ -4,7 +4,6 @@ import sys
 from datetime import datetime, timezone
 from os import getcwd
 
-# import requests
 import yaml
 
 from prowler.lib.logger import logger

@@ -1,5 +1,5 @@
 from argparse import ArgumentTypeError, Namespace
-from re import fullmatch, search
+from re import fullmatch
 
 from prowler.providers.aws.aws_provider import get_aws_available_regions
 from prowler.providers.aws.config import ROLE_SESSION_NAME
@@ -81,58 +81,14 @@ def init_parser(self):
         # help="Specify AWS Organizations management role ARN to be assumed, to get Organization metadata",
     )
     # AWS Security Hub
-    aws_security_hub_subparser = aws_parser.add_argument_group("AWS Security Hub")
+    # aws_security_hub_subparser = aws_parser.add_argument_group("AWS Security Hub")
     # aws_security_hub_subparser.add_argument(
     #     # "-S",
     #     "--security-hub",
     #     # action="store_true",
     #     help="Send check output to AWS Security Hub",
     # )
-    # aws_security_hub_subparser.add_argument(
-    #     "--skip-sh-update",
-    #     action="store_true",
-    #     help="Skip updating previous findings of Prowler in Security Hub",
-    # )
-    # aws_security_hub_subparser.add_argument(
-    #     "--send-sh-only-fails",
-    #     action="store_true",
-    #     help="Send only Prowler failed findings to SecurityHub",
-    # )
-    # AWS Quick Inventory
-    # aws_quick_inventory_subparser = aws_parser.add_argument_group("Quick Inventory")
-    # aws_quick_inventory_subparser.add_argument(
-    #     "-i",
-    #     "--quick-inventory",
-    #     action="store_true",
-    #     help="Run Prowler Quick Inventory. The inventory will be stored in an output csv by default",
-    # )
-    # AWS Outputs
-    # aws_outputs_subparser = aws_parser.add_argument_group("AWS Outputs to S3")
-    # aws_outputs_bucket_parser = aws_outputs_subparser.add_mutually_exclusive_group()
-    # aws_outputs_bucket_parser.add_argument(
-    #     "-B",
-    #     "--output-bucket",
-    #     nargs="?",
-    #     type=validate_bucket,
-    #     default=None,
-    #     help="Custom output bucket, requires -M <mode> and it can work also with -o flag.",
-    # )
-    # aws_outputs_bucket_parser.add_argument(
-    #     "-D",
-    #     "--output-bucket-no-assume",
-    #     nargs="?",
-    #     type=validate_bucket,
-    #     default=None,
-    #     help="Same as -B but do not use the assumed role credentials to put objects to the bucket, instead uses the initial credentials.",
-    # )
-    # aws_3rd_party_subparser = aws_parser.add_argument_group("3rd Party Integrations")
-    # aws_3rd_party_subparser.add_argument(
-    #     "-N",
-    #     "--shodan",
-    #     nargs="?",
-    #     default=None,
-    #     help="Shodan API key used by check ec2_elastic_ip_shodan.",
-    # )
+
     # Allowlist
     allowlist_subparser = aws_parser.add_argument_group("Allowlist")
     allowlist_subparser.add_argument(
@@ -206,17 +162,6 @@ def validate_arguments(arguments: Namespace) -> tuple[bool, str]:
             )
 
     return (True, "")
-
-
-# def validate_bucket(bucket_name):
-#     """validate_bucket validates that the input bucket_name is valid"""
-#     if search("(?!(^xn--|.+-s3alias$))^[a-z0-9][a-z0-9-]{1,61}[a-z0-9]$", bucket_name):
-#         return bucket_name
-#     else:
-#         raise ArgumentTypeError(
-#             "Bucket name must be valid (https://docs.aws.amazon.com/AmazonS3/latest/userguide/bucketnamingrules.html)"
-#         )
-
 
 def validate_role_session_name(session_name):
     """

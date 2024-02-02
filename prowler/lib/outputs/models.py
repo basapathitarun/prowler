@@ -348,71 +348,71 @@ class Gcp_Check_Output_CSV(Check_Output_CSV):
     resource_name: str = ""
 
 
-def generate_provider_output_json(
-    provider: str, finding, audit_info, mode: str, output_options
-):
-    """
-    generate_provider_output_json configures automatically the outputs based on the selected provider and returns the Check_Output_JSON object.
-    """
-    try:
-        # Dynamically load the Provider_Output_Options class for the JSON format
-        finding_output_model = f"{provider.capitalize()}_Check_Output_{mode.upper()}"
-        output_model = getattr(importlib.import_module(__name__), finding_output_model)
-        # Instantiate the class for the cloud provider
-        finding_output = output_model(**finding.check_metadata.dict())
-        # Fill common fields
-        finding_output.AssessmentStartTime = outputs_unix_timestamp(
-            output_options.unix_timestamp, timestamp
-        )
-        finding_output.Status = finding.status
-        finding_output.StatusExtended = finding.status_extended
-        finding_output.ResourceDetails = finding.resource_details
-
-        if provider == "azure":
-            finding_output.Tenant_Domain = audit_info.identity.domain
-            finding_output.Subscription = finding.subscription
-            finding_output.ResourceId = finding.resource_id
-            finding_output.ResourceName = finding.resource_name
-            finding_output.FindingUniqueId = f"prowler-{provider}-{finding.check_metadata.CheckID}-{finding.subscription}-{finding.resource_id}"
-            finding_output.Compliance = get_check_compliance(
-                finding, provider, output_options
-            )
-
-        if provider == "gcp":
-            finding_output.ProjectId = finding.project_id
-            finding_output.Location = finding.location.lower()
-            finding_output.ResourceId = finding.resource_id
-            finding_output.ResourceName = finding.resource_name
-            finding_output.FindingUniqueId = f"prowler-{provider}-{finding.check_metadata.CheckID}-{finding.project_id}-{finding.resource_id}"
-            finding_output.Compliance = get_check_compliance(
-                finding, provider, output_options
-            )
-
-        if provider == "aws":
-            finding_output.Profile = audit_info.profile
-            finding_output.AccountId = audit_info.audited_account
-            finding_output.Region = finding.region
-            finding_output.ResourceId = finding.resource_id
-            finding_output.ResourceArn = finding.resource_arn
-            finding_output.ResourceTags = parse_json_tags(finding.resource_tags)
-            finding_output.FindingUniqueId = f"prowler-{provider}-{finding.check_metadata.CheckID}-{audit_info.audited_account}-{finding.region}-{finding.resource_id}"
-            finding_output.Compliance = get_check_compliance(
-                finding, provider, output_options
-            )
-
-            if audit_info.organizations_metadata:
-                finding_output.OrganizationsInfo = (
-                    audit_info.organizations_metadata.__dict__
-                )
-
-    except Exception as error:
-        logger.critical(
-            f"{error.__class__.__name__}[{error.__traceback__.tb_lineno}]: {error}"
-        )
-        sys.exit(1)
-    else:
-        return finding_output
-
+# def generate_provider_output_json(
+#     provider: str, finding, audit_info, mode: str, output_options
+# ):
+#     """
+#     generate_provider_output_json configures automatically the outputs based on the selected provider and returns the Check_Output_JSON object.
+#     """
+#     try:
+#         # Dynamically load the Provider_Output_Options class for the JSON format
+#         finding_output_model = f"{provider.capitalize()}_Check_Output_{mode.upper()}"
+#         output_model = getattr(importlib.import_module(__name__), finding_output_model)
+#         # Instantiate the class for the cloud provider
+#         finding_output = output_model(**finding.check_metadata.dict())
+#         # Fill common fields
+#         finding_output.AssessmentStartTime = outputs_unix_timestamp(
+#             output_options.unix_timestamp, timestamp
+#         )
+#         finding_output.Status = finding.status
+#         finding_output.StatusExtended = finding.status_extended
+#         finding_output.ResourceDetails = finding.resource_details
+#
+#         if provider == "azure":
+#             finding_output.Tenant_Domain = audit_info.identity.domain
+#             finding_output.Subscription = finding.subscription
+#             finding_output.ResourceId = finding.resource_id
+#             finding_output.ResourceName = finding.resource_name
+#             finding_output.FindingUniqueId = f"prowler-{provider}-{finding.check_metadata.CheckID}-{finding.subscription}-{finding.resource_id}"
+#             finding_output.Compliance = get_check_compliance(
+#                 finding, provider, output_options
+#             )
+#
+#         if provider == "gcp":
+#             finding_output.ProjectId = finding.project_id
+#             finding_output.Location = finding.location.lower()
+#             finding_output.ResourceId = finding.resource_id
+#             finding_output.ResourceName = finding.resource_name
+#             finding_output.FindingUniqueId = f"prowler-{provider}-{finding.check_metadata.CheckID}-{finding.project_id}-{finding.resource_id}"
+#             finding_output.Compliance = get_check_compliance(
+#                 finding, provider, output_options
+#             )
+#
+#         if provider == "aws":
+#             finding_output.Profile = audit_info.profile
+#             finding_output.AccountId = audit_info.audited_account
+#             finding_output.Region = finding.region
+#             finding_output.ResourceId = finding.resource_id
+#             finding_output.ResourceArn = finding.resource_arn
+#             finding_output.ResourceTags = parse_json_tags(finding.resource_tags)
+#             finding_output.FindingUniqueId = f"prowler-{provider}-{finding.check_metadata.CheckID}-{audit_info.audited_account}-{finding.region}-{finding.resource_id}"
+#             finding_output.Compliance = get_check_compliance(
+#                 finding, provider, output_options
+#             )
+#
+#             if audit_info.organizations_metadata:
+#                 finding_output.OrganizationsInfo = (
+#                     audit_info.organizations_metadata.__dict__
+#                 )
+#
+#     except Exception as error:
+#         logger.critical(
+#             f"{error.__class__.__name__}[{error.__traceback__.tb_lineno}]: {error}"
+#         )
+#         sys.exit(1)
+#     else:
+#         return finding_output
+#
 
 class Check_Output_JSON(BaseModel):
     """
@@ -692,28 +692,28 @@ class Compliance(BaseModel):
     AssociatedStandards: List[dict]
 
 
-class Check_Output_JSON_ASFF(BaseModel):
-    """
-    Check_Output_JSON_ASFF generates a finding's output in JSON ASFF format: https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-findings-format-syntax.html
-    """
-
-    SchemaVersion: str = "2018-10-08"
-    Id: str = ""
-    ProductArn: str = ""
-    RecordState: str = "ACTIVE"
-    ProductFields: ProductFields = None
-    GeneratorId: str = ""
-    AwsAccountId: str = ""
-    Types: List[str] = None
-    FirstObservedAt: str = ""
-    UpdatedAt: str = ""
-    CreatedAt: str = ""
-    Severity: Severity = None
-    Title: str = ""
-    Description: str = ""
-    Resources: List[Resource] = None
-    Compliance: Compliance = None
-    Remediation: dict = None
+# class Check_Output_JSON_ASFF(BaseModel):
+#     """
+#     Check_Output_JSON_ASFF generates a finding's output in JSON ASFF format: https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-findings-format-syntax.html
+#     """
+#
+#     SchemaVersion: str = "2018-10-08"
+#     Id: str = ""
+#     ProductArn: str = ""
+#     RecordState: str = "ACTIVE"
+#     ProductFields: ProductFields = None
+#     GeneratorId: str = ""
+#     AwsAccountId: str = ""
+#     Types: List[str] = None
+#     FirstObservedAt: str = ""
+#     UpdatedAt: str = ""
+#     CreatedAt: str = ""
+#     Severity: Severity = None
+#     Title: str = ""
+#     Description: str = ""
+#     Resources: List[Resource] = None
+#     Compliance: Compliance = None
+#     Remediation: dict = None
 
 
 # JSON OCSF

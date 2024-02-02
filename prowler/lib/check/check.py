@@ -12,7 +12,6 @@ from colorama import Fore, Style
 
 from prowler.config.config import orange_color
 from prowler.lib.check.compliance_models import load_compliance_framework
-# from prowler.lib.check.custom_checks_metadata import update_check_metadata
 from prowler.lib.check.models import Check, load_check_metadata
 from prowler.lib.logger import logger
 from prowler.lib.outputs.outputs import report
@@ -73,23 +72,6 @@ def bulk_load_compliance_frameworks(provider: str) -> dict:
 
 
 
-# Load checks from checklist.json
-
-# def parse_checks_from_file(input_file: str, provider: str) -> set:
-#     """parse_checks_from_file returns a set of checks read from the given file"""
-#     try:
-#         checks_to_execute = set()
-#         with open_file(input_file) as f:
-#             json_file = parse_json_file(f)
-#
-#         for check_name in json_file[provider]:
-#             checks_to_execute.add(check_name)
-#
-#         return checks_to_execute
-#     except Exception as error:
-#         logger.error(
-#             f"{error.__class__.__name__}[{error.__traceback__.tb_lineno}] -- {error}"
-#         )
 
 # Parse checks from compliance frameworks specification
 def parse_checks_from_compliance_framework(
@@ -303,10 +285,6 @@ def execute(
     check_to_execute = getattr(lib, check_name)
     c = check_to_execute()
 
-    # Update check metadata to reflect that in the outputs
-    # if custom_checks_metadata and custom_checks_metadata["Checks"].get(c.CheckID):
-    #     c = update_check_metadata(c, custom_checks_metadata["Checks"][c.CheckID])
-
     # Run check
     check_findings = run_check(c, audit_output_options)
 
@@ -328,18 +306,6 @@ def execute(
     # Report the check's findings
     report(check_findings, audit_output_options, audit_info)
 
-    # if os.environ.get("PROWLER_REPORT_LIB_PATH"):
-    #     print('PROWLER_REPORT_LIB_PATH\n')
-    #     try:
-    #         print(f"PROWLER_REPORT_LIB_PATH\n")
-    #         logger.info("Using custom report interface ...")
-    #         lib = os.environ["PROWLER_REPORT_LIB_PATH"]
-    #         outputs_module = importlib.import_module(lib)
-    #         custom_report_interface = getattr(outputs_module, "report")
-    #
-    #         custom_report_interface(check_findings, audit_output_options, audit_info)
-    #     except Exception:
-    #         sys.exit(1)
 
     return check_findings
 
