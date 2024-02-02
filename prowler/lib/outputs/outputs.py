@@ -1,16 +1,10 @@
-import json
-
 from colorama import Fore, Style
 
 from prowler.config.config import available_compliance_frameworks, orange_color
 from prowler.lib.logger import logger
 from prowler.lib.outputs.compliance import add_manual_controls, fill_compliance
 from prowler.lib.outputs.file_descriptors import fill_file_descriptors
-from prowler.lib.outputs.models import (
-    # Check_Output_JSON_ASFF,
-    generate_provider_output_csv,
-    # generate_provider_output_json,
-)
+from prowler.lib.outputs.models import generate_provider_output_csv
 from prowler.providers.aws.lib.audit_info.models import AWS_Audit_Info
 from prowler.providers.azure.lib.audit_info.models import Azure_Audit_Info
 
@@ -76,27 +70,6 @@ def report(check_findings, output_options, audit_info):
                                 file_descriptors,
                             )
 
-                        # AWS specific outputs
-                        # if finding.check_metadata.Provider == "aws":
-                            # if "json-asff" in file_descriptors:
-                            #     finding_output = Check_Output_JSON_ASFF()
-                            #     # fill_json_asff(
-                            #     #     finding_output, audit_info, finding, output_options
-                            #     # )
-                            #
-                            #     json.dump(
-                            #         finding_output.dict(exclude_none=True),
-                            #         file_descriptors["json-asff"],
-                            #         indent=4,
-                            #     )
-                            #     file_descriptors["json-asff"].write(",")
-
-                        # Common outputs
-                        # if "html" in file_descriptors:
-                        #     print('html\n')
-                        #     fill_html(file_descriptors["html"], finding, output_options)
-                        #     file_descriptors["html"].write("")
-
                         if "csv" in file_descriptors:
                             csv_writer, finding_output = generate_provider_output_csv(
                                 finding.check_metadata.Provider,
@@ -108,41 +81,11 @@ def report(check_findings, output_options, audit_info):
                             )
                             csv_writer.writerow(finding_output.__dict__)
 
-                        # if "json" in file_descriptors:
-                        #     finding_output = generate_provider_output_json(
-                        #         finding.check_metadata.Provider,
-                        #         finding,
-                        #         audit_info,
-                        #         "json",
-                        #         output_options,
-                        #     )
-                        #     json.dump(
-                        #         finding_output.dict(),
-                        #         file_descriptors["json"],
-                        #         indent=4,
-                        #     )
-                        #     file_descriptors["json"].write(",")
-
-                        # if "json-ocsf" in file_descriptors:
-                        #     finding_output = fill_json_ocsf(
-                        #         audit_info, finding, output_options
-                        #     )
-                        #
-                        #     json.dump(
-                        #         finding_output.dict(),
-                        #         file_descriptors["json-ocsf"],
-                        #         indent=4,
-                        #         default=str,
-                        #     )
-                        #     file_descriptors["json-ocsf"].write(",")
-
         else:  # No service resources in the whole account
             color = set_report_color("INFO")
             if output_options.verbose:
                 print(f"\t{color}INFO{Style.RESET_ALL} There are no resources")
-        # Separator between findings and bar
-        # if output_options.verbose:
-        #     print()
+
         if file_descriptors:
             # Close all file descriptors
             for file_descriptor in file_descriptors:
