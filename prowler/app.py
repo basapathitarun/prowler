@@ -13,6 +13,7 @@ from prowler.lib.cli.parser import ProwlerArgumentParser
 from prowler.lib.logger import  set_logging_config
 from prowler.lib.outputs.compliance import display_compliance_table
 from prowler.lib.logger import logger
+from prowler.lib.outputs.outputs import extract_findings_statistics
 
 from prowler.providers.common.audit_info import (
     set_provider_audit_info,
@@ -112,7 +113,7 @@ def perform_prowler_scan(selected_compliance):
             )
 
             # Extract findings stats
-        # stats = extract_findings_statistics(findings)
+        stats = extract_findings_statistics(findings)
 
         if compliance_framework and findings:
             for compliance in compliance_framework:
@@ -136,6 +137,10 @@ def perform_prowler_scan(selected_compliance):
             fs = gridfs.GridFS(db, collection="output")
                 # upload file
             upload_file(file_loc=file_loc, file_name=file_name, fs=fs)
+
+            # If there are failed findings exit code 3, except if -z is input
+        if not args.ignore_exit_code_3 and stats["total_fail"] > 0:
+            sys.exit(3)
 
         return render_template('output.html',compliance_table=compliance_table,file=file_name)
 
