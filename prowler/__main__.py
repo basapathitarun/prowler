@@ -101,7 +101,6 @@ def prowler():
             provider,
             audit_info,
             audit_output_options,
-            # custom_checks_metadata,
         )
     else:
         logger.error(
