@@ -35,6 +35,7 @@ def home():
 @app.route('/scan', methods=['POST'])
 def scan_compliance():
     ans=int(request.form['compliance'])
+    print(f"ans -> {ans}\n")
     selected_compliance=dict_compliance[ans]
     print(f"selected_compliance-> {selected_compliance}")
     result = perform_prowler_scan(selected_compliance)
