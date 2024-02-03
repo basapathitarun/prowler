@@ -5,7 +5,7 @@ from argparse import RawTextHelpFormatter
 from prowler.config.config import (
     available_compliance_frameworks,
     default_config_file_path,
-    default_output_directory,
+    default_output_directory, valid_severities,
 )
 from prowler.providers.common.arguments import (
     init_providers_parser,
@@ -171,7 +171,12 @@ Detailed documentation at https://docs.prowler.cloud
             # help="Compliance Framework to check against for. The format should be the following: framework_version_provider (e.g.: ens_rd2022_aws)",
             choices=available_compliance_frameworks,
         )
-
+        common_checks_parser.add_argument(
+            "--severity",
+            nargs="+",
+            help=f"List of severities to be executed {valid_severities}",
+            choices=valid_severities,
+        )
     def __init_config_parser__(self):
         config_parser = self.common_providers_parser.add_argument_group("Configuration")
         config_parser.add_argument(

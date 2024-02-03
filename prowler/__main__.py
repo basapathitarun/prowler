@@ -30,6 +30,12 @@ def prowler():
 
     # Save Arguments
     provider = args.provider
+    checks = args.checks
+    services = None
+    categories = []
+    checks_file = None
+    checks_folder = None
+    severities = args.severity
     dict_compliance = {1: 'aws_audit_manager_control_tower_guardrails_aws',
                        2: 'aws_foundational_security_best_practices_aws',
                        3: 'aws_well_architected_framework_reliability_pillar_aws',
@@ -74,7 +80,12 @@ def prowler():
     checks_to_execute = load_checks_to_execute(
         bulk_checks_metadata,
         bulk_compliance_frameworks,
+        checks_file,
+        checks,
+        services,
+        severities,
         compliance_framework,
+        categories,
         provider,
     )
 
