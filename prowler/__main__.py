@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-
-
+import os
 import sys
 from prowler.lib.check.check import (
     bulk_load_checks_metadata,
@@ -18,6 +17,10 @@ from prowler.lib.outputs.outputs import extract_findings_statistics
 from prowler.providers.common.audit_info import set_provider_audit_info
 from prowler.providers.common.outputs import set_provider_output_options
 
+
+from database.insertdb import mongo_conn
+from database.insertdb import upload_file
+import gridfs
 
 def prowler():
     # Parse Arguments
@@ -122,6 +125,15 @@ def prowler():
                     audit_output_options.output_filename,
                     audit_output_options.output_directory,
                 )
+
+    file_loc = os.path.join(audit_output_options.output_directory, audit_output_options.output_filename,
+                            f"{compliance_framework[0]}.csv")
+
+    print(f" -output-> CSV: {file_loc}\n")
+    # adding to database
+    file_name = f"{compliance_framework[0]}.csv"
+    db = mongo_conn()
+    fs = gridfs.GridFS(db, collection="output")
 
     # If there are failed findings exit code 3, except if -z is input
     if not args.ignore_exit_code_3 and stats["total_fail"] > 0:
