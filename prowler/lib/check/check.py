@@ -184,6 +184,7 @@ def execute_checks(
     provider: str,
     audit_info: Any,
     audit_output_options: Provider_Output_Options,
+    custom_checks_metadata:Any,
 ) -> list:
     # List to store all the check's findings
     all_findings = []

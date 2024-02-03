@@ -93,7 +93,7 @@ def prowler():
     # Set the audit info based on the selected provider
     audit_info = set_provider_audit_info(provider, args.__dict__)
 
-
+    custom_checks_metadata=None
     # Sort final check list
     checks_to_execute = sorted(checks_to_execute)
 
@@ -115,6 +115,7 @@ def prowler():
             provider,
             audit_info,
             audit_output_options,
+            custom_checks_metadata,
         )
     else:
         logger.error(
