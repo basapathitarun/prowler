@@ -51,6 +51,12 @@ def perform_prowler_scan(selected_compliance):
 
         # Save Arguments
         provider = args.provider
+        checks = args.checks
+        services = None
+        categories = []
+        checks_file = None
+        checks_folder = None
+        severities = args.severity
 
         compliance_framework = [selected_compliance]
         # We treat the compliance framework as another output format
@@ -80,7 +86,12 @@ def perform_prowler_scan(selected_compliance):
         checks_to_execute = load_checks_to_execute(
             bulk_checks_metadata,
             bulk_compliance_frameworks,
+            checks_file,
+            checks,
+            services,
+            severities,
             compliance_framework,
+            categories,
             provider,
         )
 
@@ -101,6 +112,8 @@ def perform_prowler_scan(selected_compliance):
         # Execute checks
         findings = []
 
+        custom_checks_metadata = None
+
         # changes -> file_descriptors.py
         if len(checks_to_execute):
             findings = execute_checks(
@@ -108,6 +121,7 @@ def perform_prowler_scan(selected_compliance):
                 provider,
                 audit_info,
                 audit_output_options,
+                custom_checks_metadata,
             )
         else:
             logger.error(
