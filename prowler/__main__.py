@@ -107,10 +107,16 @@ def prowler():
     # Execute checks
 
     file_loc = audit_output_options.output_filename
+
+    # Check if it's a list and convert it to a string if needed
+    if isinstance(file_loc, list):
+        file_loc = ''.join(map(str, file_loc))
+
     print(f"audit_output_options.output_filename -> {file_loc}\n")
-    file_loc=file_loc+"_"
-    file_loc= file_loc+compliance_framework+".csv"
+
+    file_loc = file_loc + "_" + compliance_framework + ".csv"
     print(file_loc)
+
     findings = []
 
     #changes -> file_descriptors.py
