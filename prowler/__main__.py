@@ -143,7 +143,9 @@ def prowler():
 
     # file_loc = os.path.join(audit_output_options.output_directory, audit_output_options.output_filename,
     #                         f"{compliance_framework[0]}.csv")
-
+    file_loc = audit_output_options.output_filename
+    file_loc.append(f"_{compliance_framework}")
+    print(file_loc)
     # print(f" -output-> CSV: {file}\n")
     # adding to database
     # file_name = f"{compliance_framework[0]}.csv"
