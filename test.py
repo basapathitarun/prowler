@@ -25,15 +25,13 @@
 # subprocess.run(['aws', 'configure', 'set', 'aws_access_key_id', access_key_id])
 # subprocess.run(['aws', 'configure', 'set', 'aws_secret_access_key', secret_access_key])
 #
-import gridfs
-
-from prowler.database.insertdb import mongo_conn, upload_file
 
 
-filename = "prowler-output-906113748440-20240205114909"
-file_loc = '/home/ubuntu/prowler/prowler/output/prowler-output-906113748440-20240205114909_cis_1.4_aws.csv'
+import os
 
-db = mongo_conn()
-fs = gridfs.GridFS(db, collection="output")
-# upload file
-upload_file(file_loc=file_loc, file_name=filename, fs=fs)
+file_loc = '/home/ubuntu/prowler/prowler/prowler-output-906113748440-20240205115810_aws_audit_manager_control_tower_guardrails_aws.csv'
+
+if os.path.exists(file_loc):
+    print(f"File exists: {file_loc}")
+else:
+    print(f"File does not exist: {file_loc}")
