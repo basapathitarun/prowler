@@ -466,7 +466,7 @@ def display_compliance_table(
                 print(
                     f" -output-> CSV: {output_directory}/{output_filename}_{compliance_framework}.csv\n"
                 )
-                file=f"{output_directory}/{output_filename}_{compliance_framework}.csv"
+                file = print(f"{output_directory}/{output_filename}_{compliance_framework}.csv\n")
                 print(file)
         elif "cis_" in compliance_framework:
             sections = {}
@@ -565,7 +565,7 @@ def display_compliance_table(
                 print(
                     f" -output-> CSV: {output_directory}/{output_filename}_{compliance_framework}.csv\n"
                 )
-                file = f"{output_directory}/{output_filename}_{compliance_framework}.csv"
+                file = print(f"{output_directory}/{output_filename}_{compliance_framework}.csv\n")
                 print(file)
         elif "mitre_attack" in compliance_framework:
             tactics = {}
@@ -638,17 +638,14 @@ def display_compliance_table(
                 print(
                     f" -output-> CSV: {output_directory}/{output_filename}_{compliance_framework}.csv\n"
                 )
-                file = f"{output_directory}/{output_filename}_{compliance_framework}.csv"
+                file = print(f"{output_directory}/{output_filename}_{compliance_framework}.csv\n")
                 print(file)
         else:
             print(f"\nDetailed results of {compliance_framework.upper()} are in:")
             # print(
-            #     f" -output-> CSV: {output_directory}/{output_filename}_{compliance_framework}.csv\n"
+            #     f" -output-> CSV: {output_directory}/{output_filename}.csv\n"
             # )
-            print(
-                f" -output-> CSV: {output_directory}/{output_filename}.csv\n"
-            )
-            file = f"{output_directory}/{output_filename}.csv"
+            file =   print( f"{output_directory}/{output_filename}.csv\n")
             print(file)
     except Exception as error:
         logger.critical(
