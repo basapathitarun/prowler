@@ -18,9 +18,9 @@ from prowler.providers.common.audit_info import set_provider_audit_info
 from prowler.providers.common.outputs import set_provider_output_options
 
 
-from database.insertdb import mongo_conn
-from database.insertdb import upload_file
-import gridfs
+# from database.insertdb import mongo_conn
+# from database.insertdb import upload_file
+# import gridfs
 
 def prowler():
     # Parse Arguments
