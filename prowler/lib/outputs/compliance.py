@@ -655,4 +655,4 @@ def display_compliance_table(
             f"{error.__class__.__name__}:{error.__traceback__.tb_lineno} -- {error}"
         )
         sys.exit(1)
-    # return file
+    return file
