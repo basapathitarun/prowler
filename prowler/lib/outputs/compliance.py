@@ -466,7 +466,7 @@ def display_compliance_table(
                 print(
                     f" -output-> CSV: {output_directory}/{output_filename}_{compliance_framework}.csv\n"
                 )
-                file=(f"{output_directory}/{output_filename}_{compliance_framework}.csv")
+                file=f"{output_directory}/{output_filename}_{compliance_framework}.csv"
                 print(file)
         elif "cis_" in compliance_framework:
             sections = {}
@@ -565,7 +565,7 @@ def display_compliance_table(
                 print(
                     f" -output-> CSV: {output_directory}/{output_filename}_{compliance_framework}.csv\n"
                 )
-                file = (f"{output_directory}/{output_filename}_{compliance_framework}.csv")
+                file = f"{output_directory}/{output_filename}_{compliance_framework}.csv"
                 print(file)
         elif "mitre_attack" in compliance_framework:
             tactics = {}
@@ -638,7 +638,7 @@ def display_compliance_table(
                 print(
                     f" -output-> CSV: {output_directory}/{output_filename}_{compliance_framework}.csv\n"
                 )
-                file = (f"{output_directory}/{output_filename}_{compliance_framework}.csv")
+                file = f"{output_directory}/{output_filename}_{compliance_framework}.csv"
                 print(file)
         else:
             print(f"\nDetailed results of {compliance_framework.upper()} are in:")
@@ -648,7 +648,7 @@ def display_compliance_table(
             print(
                 f" -output-> CSV: {output_directory}/{output_filename}.csv\n"
             )
-            file = (f"{output_directory}/{output_filename}.csv")
+            file = f"{output_directory}/{output_filename}.csv"
             print(file)
     except Exception as error:
         logger.critical(
