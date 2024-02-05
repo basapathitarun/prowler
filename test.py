@@ -33,8 +33,6 @@ compliance_framework = 'cis_1.5_aws'
 filename = "prowler-output-906113748440-20240205110446"
 file_loc = filename +"_"+compliance_framework+'.csv'
 
-print(file_loc)
-
 db = mongo_conn()
 fs = gridfs.GridFS(db, collection="output")
 # upload file
