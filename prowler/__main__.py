@@ -127,10 +127,11 @@ def prowler():
 
 
     # Display summary table
-    file=''
+
     if compliance_framework and findings:
         for compliance in compliance_framework:
                 # Display compliance table
+
             file=display_compliance_table(
                     findings,
                     bulk_checks_metadata,
