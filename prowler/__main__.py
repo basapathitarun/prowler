@@ -108,6 +108,7 @@ def prowler():
     file_loc="/home/ubuntu/prowler/prowler/"
     file_loc = file_loc+f"{audit_output_options.output_filename}_{compliance_framework[0]}"
     file_loc=file_loc+".csv"
+    file_loc=str(file_loc)
     print(file_loc)
 
 
