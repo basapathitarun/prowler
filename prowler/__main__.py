@@ -30,7 +30,7 @@ def prowler():
 
     # Save Arguments
     provider = args.provider
-    checks = args.checks
+    checks = None
     services = None
     categories = []
     checks_file = None
