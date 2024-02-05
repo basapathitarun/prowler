@@ -105,12 +105,8 @@ def prowler():
         provider, args, audit_info, allowlist_file, bulk_checks_metadata
     )
     # Execute checks
-    file_loc="/home/ubuntu/prowler/prowler/"
-    file_loc = file_loc+f"{audit_output_options.output_filename}_{compliance_framework[0]}"
-    file_loc=file_loc+".csv"
-    file_loc=str(file_loc)
+    file_loc = f"/home/ubuntu/prowler/prowler/{audit_output_options.output_filename}_{compliance_framework[0]}.csv"
     print(file_loc)
-
 
     findings = []
 
