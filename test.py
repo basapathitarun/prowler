@@ -29,7 +29,7 @@
 
 import os
 
-file_loc = '/home/ubuntu/prowler/prowler/prowler-output-906113748440-20240205115810_aws_audit_manager_control_tower_guardrails_aws.csv'
+file_loc = "/home/ubuntu/prowler/prowler/output/prowler-output-906113748440-20240205122922_cis_1.4_aws.csv"
 
 if os.path.exists(file_loc):
     print(f"File exists: {file_loc}")
