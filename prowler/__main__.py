@@ -105,16 +105,9 @@ def prowler():
         provider, args, audit_info, allowlist_file, bulk_checks_metadata
     )
     # Execute checks
-    file_loc = audit_output_options.output_filename
+    file_loc = f"{audit_output_options.output_filename}_{compliance_framework}"
+    print(file_loc)
 
-    # Check if it's a list and convert it to a string if needed
-    if isinstance(file_loc, list):
-        file_loc = '_'.join(map(str, file_loc))
-
-    print(f"audit_output_options.output_filename -> {file_loc}\n")
-
-    # file_loc = file_loc +compliance_framework + ".csv"
-    # print(file_loc)
 
     findings = []
 
