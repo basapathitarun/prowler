@@ -104,7 +104,7 @@ def prowler():
     audit_output_options = set_provider_output_options(
         provider, args, audit_info, allowlist_file, bulk_checks_metadata
     )
-
+    print(f"audit_output_options.output_filename -> {audit_output_options.output_filename}\n")
     # Execute checks
     findings = []
 
@@ -132,7 +132,7 @@ def prowler():
         for compliance in compliance_framework:
                 # Display compliance table
 
-            file=display_compliance_table(
+            display_compliance_table(
                     findings,
                     bulk_checks_metadata,
                     compliance,
@@ -144,7 +144,7 @@ def prowler():
     # file_loc = os.path.join(audit_output_options.output_directory, audit_output_options.output_filename,
     #                         f"{compliance_framework[0]}.csv")
 
-    print(f" -output-> CSV: {file}\n")
+    # print(f" -output-> CSV: {file}\n")
     # adding to database
     # file_name = f"{compliance_framework[0]}.csv"
     # db = mongo_conn()

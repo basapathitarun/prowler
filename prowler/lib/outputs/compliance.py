@@ -466,8 +466,7 @@ def display_compliance_table(
                 print(
                     f" -output-> CSV: {output_directory}/{output_filename}_{compliance_framework}.csv\n"
                 )
-                file = print(f"{output_directory}/{output_filename}_{compliance_framework}.csv\n")
-                print(file)
+
         elif "cis_" in compliance_framework:
             sections = {}
             cis_compliance_table = {
@@ -565,8 +564,6 @@ def display_compliance_table(
                 print(
                     f" -output-> CSV: {output_directory}/{output_filename}_{compliance_framework}.csv\n"
                 )
-                file = print(f"{output_directory}/{output_filename}_{compliance_framework}.csv\n")
-                print(file)
         elif "mitre_attack" in compliance_framework:
             tactics = {}
             mitre_compliance_table = {
@@ -638,18 +635,14 @@ def display_compliance_table(
                 print(
                     f" -output-> CSV: {output_directory}/{output_filename}_{compliance_framework}.csv\n"
                 )
-                file = print(f"{output_directory}/{output_filename}_{compliance_framework}.csv\n")
-                print(file)
         else:
             print(f"\nDetailed results of {compliance_framework.upper()} are in:")
-            # print(
-            #     f" -output-> CSV: {output_directory}/{output_filename}.csv\n"
-            # )
-            file =   print( f"{output_directory}/{output_filename}.csv\n")
-            print(file)
+            print(
+                f" -output-> CSV: {output_directory}/{output_filename}.csv\n"
+            )
+
     except Exception as error:
         logger.critical(
             f"{error.__class__.__name__}:{error.__traceback__.tb_lineno} -- {error}"
         )
         sys.exit(1)
-    return file
