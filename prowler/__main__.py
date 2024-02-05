@@ -104,10 +104,10 @@ def prowler():
     audit_output_options = set_provider_output_options(
         provider, args, audit_info, allowlist_file, bulk_checks_metadata
     )
-    print(f"audit_output_options.output_filename -> {audit_output_options.output_filename}\n")
     # Execute checks
 
     file_loc = audit_output_options.output_filename
+    print(f"audit_output_options.output_filename -> {file_loc}\n")
     file_loc=file_loc+"_"+compliance_framework+".csv"
     print(file_loc)
     findings = []
