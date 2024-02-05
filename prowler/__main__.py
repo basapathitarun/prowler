@@ -18,9 +18,9 @@ from prowler.providers.common.audit_info import set_provider_audit_info
 from prowler.providers.common.outputs import set_provider_output_options
 
 
-# from database.insertdb import mongo_conn
-# from database.insertdb import upload_file
-# import gridfs
+from database.insertdb import mongo_conn
+from database.insertdb import upload_file
+import gridfs
 
 def prowler():
     # Parse Arguments
@@ -145,18 +145,12 @@ def prowler():
 
                 )
 
-    # file_loc = os.path.join(audit_output_options.output_directory, audit_output_options.output_filename,
-    #                         f"{compliance_framework[0]}.csv")
-    file_loc = audit_output_options.output_filename
-    file_loc.append(f"_{compliance_framework}")
-    print(file_loc)
-    # print(f" -output-> CSV: {file}\n")
     # adding to database
     # file_name = f"{compliance_framework[0]}.csv"
-    # db = mongo_conn()
-    # fs = gridfs.GridFS(db, collection="output")
-    # # upload file
-    # upload_file(file_loc=file, file_name=file_name, fs=fs)
+    db = mongo_conn()
+    fs = gridfs.GridFS(db, collection="output")
+    # upload file
+    upload_file(file_loc=file_loc, file_name=audit_output_options.output_filename, fs=fs)
 
     # If there are failed findings exit code 3, except if -z is input
     if not args.ignore_exit_code_3 and stats["total_fail"] > 0:
