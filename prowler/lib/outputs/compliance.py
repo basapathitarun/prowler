@@ -1,3 +1,4 @@
+import os
 import sys
 from csv import DictWriter
 
@@ -360,6 +361,7 @@ def display_compliance_table(
     compliance_framework: str,
     output_filename: str,
     output_directory: str,
+    file:str,
 ):
     try:
         if "ens_rd2022_aws" == compliance_framework:
@@ -464,6 +466,7 @@ def display_compliance_table(
                 print(
                     f" -output-> CSV: {output_directory}/{output_filename}_{compliance_framework}.csv\n"
                 )
+                file=(f"{output_directory}/{output_filename}_{compliance_framework}.csv")
         elif "cis_" in compliance_framework:
             sections = {}
             cis_compliance_table = {
@@ -561,7 +564,7 @@ def display_compliance_table(
                 print(
                     f" -output-> CSV: {output_directory}/{output_filename}_{compliance_framework}.csv\n"
                 )
-
+                file = (f"{output_directory}/{output_filename}_{compliance_framework}.csv")
         elif "mitre_attack" in compliance_framework:
             tactics = {}
             mitre_compliance_table = {
@@ -630,12 +633,10 @@ def display_compliance_table(
                     f"{Style.BRIGHT}* Only sections containing results appear.{Style.RESET_ALL}"
                 )
                 print(f"\nDetailed results of {compliance_fm} are in:")
-                # print(
-                #     f" -output-> CSV: {output_directory}/{output_filename}_{compliance_framework}.csv\n"
-                # )
                 print(
-                    f" -output-> CSV: {output_directory}/{output_filename}.csv\n"
+                    f" -output-> CSV: {output_directory}/{output_filename}_{compliance_framework}.csv\n"
                 )
+                file = (f"{output_directory}/{output_filename}_{compliance_framework}.csv")
         else:
             print(f"\nDetailed results of {compliance_framework.upper()} are in:")
             # print(
@@ -644,6 +645,7 @@ def display_compliance_table(
             print(
                 f" -output-> CSV: {output_directory}/{output_filename}.csv\n"
             )
+            file = (f"{output_directory}/{output_filename}.csv")
     except Exception as error:
         logger.critical(
             f"{error.__class__.__name__}:{error.__traceback__.tb_lineno} -- {error}"

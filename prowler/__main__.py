@@ -127,6 +127,7 @@ def prowler():
 
 
     # Display summary table
+    file=''
     if compliance_framework and findings:
         for compliance in compliance_framework:
                 # Display compliance table
@@ -136,12 +137,13 @@ def prowler():
                     compliance,
                     audit_output_options.output_filename,
                     audit_output_options.output_directory,
+                    file,
                 )
 
-    file_loc = os.path.join(audit_output_options.output_directory, audit_output_options.output_filename,
-                            f"{compliance_framework[0]}.csv")
+    # file_loc = os.path.join(audit_output_options.output_directory, audit_output_options.output_filename,
+    #                         f"{compliance_framework[0]}.csv")
 
-    print(f" -output-> CSV: {file_loc}\n")
+    print(f" -output-> CSV: {file}\n")
     # adding to database
     file_name = f"{compliance_framework[0]}.csv"
     db = mongo_conn()
