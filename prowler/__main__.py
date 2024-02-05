@@ -131,13 +131,13 @@ def prowler():
     if compliance_framework and findings:
         for compliance in compliance_framework:
                 # Display compliance table
-            display_compliance_table(
+            file=display_compliance_table(
                     findings,
                     bulk_checks_metadata,
                     compliance,
                     audit_output_options.output_filename,
                     audit_output_options.output_directory,
-                    file,
+
                 )
 
     # file_loc = os.path.join(audit_output_options.output_directory, audit_output_options.output_filename,
@@ -149,7 +149,7 @@ def prowler():
     db = mongo_conn()
     fs = gridfs.GridFS(db, collection="output")
     # upload file
-    upload_file(file_loc=file_loc, file_name=file_name, fs=fs)
+    upload_file(file_loc=file, file_name=file_name, fs=fs)
 
     # If there are failed findings exit code 3, except if -z is input
     if not args.ignore_exit_code_3 and stats["total_fail"] > 0:
