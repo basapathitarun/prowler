@@ -29,9 +29,9 @@ import gridfs
 
 from prowler.database.insertdb import mongo_conn, upload_file
 
-compliance_framework = 'cis_1.5_aws'
-filename = "prowler-output-906113748440-20240205110446"
-file_loc = filename +"_"+compliance_framework+'.csv'
+
+filename = "prowler-output-906113748440-20240205114909"
+file_loc = '/home/ubuntu/prowler/prowler/output/prowler-output-906113748440-20240205114909_cis_1.4_aws.csv'
 
 db = mongo_conn()
 fs = gridfs.GridFS(db, collection="output")
