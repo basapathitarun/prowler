@@ -29,12 +29,12 @@ def upload_file(file_loc, file_name, fs):
     print("Upload Complete")
 
 
-if __name__ == '__main__':
-    file_name = "prowler-output-906113748440-20240205113237_cis_1.4_aws"
-    file_loc = "prowler-output-906113748440-20240205113237_cis_1.4_aws.csv"
-
-    db = mongo_conn()
-    fs = gridfs.GridFS(db, collection="output1")
-
-    # upload file
-    upload_file(file_loc=file_loc, file_name=file_name, fs=fs)
+# if __name__ == '__main__':
+#     file_name = "prowler-output-906113748440-20240205113237_cis_1.4_aws"
+#     file_loc = "prowler-output-906113748440-20240205113237_cis_1.4_aws.csv"
+#
+#     db = mongo_conn()
+#     fs = gridfs.GridFS(db, collection="output1")
+#
+#     # upload file
+#     upload_file(file_loc=file_loc, file_name=file_name, fs=fs)

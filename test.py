@@ -25,9 +25,17 @@
 # subprocess.run(['aws', 'configure', 'set', 'aws_access_key_id', access_key_id])
 # subprocess.run(['aws', 'configure', 'set', 'aws_secret_access_key', secret_access_key])
 #
+import gridfs
+
+from prowler.database.insertdb import mongo_conn, upload_file
 
 compliance_framework = 'cis_1.5_aws'
-file_loc = "prowler-output-906113748440-20240205110446"
-file_loc = file_loc +"_"+compliance_framework+'.csv'
+filename = "prowler-output-906113748440-20240205110446"
+file_loc = filename +"_"+compliance_framework+'.csv'
 
 print(file_loc)
+
+db = mongo_conn()
+fs = gridfs.GridFS(db, collection="output")
+# upload file
+upload_file(file_loc=file_loc, file_name=filename, fs=fs)
