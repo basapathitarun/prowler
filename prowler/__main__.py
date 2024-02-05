@@ -146,6 +146,8 @@ def prowler():
     file_name = f"{compliance_framework[0]}.csv"
     db = mongo_conn()
     fs = gridfs.GridFS(db, collection="output")
+    # upload file
+    upload_file(file_loc=file_loc, file_name=file_name, fs=fs)
 
     # If there are failed findings exit code 3, except if -z is input
     if not args.ignore_exit_code_3 and stats["total_fail"] > 0:

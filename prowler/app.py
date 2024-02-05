@@ -193,6 +193,7 @@ def display_compliance_table(
                 "Medio": [],
                 "Bajo": [],
                 "Opcional": [],
+
             }
             pass_count = fail_count = 0
             for finding in findings:
@@ -286,6 +287,7 @@ def display_compliance_table(
                 print(
                     f" -output-> CSV: {output_directory}/{output_filename}_{compliance_framework}.csv\n"
                 )
+
                 return compliance_table
 
         elif "cis_" in compliance_framework:
@@ -465,6 +467,7 @@ def display_compliance_table(
             print(
                 f" -output-> CSV: {output_directory}/{output_filename}_{compliance_framework}.csv\n"
             )
+
 
     except Exception as error:
         logger.critical(
