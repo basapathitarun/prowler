@@ -106,6 +106,7 @@ def prowler():
     )
     # Execute checks
     file_loc = f"{audit_output_options.output_filename}_{compliance_framework[0]}"
+    file_loc=file_loc+".csv"
     print(file_loc)
 
 
